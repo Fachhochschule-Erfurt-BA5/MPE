@@ -1,4 +1,4 @@
-package com.pme.mpe.model;
+package com.pme.mpe.model.User;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +22,24 @@ public class User {
 
     public List<User> shareWithUser;
     //public List<Category> userCategories;
+
+    /* /////////////////////Constructors/////////////////////////// */
+
+    public User(String firstName, String lastName, String email, char[] password){
+        this.firstName = firstName;
+        this.lastName  = lastName;
+        this.email     = email;
+        this.password  = password;
+    }
+
+    //Default User
+    public User(){
+        this.firstName = "Max";
+        this.lastName  = "Mustermann";
+        this.email     = "max.mustermann@email.com";
+        this.password  = new char[] {'P', 'a', 's', 's', 'w', 'o', 'r', 'd'};
+    }
+
 
 
     /* /////////////////////Methods///////////////////////// */
