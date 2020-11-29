@@ -1,4 +1,4 @@
-package com.pme.mpe.model.User;
+package com.pme.mpe.model.user;
 
 import java.time.LocalDate;
 import java.util.List;

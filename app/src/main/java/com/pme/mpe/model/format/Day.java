@@ -1,4 +1,4 @@
-package com.pme.mpe.model.Format;
+package com.pme.mpe.model.format;
 
 public class Day {
 

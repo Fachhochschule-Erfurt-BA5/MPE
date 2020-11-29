@@ -1,4 +1,4 @@
-package com.pme.mpe.model.Format;
+package com.pme.mpe.model.format;
 
 public class Month {
 
@@ -12,17 +12,18 @@ public class Month {
     protected Day endingDay;
 
     protected MonthName monthName;
+    protected int monthNumber;
 
     /* /////////////////////Constructors/////////////////////////// */
 
-    public Month(int year, String daysInMonth, Day startingDay, Day endingDay, MonthName monthName){
-        this.year        = year;
+    public Month(int year, String daysInMonth, Day startingDay, Day endingDay, MonthName monthName, int monthNumber) {
+        this.year = year;
         this.daysInMonth = daysInMonth;
         this.startingDay = startingDay;
-        this.endingDay   = endingDay;
-        this.monthName   = monthName;
+        this.endingDay = endingDay;
+        this.monthName = monthName;
+        this.monthNumber = monthNumber;
     }
-
 
     /* /////////////////////Getter/Setter///////////////////////// */
 
@@ -64,6 +65,14 @@ public class Month {
 
     public void setMonthName(MonthName monthName) {
         this.monthName = monthName;
+    }
+
+    public int getMonthNumber() {
+        return monthNumber;
+    }
+
+    public void setMonthNumber(int monthNumber) {
+        this.monthNumber = monthNumber;
     }
 
     /* /////////////////////Enums///////////////////////// */
