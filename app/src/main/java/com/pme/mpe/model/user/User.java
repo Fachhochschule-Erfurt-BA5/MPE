@@ -8,6 +8,7 @@ public class User {
 
     /* /////////////////////Attributes///////////////////////// */
 
+    protected long version;
 
     protected LocalDate created;
     protected LocalDate updated;
@@ -16,7 +17,7 @@ public class User {
     protected String lastName;
     protected String email;
 
-    protected int version;
+
 
     private char[] password;
 
@@ -90,11 +91,11 @@ public class User {
         this.email = email;
     }
 
-    public int getVersion() {
+    public long getVersion() {
         return version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(long version) {
         this.version = version;
     }
 }
