@@ -21,8 +21,8 @@
         app:navGraph="@navigation/mobile_navigation" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="637dp"
+        android:layout_width="416dp"
+        android:layout_height="448dp"
         android:background="@color/white"
         android:clipToPadding="false"
         android:paddingLeft="10dp"
