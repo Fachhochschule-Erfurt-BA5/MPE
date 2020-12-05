@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="floatingActionButton" type="id">FAB</item>
+    <item name="app_bar" type="id">appbar</item>
+    <item name="fabProgressCircle" type="id">fabprogress</item>
+    <item name="toolbar" type="id">toolbar</item>
+    <item name="app_bar_image" type="id">appbarimage</item>
+    <item name="appbar" type="id">appbar</item>
+    <item name="fab_ok" type="id">fabok</item>
+</resources>

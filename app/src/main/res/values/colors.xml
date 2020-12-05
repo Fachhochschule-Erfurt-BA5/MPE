@@ -10,4 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorGrey50">#fafafa</color>
     <color name="black_semi">#3B3B3B</color>
+    <color name="primaryColor">#54aadb</color>
+
 </resources>

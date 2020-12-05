@@ -11,4 +11,13 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="show_tasks">show tasks</string>
+    <string name="task_name">Task Name</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="duration">Duration</string>
+    <string name="select_category">Select Category</string>
+    <string name="select_category">Select Category</string>
+    <string name="check_task">check_task</string>
+    <string name="image_task">image_task</string>
 </resources>
