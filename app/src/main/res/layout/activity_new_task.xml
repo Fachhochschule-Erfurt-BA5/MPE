@@ -52,25 +52,4 @@
 
     <include layout="@layout/fragment_new_task" />
 
-    <com.github.jorgecastilloprz.FABProgressCircle
-        android:id="@+id/fabProgressCircle"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:arcColor="@color/white"
-        app:arcWidth="2dp">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_ok"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_done"
-            app:elevation="0dp"
-            app:borderWidth="0dp"
-            android:contentDescription="@string/check_task" />
-
-    </com.github.jorgecastilloprz.FABProgressCircle>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

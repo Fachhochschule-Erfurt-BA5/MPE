@@ -20,4 +20,5 @@
     <string name="select_category">Select Category</string>
     <string name="check_task">check_task</string>
     <string name="image_task">image_task</string>
+    <string name="save_task">save Task</string>
 </resources>
