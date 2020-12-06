@@ -11,5 +11,8 @@
     <color name="colorGrey50">#fafafa</color>
     <color name="black_semi">#3B3B3B</color>
     <color name="primaryColor">#54aadb</color>
+    <color name="schadeBlue1">#59bfff</color>
+    <color name="schadeBlue2">#8cd3ff</color>
+    <color name="grey">#c2c2c2</color>
 
 </resources>
