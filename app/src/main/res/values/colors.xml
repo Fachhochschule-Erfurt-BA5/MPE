@@ -14,5 +14,8 @@
     <color name="schadeBlue1">#59bfff</color>
     <color name="schadeBlue2">#8cd3ff</color>
     <color name="grey">#c2c2c2</color>
+    <color name="red">#f44336</color>
+    <color name="green">#4caf50</color>
+    <color name="blue">#2196f3</color>
 
 </resources>

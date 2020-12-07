@@ -16,4 +16,27 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="SRed">
+        <item name="colorAccent">@color/red</item>
+    </style>
+
+    <style name="SGreen">
+        <item name="colorAccent">@color/green</item>
+    </style>
+
+    <style name="SBlue">
+        <item name="colorAccent">@color/blue</item>
+    </style>
+
+    <style name="SGrey">
+        <item name="colorAccent">@color/grey</item>
+    </style>
+
+
+    <style name="EditTextTheme" parent="">
+        <item name="colorAccent">@color/colorGrey50</item>
+    </style>
+
 </resources>
