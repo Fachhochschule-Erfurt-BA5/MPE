@@ -138,7 +138,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:text="COOKING" />
+                tools:text="@string/cooking" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/category_number_tasks_3"

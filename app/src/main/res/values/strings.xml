@@ -30,4 +30,7 @@
     <string name="categories">categories</string>
     <string name="settings">settings</string>
     <string name="logout">Logout</string>
+    <string name="cooking">COOKING</string>
+    <string name="travel">TRAVEL</string>
+    <string name="_08_00_12_00">08:00 - 12:00</string>
 </resources>
