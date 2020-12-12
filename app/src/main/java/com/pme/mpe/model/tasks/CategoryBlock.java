@@ -5,6 +5,7 @@ import android.util.Log;
 import com.pme.mpe.model.format.Day;
 import com.pme.mpe.model.format.Month;
 import com.pme.mpe.model.format.Week;
+import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * The type Category block.
  */
-public class CategoryBlock {
+public class CategoryBlock implements Comparable<CategoryBlock>{
 
     /**
      * The constant LOG_TAG.
@@ -26,6 +27,7 @@ public class CategoryBlock {
 
     private long id;
     private int version;
+
     private LocalDate created;
     private LocalDate updated;
 
@@ -38,6 +40,7 @@ public class CategoryBlock {
     private int startTimeHour;
     private int endTimeHour;
 
+    //For the hard fixed tasks
     private List<Task> assignedTasks;
 
     /* /////////////////////Constructors/////////////////////////// */
@@ -163,6 +166,16 @@ public class CategoryBlock {
         this.endTimeHour = endTimeHour;
     }
 
+    /**
+     * Gets assigned tasks.
+     *
+     * @return the assigned tasks
+     */
+    public List<Task> getAssignedTasks() {
+        return assignedTasks;
+    }
+
+
     /* /////////////////////Methods///////////////////////// */
 
     /**
@@ -219,8 +232,7 @@ public class CategoryBlock {
      * @param newDuration the new duration
      * @return the boolean
      */
-    public boolean isEnoughTimeForATaskUpdateAvailable(Task task, int newDuration)
-    {
+    public boolean isEnoughTimeForAFixedTaskUpdateAvailable(Task task, int newDuration) throws TaskFixException {
         boolean result = true;
 
         for (int i = 0; i < this.assignedTasks.size(); i++) {
@@ -229,7 +241,7 @@ public class CategoryBlock {
                 if(returnRemainingFreeTimeOnSlot() + this.assignedTasks.get(i).getDuration() < newDuration)
                 {
                     Log.w(LOG_TAG, "Not enough time in time slot");
-                    result = false;
+                    throw new TaskFixException("Not enough time for an Update in time slot");
                 }
             }
             else
@@ -263,14 +275,20 @@ public class CategoryBlock {
     /**
      * Prepare category block to be deleted.
      */
-    public void prepareCategoryBlockToBeDeleted()
-    {
+    public void prepareCategoryBlockToBeDeleted() throws TaskFixException {
         for (int i = 0; i < this.assignedTasks.size() ; i++) {
             this.assignedTasks.get(i).unfixTaskFromCategoryBlock();
         }
     }
 
     /* /////////////////////Overrides/////////////////////////// */
+
+    @Override
+    public int compareTo(CategoryBlock categoryBlock) {
+        int compareStartTime= categoryBlock.getStartTimeHour();
+
+        return this.startTimeHour - compareStartTime;
+    }
 
     @NotNull
     @Override
@@ -284,4 +302,5 @@ public class CategoryBlock {
                 ", endTimeHour=" + endTimeHour +
                 '}';
     }
+
 }

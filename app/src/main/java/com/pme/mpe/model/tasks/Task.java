@@ -3,6 +3,8 @@ package com.pme.mpe.model.tasks;
 import android.util.Log;
 
 import com.pme.mpe.model.format.Month;
+import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
+import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.user.User;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +14,6 @@ import java.util.List;
 
 /**
  * The type Task.
- * <p>
  * A task may be fixed to a CategoryBlock
  * A task may be shared between users
  */
@@ -26,6 +27,7 @@ public class Task {
     /* /////////////////////Attributes///////////////////////// */
 
     private long id;
+
     private int version;
     private LocalDate created;
     private LocalDate updated;
@@ -39,10 +41,6 @@ public class Task {
     private int deadlineYear;
     private Month deadlineMonth;
     private int deadlineDay;
-
-    // For the case of a shared Task
-    private List<User> sharedWithUsersList;
-    private boolean isTaskShareable;
 
     // For the case of a fixed Task, otherwise is null and false
     private CategoryBlock categoryBlock;
@@ -73,8 +71,6 @@ public class Task {
         this.deadlineDay = deadlineDay;
         this.categoryBlock = null;
         this.isTaskFixed = false;
-        this.isTaskShareable = false;
-        this.sharedWithUsersList = null;
     }
 
     /**
@@ -100,66 +96,6 @@ public class Task {
         this.deadlineYear = deadlineYear;
         this.deadlineMonth = deadlineMonth;
         this.deadlineDay = deadlineDay;
-        this.categoryBlock = categoryBlock;
-        this.isTaskFixed = true;
-        this.isTaskShareable = false;
-        this.sharedWithUsersList = null;
-    }
-
-    /**
-     * Instantiates a new Task which is shared with at least one more user.
-     *
-     * @param name                the name
-     * @param description         the description
-     * @param category            the category
-     * @param duration            the duration
-     * @param deadlineYear        the deadline year
-     * @param deadlineMonth       the deadline month
-     * @param deadlineDay         the deadline day
-     * @param sharedWithUsersList the shared with users list
-     * @param taskCreator         the task creator
-     */
-    protected Task(String name, String description, Category category, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay,
-                List<User> sharedWithUsersList, User taskCreator) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.duration = duration;
-        this.taskCreator = taskCreator;
-        this.deadlineYear = deadlineYear;
-        this.deadlineMonth = deadlineMonth;
-        this.deadlineDay = deadlineDay;
-        this.categoryBlock = null;
-        this.isTaskShareable = true;
-        this.sharedWithUsersList = sharedWithUsersList;
-    }
-
-    /**
-     * Instantiates a new Task which is fixed and shared with at least one more user.
-     *
-     * @param name                the name
-     * @param description         the description
-     * @param category            the category
-     * @param duration            the duration
-     * @param taskCreator         the task creator
-     * @param deadlineYear        the deadline year
-     * @param deadlineMonth       the deadline month
-     * @param deadlineDay         the deadline day
-     * @param sharedWithUsersList the shared with users list
-     * @param categoryBlock       the category block
-     */
-    protected Task(String name, String description, Category category, int duration, User taskCreator, int deadlineYear, Month deadlineMonth,
-                int deadlineDay, List<User> sharedWithUsersList, CategoryBlock categoryBlock) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.duration = duration;
-        this.taskCreator = taskCreator;
-        this.deadlineYear = deadlineYear;
-        this.deadlineMonth = deadlineMonth;
-        this.deadlineDay = deadlineDay;
-        this.sharedWithUsersList = sharedWithUsersList;
-        this.isTaskShareable = true;
         this.categoryBlock = categoryBlock;
         this.isTaskFixed = true;
     }
@@ -356,24 +292,6 @@ public class Task {
     }
 
     /**
-     * Gets shared with users list.
-     *
-     * @return the shared with users list
-     */
-    public List<User> getSharedWithUsersList() {
-        return sharedWithUsersList;
-    }
-
-    /**
-     * Is task shareable boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isTaskShareable() {
-        return isTaskShareable;
-    }
-
-    /**
      * Gets category block.
      *
      * @return the category block
@@ -394,58 +312,15 @@ public class Task {
     /* /////////////////////Methods///////////////////////// */
 
     /**
-     * Share with new users.
-     *
-     * @param userToAdd the user to be added
-     * @return a boolean which tells if the desired function was successful
-     */
-    public boolean shareWithNewUsers(List<User> userToAdd)
-    {
-        boolean result = true;
-
-        if(this.isTaskShareable)
-        {
-            for (int i = 0; i < userToAdd.size() ; i++)
-            {
-                for (int j = 0; j < this.sharedWithUsersList.size(); j++)
-                {
-                    //Be certain the user to be added is not already in the list
-                    if(userToAdd.get(i) != this.sharedWithUsersList.get(j))
-                    {
-                        this.sharedWithUsersList.add(userToAdd.get(i));
-                        String message = "User: " + userToAdd.get(i).toString() + " successfully added";
-                        Log.i(LOG_TAG, message);
-                        result = true;
-                    }
-                    else
-                    {
-                        Log.w(LOG_TAG, "At least one user of the given List already in this list");
-                        result = false;
-                    }
-                }
-            }
-        }
-        else {
-            this.isTaskShareable = true;
-            for (int i = 0; i < userToAdd.size() ; i++) {
-                String message = "User: " + userToAdd.get(i).toString() + " successfully added";
-                Log.i(LOG_TAG, message);
-                this.sharedWithUsersList.add(userToAdd.get(i));
-            }
-        }
-
-        return result;
-    }
-
-    /**
      * Fix task to category block.
      *
      * @param categoryBlock the category block
      * @return a boolean which tells if the desired function was successful
+     * @throws TaskFixException      the task fix exception
+     * @throws TaskDeadlineException the task deadline exception
      */
-    protected boolean fixTaskToCategoryBlock(CategoryBlock categoryBlock)
-    {
-        boolean result = true;
+    protected boolean fixTaskToCategoryBlock(CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
+        boolean result = false;
 
         if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(this.deadlineYear, this.deadlineMonth, this.deadlineDay))
         {
@@ -456,15 +331,17 @@ public class Task {
                     if(this.categoryBlock == categoryBlock)
                     {
                         Log.w(LOG_TAG, "Task already fixed to the given Category Block");
+                        throw new TaskFixException("Task already fixed to the given Category Block");
                     }
                     else
                     {
                         Log.w(LOG_TAG, "Task already fixed to another Category Block");
+                        throw new TaskFixException("Task already fixed to another Category Block");
                     }
-                    result = false;
                 }
                 else
                 {
+                    result = true;
                     this.isTaskFixed = true;
                     this.categoryBlock = categoryBlock;
                     categoryBlock.addTaskToFixedTasks(this);
@@ -472,14 +349,14 @@ public class Task {
             }
             else
             {
-                Log.w(LOG_TAG, "Not enough time left on Category Block");
-                result = false;
+                Log.w(LOG_TAG, "Task already fixed to another Category Block");
+                throw new TaskFixException("Task already fixed to another Category Block");
             }
         }
         else
         {
             Log.w(LOG_TAG, "Deadline is before the Category Block");
-            result = false;
+            throw new TaskDeadlineException("Deadline is before the Category Block");
         }
 
 
@@ -490,21 +367,22 @@ public class Task {
      * Unfix task from category block.
      *
      * @return the boolean
+     * @throws TaskFixException the task fix exception
      */
-    public boolean unfixTaskFromCategoryBlock()
-    {
-        boolean result = true;
+    public boolean unfixTaskFromCategoryBlock() throws TaskFixException {
+        boolean result = false;
 
         if(this.isTaskFixed)
         {
             this.isTaskFixed = false;
             this.categoryBlock.removeTaskFromFixedTasks(this);
             this.categoryBlock = null;
+            result = true;
         }
         else
         {
             Log.w(LOG_TAG, "Cannot unassign what is not assigned");
-            result = false;
+            throw new TaskFixException("Cannot unassign what is not assigned");
         }
 
         return result;
@@ -514,15 +392,17 @@ public class Task {
      * Duration is being changed, if the new duration does not fit the assigned Category Block, it will be unassigned.
      *
      * @param duration the duration
+     * @throws TaskFixException the task fix exception
      */
-    public void setDuration(int duration) {
+    public void setDuration(int duration) throws TaskFixException {
         if(this.isTaskFixed && this.categoryBlock != null)
         {
-            if(!this.categoryBlock.isEnoughTimeForATaskUpdateAvailable(this, duration))
+            if(!this.categoryBlock.isEnoughTimeForAFixedTaskUpdateAvailable(this, duration))
             {
                 Log.w(LOG_TAG, "New Duration does not fit the current Category Block, therefor task was unassigned");
                 this.isTaskFixed = false;
                 this.categoryBlock = null;
+                throw new TaskFixException("New Duration does not fit the current Category Block, therefor task was unassigned");
             }
         }
 
