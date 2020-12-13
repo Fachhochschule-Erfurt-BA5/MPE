@@ -2,6 +2,10 @@ package com.pme.mpe.model.tasks;
 
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.pme.mpe.model.format.Day;
 import com.pme.mpe.model.format.Month;
 import com.pme.mpe.model.format.Week;
@@ -16,6 +20,7 @@ import java.util.List;
 /**
  * The type Category block.
  */
+@Entity
 public class CategoryBlock implements Comparable<CategoryBlock>{
 
     /**
@@ -24,20 +29,34 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     public static final String LOG_TAG = "CategoryBlock";
 
     /* /////////////////////Attributes///////////////////////// */
-
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private long id;
+
     private int version;
 
+    @NotNull
+    @ColumnInfo(name = "created")
     private LocalDate created;
+
+    @NotNull
+    @ColumnInfo(name = "updated")
     private LocalDate updated;
 
+    // TODO the relation between the Entities definition
     private final Category category;
 
+    // TODO the relation between the Entities definition
     private Month month;
     private Week week;
     private Day day;
 
+    @NotNull
+    @ColumnInfo(name = "startTimeHour")
     private int startTimeHour;
+
+    @NotNull
+    @ColumnInfo(name = "endTimeHour")
     private int endTimeHour;
 
     //For the hard fixed tasks

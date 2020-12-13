@@ -2,6 +2,10 @@ package com.pme.mpe.model.user;
 
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * The type User.
  */
+@Entity
 public class User {
 
     /**
@@ -27,20 +32,43 @@ public class User {
     public static final int SALT_LENGTH = 30;
 
     /* /////////////////////Attributes///////////////////////// */
-
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private long id;
+
     private long version;
 
+    @NotNull
+    @ColumnInfo(name = "created")
     private LocalDate created;
+
+    @NotNull
+    @ColumnInfo(name = "updated")
     private LocalDate updated;
 
+    @NotNull
+    @ColumnInfo(name = "firstName")
     private String firstName;
+
+    @NotNull
+    @ColumnInfo(name = "lastName")
     private String lastName;
+
+    @NotNull
+    @ColumnInfo(name = "email")
     private String email;
+
+    @NotNull
+    @ColumnInfo(name = "profileImageUrl")
     private String profileImageUrl;
 
     //For managing the password security
+    @NotNull
+    @ColumnInfo(name = "salt")
     private String salt;
+
+    @NotNull
+    @ColumnInfo(name = "securePassword")
     private String securePassword;
 
     //Which categories belong to a User

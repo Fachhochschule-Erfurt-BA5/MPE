@@ -2,6 +2,10 @@ package com.pme.mpe.model.tasks;
 
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.pme.mpe.model.format.Day;
 import com.pme.mpe.model.format.Month;
 import com.pme.mpe.model.format.Week;
@@ -23,6 +27,7 @@ import java.util.List;
  * Each User has at least one Category.
  * A Category has 0 or more Task and Category Blocks
  */
+@Entity
 public class Category {
 
     /**
@@ -31,15 +36,29 @@ public class Category {
     public static final String LOG_TAG = "Category";
 
     /* /////////////////////Attributes///////////////////////// */
-
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private long id;
+
     private int version;
 
+    @NotNull
+    @ColumnInfo(name = "created")
     private LocalDate created;
+
+    @NotNull
+    @ColumnInfo(name = "updated")
     private LocalDate updated;
 
+    // TODO the relation between the Entities definition
     private final User user;
+
+    @NotNull
+    @ColumnInfo(name = "categoryName")
     private String categoryName;
+
+    @NotNull
+    @ColumnInfo(name = "color")
     private String color;
 
     private List<Task> taskList;

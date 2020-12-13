@@ -2,6 +2,10 @@ package com.pme.mpe.model.tasks;
 
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.pme.mpe.model.format.Month;
 import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
@@ -17,6 +21,7 @@ import java.util.List;
  * A task may be fixed to a CategoryBlock
  * A task may be shared between users
  */
+@Entity
 public class Task {
 
     /**
@@ -25,25 +30,56 @@ public class Task {
     public static final String LOG_TAG = "Task";
 
     /* /////////////////////Attributes///////////////////////// */
-
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private long id;
 
     private int version;
+
+
+    @NotNull
+    @ColumnInfo(name = "created")
     private LocalDate created;
+
+    @NotNull
+    @ColumnInfo(name = "updated")
     private LocalDate updated;
 
+    @NotNull
+    @ColumnInfo(name = "name")
     private String name;
+
+    @NotNull
+    @ColumnInfo(name = "description")
     private String description;
+
+    // TODO the relation between the Entities definition
     private final Category category;
+
+    @NotNull
+    @ColumnInfo(name = "duration")
     private int duration;
+
+    // TODO the relation between the Entities definition
     private final User taskCreator;
 
+    @NotNull
+    @ColumnInfo(name = "deadlineYear")
     private int deadlineYear;
+
+    // TODO the relation between the Entities definition
     private Month deadlineMonth;
+
+    @NotNull
+    @ColumnInfo(name = "deadlineDay")
     private int deadlineDay;
 
     // For the case of a fixed Task, otherwise is null and false
+    // TODO the relation between the Entities definition
     private CategoryBlock categoryBlock;
+
+    @NotNull
+    @ColumnInfo(name = "isTaskFixed")
     private boolean isTaskFixed;
 
     /* /////////////////////Constructors/////////////////////////// */
