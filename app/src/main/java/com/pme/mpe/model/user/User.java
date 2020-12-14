@@ -1,7 +1,5 @@
 package com.pme.mpe.model.user;
 
-import android.util.Log;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -34,7 +32,7 @@ public class User {
     /* /////////////////////Attributes///////////////////////// */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private long id;
+    public long userId;
 
     private long version;
 
@@ -105,17 +103,17 @@ public class User {
      *
      * @return the id
      */
-    public long getId() {
-        return id;
+    public long getUserId() {
+        return userId;
     }
 
     /**
      * Sets id.
      *
-     * @param id the id
+     * @param userId the id
      */
-    public void setId(long id) {
-        this.id = id;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     /**

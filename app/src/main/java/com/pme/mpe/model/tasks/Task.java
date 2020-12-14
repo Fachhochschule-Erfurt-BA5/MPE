@@ -53,15 +53,20 @@ public class Task {
     @ColumnInfo(name = "description")
     private String description;
 
-    // TODO the relation between the Entities definition
-    private final Category category;
+
 
     @NotNull
     @ColumnInfo(name = "duration")
     private int duration;
 
-    // TODO the relation between the Entities definition
-    private final User taskCreator;
+    //represent the User ID , who create this task
+    public  long taskCreatorId;
+
+    //represent the Category Block ID , which this Task belong to
+    public  long taskCatBlockId;
+
+    //represent the Category ID , which this Task have
+    public  long taskCategoryId;
 
     @NotNull
     @ColumnInfo(name = "deadlineYear")
@@ -89,19 +94,19 @@ public class Task {
      *
      * @param name          the name
      * @param description   the description
-     * @param category      the category
+     * @param taskCategoryId      the category Id
      * @param duration      the duration
      * @param deadlineYear  the deadline year
      * @param deadlineMonth the deadline month
      * @param deadlineDay   the deadline day
-     * @param taskCreator   the task creator
+     * @param taskCreatorId the task creator ID
      */
-    protected Task(String name, String description, Category category, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay, User taskCreator) {
+    protected Task(String name, String description, long taskCategoryId, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay, int taskCreatorId) {
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.taskCategoryId = taskCategoryId;
         this.duration = duration;
-        this.taskCreator = taskCreator;
+        this.taskCreatorId = taskCreatorId;
         this.deadlineYear = deadlineYear;
         this.deadlineMonth = deadlineMonth;
         this.deadlineDay = deadlineDay;
@@ -114,21 +119,21 @@ public class Task {
      *
      * @param name          the name
      * @param description   the description
-     * @param category      the category
+     * @param taskCategoryId      the category Id
      * @param duration      the duration
      * @param deadlineYear  the deadline year
      * @param deadlineMonth the deadline month
      * @param deadlineDay   the deadline day
      * @param categoryBlock the category block
-     * @param taskCreator   the task creator
+     * @param taskCreatorId the task creator ID
      */
-    protected Task(String name, String description, Category category, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay,
-                CategoryBlock categoryBlock, User taskCreator) {
+    protected Task(String name, String description, long taskCategoryId, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay,
+                CategoryBlock categoryBlock, int taskCreatorId) {
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.taskCategoryId = taskCategoryId;
         this.duration = duration;
-        this.taskCreator = taskCreator;
+        this.taskCreatorId = taskCreatorId;
         this.deadlineYear = deadlineYear;
         this.deadlineMonth = deadlineMonth;
         this.deadlineDay = deadlineDay;
@@ -251,8 +256,8 @@ public class Task {
      *
      * @return the category
      */
-    public Category getCategory() {
-        return category;
+    public long getCategory() {
+        return taskCategoryId;
     }
 
     /**
@@ -269,8 +274,8 @@ public class Task {
      *
      * @return the task creator
      */
-    public User getTaskCreator() {
-        return taskCreator;
+    public long getTaskCreator() {
+        return taskCreatorId;
     }
 
     /**
@@ -458,9 +463,9 @@ public class Task {
         return "Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", category=" + category +
+                ", categoryId=" + taskCategoryId +
                 ", duration=" + duration +
-                ", taskCreator=" + taskCreator +
+                ", taskCreator=" + taskCreatorId +
                 '}';
     }
 }

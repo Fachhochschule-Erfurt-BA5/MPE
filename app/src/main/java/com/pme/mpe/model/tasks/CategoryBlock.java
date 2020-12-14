@@ -31,7 +31,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     /* /////////////////////Attributes///////////////////////// */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private long id;
+    public long catBlockId;
 
     private int version;
 
@@ -42,9 +42,6 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     @NotNull
     @ColumnInfo(name = "updated")
     private LocalDate updated;
-
-    // TODO the relation between the Entities definition
-    private final Category category;
 
     // TODO the relation between the Entities definition
     private Month month;

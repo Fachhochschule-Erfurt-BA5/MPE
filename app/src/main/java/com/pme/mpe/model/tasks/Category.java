@@ -38,7 +38,7 @@ public class Category {
     /* /////////////////////Attributes///////////////////////// */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private long id;
+    public long categoryId;
 
     private int version;
 
@@ -50,8 +50,6 @@ public class Category {
     @ColumnInfo(name = "updated")
     private LocalDate updated;
 
-    // TODO the relation between the Entities definition
-    private final User user;
 
     @NotNull
     @ColumnInfo(name = "categoryName")
@@ -88,17 +86,17 @@ public class Category {
      *
      * @return the id
      */
-    public long getId() {
-        return id;
+    public long getCategoryId() {
+        return categoryId;
     }
 
     /**
      * Sets id.
      *
-     * @param id the id
+     * @param categoryId the id
      */
-    public void setId(long id) {
-        this.id = id;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     /**
