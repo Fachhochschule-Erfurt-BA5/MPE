@@ -7,9 +7,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.pme.mpe.model.format.Day;
-import com.pme.mpe.model.format.Month;
-import com.pme.mpe.model.format.Week;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 
 import org.jetbrains.annotations.NotNull;
@@ -44,10 +41,9 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     @ColumnInfo(name = "updated")
     private LocalDate updated;
 
-    // TODO the relation between the Entities definition
-    private Month month;
-    private Week week;
-    private Day day;
+    @NotNull
+    @ColumnInfo(name = "date")
+    private LocalDate date;
 
     @NotNull
     @ColumnInfo(name = "startTimeHour")
@@ -72,17 +68,13 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      * Instantiates a new Category block.
      *
      * @param category      the category
-     * @param month         the month
-     * @param week          the week
-     * @param day           the day
+     * @param date          the date
      * @param startTimeHour the start time hour
      * @param endTimeHour   the end time hour
      */
-    protected CategoryBlock(Category category, Month month, Week week, Day day, int startTimeHour, int endTimeHour) {
+    protected CategoryBlock(Category category, LocalDate date, int startTimeHour, int endTimeHour) {
         this.category = category;
-        this.month = month;
-        this.week = week;
-        this.day = day;
+        this.date = date;
         this.startTimeHour = startTimeHour;
         this.endTimeHour = endTimeHour;
         this.assignedTasks = new ArrayList<>();
@@ -100,57 +92,21 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     }
 
     /**
-     * Gets month.
+     * Gets date.
      *
-     * @return the month
+     * @return the date
      */
-    public Month getMonth() {
-        return month;
+    public LocalDate getDate() {
+        return date;
     }
 
     /**
-     * Sets month.
+     * Sets date.
      *
-     * @param month the month
+     * @param date the date
      */
-    public void setMonth(Month month) {
-        this.month = month;
-    }
-
-    /**
-     * Gets week.
-     *
-     * @return the week
-     */
-    public Week getWeek() {
-        return week;
-    }
-
-    /**
-     * Sets week.
-     *
-     * @param week the week
-     */
-    public void setWeek(Week week) {
-        this.week = week;
-    }
-
-    /**
-     * Gets day.
-     *
-     * @return the day
-     */
-    public Day getDay() {
-        return day;
-    }
-
-    /**
-     * Sets day.
-     *
-     * @param day the day
-     */
-    public void setDay(Day day) {
-        this.day = day;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     /**
@@ -278,18 +234,16 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     /**
      * Is the deadline in bound of category block boolean.
      *
-     * @param deadlineYear  the deadline year
-     * @param deadlineMonth the deadline month
-     * @param deadlineDay   the deadline day
+     * @param taskDate the task date
      * @return the boolean
      */
-    public boolean isTheDeadlineInBoundOfCategoryBlock(int deadlineYear, Month deadlineMonth, int deadlineDay)
+    public boolean isTheDeadlineInBoundOfCategoryBlock(LocalDate taskDate)
     {
-        if(this.month.getYear() >= deadlineYear)
+        if(this.date.getYear() >= taskDate.getYear())
         {
-            if(this.month.getMonthNumber() >= deadlineMonth.getMonthNumber())
+            if(this.date.getMonthValue() >= taskDate.getMonthValue())
             {
-                return this.day.getWeekday() >= deadlineDay;
+                return this.date.getDayOfMonth() >= taskDate.getDayOfMonth();
             }
         }
         return false;
@@ -313,17 +267,13 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
         return this.startTimeHour - compareStartTime;
     }
 
-    @NotNull
     @Override
     public String toString() {
         return "CategoryBlock{" +
-                "category=" + category +
-                ", month=" + month +
-                ", week=" + week +
-                ", day=" + day +
+                "date=" + date +
                 ", startTimeHour=" + startTimeHour +
                 ", endTimeHour=" + endTimeHour +
+                ", category=" + category +
                 '}';
     }
-
 }

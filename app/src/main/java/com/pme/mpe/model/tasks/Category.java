@@ -7,9 +7,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.pme.mpe.model.format.Day;
-import com.pme.mpe.model.format.Month;
-import com.pme.mpe.model.format.Week;
 import com.pme.mpe.model.tasks.exceptions.CategoryBlockException;
 import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
@@ -51,7 +48,6 @@ public class Category {
     @ColumnInfo(name = "updated")
     private LocalDate updated;
 
-
     @NotNull
     @ColumnInfo(name = "categoryName")
     private String categoryName;
@@ -65,8 +61,6 @@ public class Category {
 
     // represent the User Id create this Cat
     public long catUserId;
-
-
 
     private List<Task> taskList;
     private List<CategoryBlock> categoryBlockList;
@@ -230,16 +224,14 @@ public class Category {
     /**
      * Create and assign task to category.
      *
-     * @param name          the name
-     * @param description   the description
-     * @param duration      the duration
-     * @param deadlineYear  the deadline year
-     * @param deadlineMonth the deadline month
-     * @param deadlineDay   the deadline day
+     * @param name        the name
+     * @param description the description
+     * @param duration    the duration
+     * @param deadline    the deadline
      */
-    public void createAndAssignTaskToCategory(String name, String description, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay)
+    public void createAndAssignTaskToCategory(String name, String description, int duration, LocalDate deadline)
     {
-        Task createdTask = new Task(name, description, this, duration, deadlineYear, deadlineMonth, deadlineDay);
+        Task createdTask = new Task(name, description, this, duration, deadline);
         this.taskList.add(createdTask);
     }
 
@@ -249,20 +241,16 @@ public class Category {
      * @param name          the name
      * @param description   the description
      * @param duration      the duration
-     * @param deadlineYear  the deadline year
-     * @param deadlineMonth the deadline month
-     * @param deadlineDay   the deadline day
+     * @param deadline      the deadline
      * @param categoryBlock the category block
      * @return the boolean
      * @throws TaskFixException      the task fix exception
      * @throws TaskDeadlineException the task deadline exception
      */
-    public boolean createdFixedTaskAndAssignToCategoryBlock(String name, String description, int duration, int deadlineYear, Month deadlineMonth,
-                                                            int deadlineDay, CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
-        if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(deadlineYear, deadlineMonth, deadlineDay))
+    public boolean createdFixedTaskAndAssignToCategoryBlock(String name, String description, int duration, LocalDate deadline, CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
+        if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(deadline))
         {
-            Task createdTask = new Task(name, description, this, duration, deadlineYear, deadlineMonth, deadlineDay,
-                    categoryBlock);
+            Task createdTask = new Task(name, description, this, duration, deadline, categoryBlock);
 
             if(categoryBlock.isEnoughTimeForATaskAvailable(createdTask))
             {
@@ -322,20 +310,18 @@ public class Category {
     /**
      * Add category block taking into account the surrounding Category Blocks
      *
-     * @param month         the month
-     * @param week          the week
-     * @param day           the day
+     * @param date          the date
      * @param startTimeHour the start time hour
      * @param endTimeHour   the end time hour
      * @throws CategoryBlockException the category block exception
      * @throws TimeException          the time exception
      */
-    public void addCategoryBlock(Month month, Week week, Day day, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
+    public void addCategoryBlock(LocalDate date, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
 
         if(areTheGivenHoursValid(startTimeHour, endTimeHour))
         {
             //Retrieve all Category Blocks from the required day
-            List<CategoryBlock> categoryBlocksOnDay = getAllCategoryBlocksForAGivenDate(month, week, day);
+            List<CategoryBlock> categoryBlocksOnDay = getAllCategoryBlocksForAGivenDate(date);
             //Sort the List with the Starting Time
             Collections.sort(categoryBlockList);
 
@@ -348,7 +334,7 @@ public class Category {
                     //Check that start time does not intercede whit another Category Block
                     if(startTimeHour >= this.getCategoryBlockList().get(i).getEndTimeHour() && endTimeHour <= this.getCategoryBlockList().get(i+1).getStartTimeHour())
                     {
-                        CategoryBlock cb = new CategoryBlock(this, month, week, day, startTimeHour, endTimeHour);
+                        CategoryBlock cb = new CategoryBlock(this, date, startTimeHour, endTimeHour);
                         this.categoryBlockList.add(cb);
                         break;
                     }
@@ -367,7 +353,7 @@ public class Category {
             {
                 if(startTimeHour >= this.getCategoryBlockList().get(0).getEndTimeHour() || endTimeHour <= this.getCategoryBlockList().get(0).getStartTimeHour())
                 {
-                    CategoryBlock cb = new CategoryBlock(this, month, week, day, startTimeHour, endTimeHour);
+                    CategoryBlock cb = new CategoryBlock(this, date, startTimeHour, endTimeHour);
                     this.categoryBlockList.add(cb);
                 }
                 else {
@@ -377,7 +363,7 @@ public class Category {
             }
             else if (categoryBlocksOnDay.size() == 0)
             {
-                CategoryBlock cb = new CategoryBlock(this, month, week, day, startTimeHour, endTimeHour);
+                CategoryBlock cb = new CategoryBlock(this, date, startTimeHour, endTimeHour);
                 this.categoryBlockList.add(cb);
             }
         }
@@ -411,7 +397,7 @@ public class Category {
         if(areTheGivenHoursValid(newStartingTime, newEndTime))
         {
             //Get all Category Blocks from the same day
-            List<CategoryBlock> categoryBlocksOnDay = getAllCategoryBlocksForAGivenDate(categoryBlock.getMonth(), categoryBlock.getWeek(), categoryBlock.getDay());
+            List<CategoryBlock> categoryBlocksOnDay = getAllCategoryBlocksForAGivenDate(categoryBlock.getDate());
 
             //Sort the List with the Starting Time
             Collections.sort(categoryBlockList);
@@ -490,22 +476,16 @@ public class Category {
     /**
      * Gets all category blocks for a given date.
      *
-     * @param month the month
-     * @param week  the week
-     * @param day   the day
+     * @param date the date
      * @return the all category blocks for a given date
      */
-    public List<CategoryBlock> getAllCategoryBlocksForAGivenDate(Month month, Week week, Day day)
+    public List<CategoryBlock> getAllCategoryBlocksForAGivenDate(LocalDate date)
     {
         List<CategoryBlock> categoryBlocks = new ArrayList<CategoryBlock>();
 
         for (int i = 0; i < this.getCategoryBlockList().size(); i++) {
-            if(this.getCategoryBlockList().get(i).getMonth() == month) {
-                if(this.getCategoryBlockList().get(i).getWeek() == week) {
-                    if(this.getCategoryBlockList().get(i).getDay() == day) {
+            if(this.getCategoryBlockList().get(i).getDate() == date) {
                         categoryBlocks.add(this.categoryBlockList.get(i));
-                    }
-                }
             }
         }
 

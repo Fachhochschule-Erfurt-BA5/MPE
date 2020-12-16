@@ -7,7 +7,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.pme.mpe.model.format.Month;
 import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.user.User;
@@ -15,7 +14,7 @@ import com.pme.mpe.model.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
-import java.util.List;
+
 
 /**
  * The type Task.
@@ -35,9 +34,7 @@ public class Task {
     @ColumnInfo(name = "id")
     private long id;
 
-
     private int version;
-
 
     @NotNull
     @ColumnInfo(name = "created")
@@ -55,29 +52,19 @@ public class Task {
     @ColumnInfo(name = "description")
     private String description;
 
-
-
     @NotNull
     @ColumnInfo(name = "duration")
     private int duration;
 
-
     //represent the Category Block ID , which this Task belong to
-    public  long taskCatBlockId;
+    public long taskCatBlockId;
 
     //represent the Category ID , which this Task have
-    public  long taskCategoryId;
+    public long taskCategoryId;
 
     @NotNull
-    @ColumnInfo(name = "deadlineYear")
-    private int deadlineYear;
-
-    // TODO the relation between the Entities definition
-    private Month deadlineMonth;
-
-    @NotNull
-    @ColumnInfo(name = "deadlineDay")
-    private int deadlineDay;
+    @ColumnInfo(name = "deadline")
+    private LocalDate deadline;
 
     // For the case of a fixed Task, otherwise is null and false
     // TODO the relation between the Entities definition
@@ -98,22 +85,18 @@ public class Task {
     /**
      * Instantiates a new Task which is neither fixed or shared.
      *
-     * @param name          the name
-     * @param description   the description
-     * @param taskCategory      the category Id
-     * @param duration      the duration
-     * @param deadlineYear  the deadline year
-     * @param deadlineMonth the deadline month
-     * @param deadlineDay   the deadline day
+     * @param name         the name
+     * @param description  the description
+     * @param taskCategory the category Id
+     * @param duration     the duration
+     * @param deadline     the deadline
      */
-    protected Task(String name, String description, Category taskCategory, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay) {
+    protected Task(String name, String description, Category taskCategory, int duration, LocalDate deadline) {
         this.name = name;
         this.description = description;
         this.taskCategoryId = taskCategory.categoryId;
         this.duration = duration;
-        this.deadlineYear = deadlineYear;
-        this.deadlineMonth = deadlineMonth;
-        this.deadlineDay = deadlineDay;
+        this.deadline = deadline;
         this.categoryBlock = null;
         this.isTaskFixed = false;
     }
@@ -125,20 +108,15 @@ public class Task {
      * @param description   the description
      * @param taskCategory  the category
      * @param duration      the duration
-     * @param deadlineYear  the deadline year
-     * @param deadlineMonth the deadline month
-     * @param deadlineDay   the deadline day
+     * @param deadline      the deadline
      * @param categoryBlock the category block
      */
-    protected Task(String name, String description, Category taskCategory, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay,
-                CategoryBlock categoryBlock) {
+    protected Task(String name, String description, Category taskCategory, int duration, LocalDate deadline, CategoryBlock categoryBlock) {
         this.name = name;
         this.description = description;
         this.taskCategoryId = taskCategory.categoryId;
         this.duration = duration;
-        this.deadlineYear = deadlineYear;
-        this.deadlineMonth = deadlineMonth;
-        this.deadlineDay = deadlineDay;
+        this.deadline = deadline;
         this.categoryBlock = categoryBlock;
         this.isTaskFixed = true;
     }
@@ -271,53 +249,22 @@ public class Task {
         return duration;
     }
 
-
-
-
-
     /**
-     * Sets deadline year.
+     * Gets deadline.
      *
-     * @param deadlineYear the deadline year
+     * @return the deadline
      */
-    public void setDeadlineYear(int deadlineYear) {
-        this.deadlineYear = deadlineYear;
+    public LocalDate getDeadline() {
+        return deadline;
     }
 
     /**
-     * Gets deadline month.
+     * Sets deadline.
      *
-     * @return the deadline month
+     * @param deadline the deadline
      */
-    public Month getDeadlineMonth() {
-        return deadlineMonth;
-    }
-
-    /**
-     * Sets deadline month.
-     *
-     * @param deadlineMonth the deadline month
-     */
-    public void setDeadlineMonth(Month deadlineMonth) {
-        this.deadlineMonth = deadlineMonth;
-    }
-
-    /**
-     * Gets deadline day.
-     *
-     * @return the deadline day
-     */
-    public int getDeadlineDay() {
-        return deadlineDay;
-    }
-
-    /**
-     * Sets deadline day.
-     *
-     * @param deadlineDay the deadline day
-     */
-    public void setDeadlineDay(int deadlineDay) {
-        this.deadlineDay = deadlineDay;
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 
     /**
@@ -351,7 +298,7 @@ public class Task {
     protected boolean fixTaskToCategoryBlock(CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
         boolean result = false;
 
-        if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(this.deadlineYear, this.deadlineMonth, this.deadlineDay))
+        if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(this.deadline))
         {
             if(categoryBlock.isEnoughTimeForATaskAvailable(this))
             {

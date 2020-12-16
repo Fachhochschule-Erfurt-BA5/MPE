@@ -1,4 +1,4 @@
-package com.pme.mpe.model.format;
+package com.pme.mpe.model.deprecated.format;
 
 /**
  * The type Month.
