@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.pme.mpe.model.format.Month;
@@ -34,6 +35,7 @@ public class Task {
     @ColumnInfo(name = "id")
     private long id;
 
+
     private int version;
 
 
@@ -59,8 +61,6 @@ public class Task {
     @ColumnInfo(name = "duration")
     private int duration;
 
-    //represent the User ID , who create this task
-    public  long taskCreatorId;
 
     //represent the Category Block ID , which this Task belong to
     public  long taskCatBlockId;
@@ -83,6 +83,12 @@ public class Task {
     // TODO the relation between the Entities definition
     private CategoryBlock categoryBlock;
 
+    @Ignore
+    private Category category;
+
+    @Ignore
+    private User user;
+
     @NotNull
     @ColumnInfo(name = "isTaskFixed")
     private boolean isTaskFixed;
@@ -94,19 +100,17 @@ public class Task {
      *
      * @param name          the name
      * @param description   the description
-     * @param taskCategoryId      the category Id
+     * @param taskCategory      the category Id
      * @param duration      the duration
      * @param deadlineYear  the deadline year
      * @param deadlineMonth the deadline month
      * @param deadlineDay   the deadline day
-     * @param taskCreatorId the task creator ID
      */
-    protected Task(String name, String description, long taskCategoryId, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay, int taskCreatorId) {
+    protected Task(String name, String description, Category taskCategory, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay) {
         this.name = name;
         this.description = description;
-        this.taskCategoryId = taskCategoryId;
+        this.taskCategoryId = taskCategory.categoryId;
         this.duration = duration;
-        this.taskCreatorId = taskCreatorId;
         this.deadlineYear = deadlineYear;
         this.deadlineMonth = deadlineMonth;
         this.deadlineDay = deadlineDay;
@@ -119,21 +123,19 @@ public class Task {
      *
      * @param name          the name
      * @param description   the description
-     * @param taskCategoryId      the category Id
+     * @param taskCategory  the category
      * @param duration      the duration
      * @param deadlineYear  the deadline year
      * @param deadlineMonth the deadline month
      * @param deadlineDay   the deadline day
      * @param categoryBlock the category block
-     * @param taskCreatorId the task creator ID
      */
-    protected Task(String name, String description, long taskCategoryId, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay,
-                CategoryBlock categoryBlock, int taskCreatorId) {
+    protected Task(String name, String description, Category taskCategory, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay,
+                CategoryBlock categoryBlock) {
         this.name = name;
         this.description = description;
-        this.taskCategoryId = taskCategoryId;
+        this.taskCategoryId = taskCategory.categoryId;
         this.duration = duration;
-        this.taskCreatorId = taskCreatorId;
         this.deadlineYear = deadlineYear;
         this.deadlineMonth = deadlineMonth;
         this.deadlineDay = deadlineDay;
@@ -269,23 +271,9 @@ public class Task {
         return duration;
     }
 
-    /**
-     * Gets task creator.
-     *
-     * @return the task creator
-     */
-    public long getTaskCreator() {
-        return taskCreatorId;
-    }
 
-    /**
-     * Gets deadline year.
-     *
-     * @return the deadline year
-     */
-    public int getDeadlineYear() {
-        return deadlineYear;
-    }
+
+
 
     /**
      * Sets deadline year.
@@ -465,7 +453,7 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", categoryId=" + taskCategoryId +
                 ", duration=" + duration +
-                ", taskCreator=" + taskCreatorId +
+                ", taskCreator=" +
                 '}';
     }
 }

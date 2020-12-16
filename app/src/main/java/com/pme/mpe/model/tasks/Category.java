@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.pme.mpe.model.format.Day;
@@ -58,6 +59,14 @@ public class Category {
     @NotNull
     @ColumnInfo(name = "color")
     private String color;
+
+    @Ignore
+    public User user;
+
+    // represent the User Id create this Cat
+    public long catUserId;
+
+
 
     private List<Task> taskList;
     private List<CategoryBlock> categoryBlockList;
@@ -230,7 +239,7 @@ public class Category {
      */
     public void createAndAssignTaskToCategory(String name, String description, int duration, int deadlineYear, Month deadlineMonth, int deadlineDay)
     {
-        Task createdTask = new Task(name, description, this, duration, deadlineYear, deadlineMonth, deadlineDay, this.user);
+        Task createdTask = new Task(name, description, this, duration, deadlineYear, deadlineMonth, deadlineDay);
         this.taskList.add(createdTask);
     }
 
@@ -253,7 +262,7 @@ public class Category {
         if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(deadlineYear, deadlineMonth, deadlineDay))
         {
             Task createdTask = new Task(name, description, this, duration, deadlineYear, deadlineMonth, deadlineDay,
-                    categoryBlock, this.user);
+                    categoryBlock);
 
             if(categoryBlock.isEnoughTimeForATaskAvailable(createdTask))
             {

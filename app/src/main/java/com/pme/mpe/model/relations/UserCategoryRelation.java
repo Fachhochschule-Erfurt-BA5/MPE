@@ -3,16 +3,16 @@ package com.pme.mpe.model.relations;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.user.User;
 
 import java.util.List;
 
-public class UserWithTasks {
+public class UserCategoryRelation {
     @Embedded public User user;
     @Relation(
             parentColumn = "userId",
-            entityColumn = "taskCreatorId"
+            entityColumn = "catUserId"
     )
-    public List<Task> tasks;
+    List<Category> categories;
 }

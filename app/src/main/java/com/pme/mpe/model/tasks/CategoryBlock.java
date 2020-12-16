@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.pme.mpe.model.format.Day;
@@ -55,6 +56,12 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     @NotNull
     @ColumnInfo(name = "endTimeHour")
     private int endTimeHour;
+
+    // represent the Category Id, where this block belong
+    public long catCatBlockId;
+
+    @Ignore
+    public Category category;
 
     //For the hard fixed tasks
     private List<Task> assignedTasks;
