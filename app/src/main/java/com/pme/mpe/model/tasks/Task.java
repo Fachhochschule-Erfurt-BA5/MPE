@@ -54,7 +54,7 @@ public class Task {
 
     @NotNull
     @ColumnInfo(name = "duration")
-    private int duration;
+    private int duration = 1;
 
     //represent the Category ID , which this Task have
     public long taskCategoryId;
@@ -65,6 +65,7 @@ public class Task {
 
     // For the case of a fixed Task, otherwise is null and false
     // TODO the relation between the Entities definition
+    @Ignore
     private CategoryBlock categoryBlock;
 
     @Ignore
@@ -78,6 +79,12 @@ public class Task {
     private boolean isTaskFixed;
 
     /* /////////////////////Constructors/////////////////////////// */
+
+    /**
+     * Instantiates a new Task.
+     */
+    public Task() {
+    }
 
     /**
      * Instantiates a new Task which is neither fixed or shared.
@@ -376,7 +383,7 @@ public class Task {
      * @param duration the duration
      * @throws TaskFixException the task fix exception
      */
-    public void setDuration(int duration) throws TaskFixException {
+    public void setDuration(int duration) {
         if(this.isTaskFixed && this.categoryBlock != null)
         {
             if(!this.categoryBlock.isEnoughTimeForAFixedTaskUpdateAvailable(this, duration))
@@ -384,7 +391,7 @@ public class Task {
                 Log.w(LOG_TAG, "New Duration does not fit the current Category Block, therefor task was unassigned");
                 this.isTaskFixed = false;
                 this.categoryBlock = null;
-                throw new TaskFixException("New Duration does not fit the current Category Block, therefor task was unassigned");
+                this.duration = duration;
             }
         }
 

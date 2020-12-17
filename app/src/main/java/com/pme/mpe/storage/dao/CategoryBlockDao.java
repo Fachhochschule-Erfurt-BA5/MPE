@@ -9,6 +9,8 @@ import androidx.room.Update;
 
 import com.pme.mpe.model.relations.CategoryBlockHaveTasks;
 import com.pme.mpe.model.tasks.CategoryBlock;
+import com.pme.mpe.model.tasks.exceptions.TaskFixException;
+
 import java.util.List;
 
 @Dao

@@ -68,6 +68,9 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
 
     /* /////////////////////Constructors/////////////////////////// */
 
+    public CategoryBlock() {
+    }
+
     /**
      * Instantiates a new Category block.
      *
@@ -177,6 +180,43 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
         return assignedTasks;
     }
 
+    /**
+     * Gets created.
+     *
+     * @return the created
+     */
+    @NotNull
+    public LocalDate getCreated() {
+        return created;
+    }
+
+    /**
+     * Sets created.
+     *
+     * @param created the created
+     */
+    public void setCreated(@NotNull LocalDate created) {
+        this.created = created;
+    }
+
+    /**
+     * Gets updated.
+     *
+     * @return the updated
+     */
+    @NotNull
+    public LocalDate getUpdated() {
+        return updated;
+    }
+
+    /**
+     * Sets updated.
+     *
+     * @param updated the updated
+     */
+    public void setUpdated(@NotNull LocalDate updated) {
+        this.updated = updated;
+    }
 
     /* /////////////////////Methods///////////////////////// */
 
@@ -234,7 +274,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      * @param newDuration the new duration
      * @return the boolean
      */
-    public boolean isEnoughTimeForAFixedTaskUpdateAvailable(Task task, int newDuration) throws TaskFixException {
+    public boolean isEnoughTimeForAFixedTaskUpdateAvailable(Task task, int newDuration) {
         boolean result = true;
 
         for (int i = 0; i < this.assignedTasks.size(); i++) {
@@ -243,7 +283,10 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
                 if(returnRemainingFreeTimeOnSlot() + this.assignedTasks.get(i).getDuration() < newDuration)
                 {
                     Log.w(LOG_TAG, "Not enough time in time slot");
-                    throw new TaskFixException("Not enough time for an Update in time slot");
+                    result = false;
+                }
+                else{
+                    result = true;
                 }
             }
             else

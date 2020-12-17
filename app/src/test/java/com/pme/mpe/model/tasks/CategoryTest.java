@@ -109,8 +109,8 @@ public class CategoryTest {
         assertNull(testCategory.getTaskList().get(0).getCategoryBlock());
     }
 
-    @Test(expected = TaskFixException.class)
-    public void ByChangingTheDurationOfAFixedTaskAndExceedingTheAvailableTimeOnCategoryBlockAnExceptionShouldBeThrown() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
+    @Test
+    public void ByChangingTheDurationOfAFixedTaskAndExceedingTheAvailableTimeOnCategoryBlockTheTaskIsUnfixed() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
         //Given
         testCategory.addCategoryBlock(feb5, 10, 13 );
         testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",
@@ -118,6 +118,9 @@ public class CategoryTest {
 
         //By changing the duration of the Task an exception should be thrown
         testCategory.getTaskList().get(0).setDuration(5);
+
+        //The task should not be longer fixed to the category block
+        assertTrue(!testCategory.getTaskList().get(0).isTaskFixed());
     }
 
     @Test(expected = CategoryBlockException.class)

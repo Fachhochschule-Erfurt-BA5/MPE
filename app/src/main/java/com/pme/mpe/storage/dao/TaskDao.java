@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 
 import java.time.LocalDate;
 import java.util.List;

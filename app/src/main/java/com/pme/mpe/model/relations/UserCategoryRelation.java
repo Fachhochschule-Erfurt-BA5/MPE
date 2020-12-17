@@ -14,5 +14,5 @@ public class UserCategoryRelation {
             parentColumn = "userId",
             entityColumn = "catUserId"
     )
-    List<Category> categories;
+    public List<Category> categories;
 }

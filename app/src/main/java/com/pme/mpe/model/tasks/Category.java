@@ -7,6 +7,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.android.material.button.MaterialButton;
 import com.pme.mpe.model.tasks.exceptions.CategoryBlockException;
 import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
@@ -57,15 +58,24 @@ public class Category {
     private String color;
 
     @Ignore
-    public User user;
+    private User user;
 
     // represent the User Id create this Cat
     public long catUserId;
 
+    @Ignore
     private List<Task> taskList;
+
+    @Ignore
     private List<CategoryBlock> categoryBlockList;
 
     /* /////////////////////Constructors/////////////////////////// */
+
+    /**
+     * Instantiates a new Category.
+     */
+    public Category() {
+    }
 
     /**
      * Instantiates a new Category.

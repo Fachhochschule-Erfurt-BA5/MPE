@@ -14,5 +14,5 @@ public class CategoryHaveTasks {
             parentColumn = "categoryId",
             entityColumn = "taskCategoryId"
     )
-    List<Task> tasks;
+    public List<Task> tasks;
 }

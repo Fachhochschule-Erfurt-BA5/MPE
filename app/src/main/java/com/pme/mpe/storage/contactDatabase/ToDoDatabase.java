@@ -8,6 +8,7 @@ import androidx.room.Database;
 import androidx.room.Insert;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.github.javafaker.Faker;
@@ -15,6 +16,7 @@ import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.model.user.User;
+import com.pme.mpe.model.util.LocalDateConverter;
 import com.pme.mpe.storage.dao.CategoryBlockDao;
 import com.pme.mpe.storage.dao.CategoryDao;
 import com.pme.mpe.storage.dao.TaskDao;
@@ -28,7 +30,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database( entities = {Category.class , CategoryBlock.class, Task.class, User.class}, version = 1)
+@TypeConverters({LocalDateConverter.class})
 public abstract class ToDoDatabase extends RoomDatabase {
+
     private static final String LOG_TAG_DB = "ToDoDB";
 
     public abstract CategoryBlockDao categoryBlockDao();

@@ -14,5 +14,5 @@ public class CatCatBlockRelation {
             parentColumn = "categoryId",
             entityColumn = "catCatBlockId"
     )
-    List<CategoryBlock> categoryBlocks;
+    public List<CategoryBlock> categoryBlocks;
 }

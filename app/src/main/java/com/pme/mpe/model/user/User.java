@@ -2,6 +2,7 @@ package com.pme.mpe.model.user;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
@@ -71,9 +72,16 @@ public class User {
     private String securePassword;
 
     //Which categories belong to a User
+    @Ignore
     private List<Category> userCategories;
 
     /* /////////////////////Constructors/////////////////////////// */
+
+    /**
+     * Instantiates a new User.
+     */
+    public User() {
+    }
 
     /**
      * Instantiates a new User. And creates the salt for the user
