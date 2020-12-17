@@ -11,8 +11,8 @@ import java.util.List;
 public class CategoryBlockHaveTasks {
     @Embedded public CategoryBlock categoryBlock;
     @Relation(
-            parentColumn = "catBlockId",
-            entityColumn = "taskCatBlockId"
+            parentColumn = "taskCatBlockId",
+            entityColumn = "id"
     )
     public List<Task> tasks;
 }

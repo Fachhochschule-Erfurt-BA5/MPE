@@ -56,9 +56,6 @@ public class Task {
     @ColumnInfo(name = "duration")
     private int duration;
 
-    //represent the Category Block ID , which this Task belong to
-    public long taskCatBlockId;
-
     //represent the Category ID , which this Task have
     public long taskCategoryId;
 
@@ -283,6 +280,15 @@ public class Task {
      */
     public boolean isTaskFixed() {
         return isTaskFixed;
+    }
+
+    /**
+     * Sets Is task fixed boolean.
+     *
+     * @param isTaskFixed
+     */
+    public void isTaskFixed(boolean isTaskFixed){
+        this.isTaskFixed = isTaskFixed;
     }
 
     /* /////////////////////Methods///////////////////////// */

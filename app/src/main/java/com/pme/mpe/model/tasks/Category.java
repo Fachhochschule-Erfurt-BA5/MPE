@@ -35,7 +35,7 @@ public class Category {
 
     /* /////////////////////Attributes///////////////////////// */
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "categoryId")
     public long categoryId;
 
     private int version;

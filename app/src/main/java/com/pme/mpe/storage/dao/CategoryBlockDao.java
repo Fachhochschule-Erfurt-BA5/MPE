@@ -1,5 +1,6 @@
 package com.pme.mpe.storage.dao;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -10,6 +11,7 @@ import com.pme.mpe.model.relations.CategoryBlockHaveTasks;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import java.util.List;
 
+@Dao
 public interface CategoryBlockDao {
 
     @Insert

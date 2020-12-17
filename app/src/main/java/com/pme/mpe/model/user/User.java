@@ -31,7 +31,7 @@ public class User {
 
     /* /////////////////////Attributes///////////////////////// */
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "userId")
     public long userId;
 
     private long version;
@@ -59,6 +59,7 @@ public class User {
     @NotNull
     @ColumnInfo(name = "profileImageUrl")
     private String profileImageUrl;
+
 
     //For managing the password security
     @NotNull
@@ -251,6 +252,9 @@ public class User {
         return salt;
     }
 
+    public void setSalt(@NotNull String salt) {
+        this.salt = salt;
+    }
     /**
      * Gets secure password.
      *

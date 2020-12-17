@@ -1,5 +1,6 @@
 package com.pme.mpe.storage.dao;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -12,6 +13,7 @@ import com.pme.mpe.model.user.User;
 
 import java.util.List;
 
+@Dao
 public interface UserDao {
 
     @Insert
@@ -35,10 +37,10 @@ public interface UserDao {
     @Query("SELECT * FROM User ORDER BY firstName ASC")
     List<User> getUsersSortByName();
 
-    @Query("SELECT * FROM User ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM User ORDER BY userId DESC LIMIT 1")
     User getLastUserAdded();
 
-    @Query("SELECT * FROM User WHERE id LIKE :search")
+    @Query("SELECT * FROM User WHERE userId LIKE :search")
     List<User> getUsersForId(long search);
 
     // Query for the relation between the User and Category

@@ -56,10 +56,14 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     // represent the Category Id, where this block belong
     public long catCatBlockId;
 
+    //represent the Category Block ID , which this Task belong to
+    public long taskCatBlockId;
+
     @Ignore
     public Category category;
 
     //For the hard fixed tasks
+    @Ignore
     private List<Task> assignedTasks;
 
     /* /////////////////////Constructors/////////////////////////// */
@@ -107,6 +111,25 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      */
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+
+    /**
+     * Gets version.
+     *
+     * @return the version
+     */
+    public int getVersion() {
+        return version;
+    }
+
+    /**
+     * Sets version.
+     *
+     * @param version the version
+     */
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     /**

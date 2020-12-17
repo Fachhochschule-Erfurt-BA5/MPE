@@ -1,5 +1,6 @@
 package com.pme.mpe.storage.dao;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -12,6 +13,7 @@ import com.pme.mpe.model.tasks.Category;
 
 import java.util.List;
 
+@Dao
 public interface CategoryDao {
 
     @Insert
@@ -35,10 +37,10 @@ public interface CategoryDao {
     @Query("SELECT * FROM Category ORDER BY categoryName ASC")
     List<Category> getCategoriesSortByName();
 
-    @Query("SELECT * FROM Category ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM Category ORDER BY categoryId DESC LIMIT 1")
     Category getLastCategoryAdded();
 
-    @Query("SELECT * FROM Category WHERE id LIKE :search")
+    @Query("SELECT * FROM Category WHERE categoryId LIKE :search")
     List<Category> getCategoriesForId(long search);
 
     // Query for Relation between Task and category
