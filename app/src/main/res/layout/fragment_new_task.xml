@@ -147,6 +147,28 @@
                 android:text="@string/select_predefined_color" />
         </LinearLayout>
 
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp">
+
+            <androidx.appcompat.widget.SwitchCompat
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fixed"
+                android:textColor="@color/blue"
+                android:checked="true"
+                android:theme="@style/SCBSwitch"
+                />
+
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

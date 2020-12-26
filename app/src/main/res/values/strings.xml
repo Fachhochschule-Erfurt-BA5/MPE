@@ -43,6 +43,11 @@
     </string-array>
     <string name="category_prompt">Select a Category: </string>
     <string name="select_predefined_color">Select a Predefined Color</string>
+    <string name="save_block">save Block</string>
+    <string name="block_name">Block Name</string>
+    <string name="start">Start</string>
+    <string name="finish">Finish</string>
+    <string name="fixed">Fixed</string>
 
 
 </resources>
