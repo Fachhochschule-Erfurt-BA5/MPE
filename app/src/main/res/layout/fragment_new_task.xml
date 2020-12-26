@@ -28,7 +28,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
                 android:hint="@string/task_name"
-                android:inputType="text"/>
+                android:inputType="text" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -110,12 +110,48 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp">
 
-            <CheckBox
-                android:id="@+id/checkBox"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:text="@string/category_prompt" />
+
+            <Spinner
+                android:id="@+id/spinner1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/select_category" />
+                android:entries="@array/Category_arrays"
+                android:prompt="@string/category_prompt" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp">
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/category_butt"
+                android:checkable="true"
+                android:elevation="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/select_predefined_color" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/primaryColor" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,9 +163,9 @@
                 android:id="@+id/save_task"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/save_task"
                 android:backgroundTint="@color/primaryColor"
-                android:textColor="@color/white"/>
+                android:text="@string/save_task"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

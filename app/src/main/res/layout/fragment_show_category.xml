@@ -56,7 +56,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/black_semi"
                 android:textSize="12sp"
-                tools:text="25 tasks" />
+                tools:text="25 Blocks" />
 
         </LinearLayout>
 
@@ -103,7 +103,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/black_semi"
                 android:textSize="12sp"
-                tools:text="5 tasks" />
+                tools:text="5 Blocks" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -147,7 +147,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/black_semi"
                 android:textSize="12sp"
-                tools:text="10 tasks" />
+                tools:text="10 Blocks" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -192,7 +192,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/black_semi"
                 android:textSize="12sp"
-                tools:text="35 tasks" />
+                tools:text="35 Blocks" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -236,7 +236,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/black_semi"
                 android:textSize="12sp"
-                tools:text="15 tasks" />
+                tools:text="15 Blocks" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

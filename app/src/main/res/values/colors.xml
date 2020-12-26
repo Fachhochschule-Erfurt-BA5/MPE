@@ -18,4 +18,20 @@
     <color name="green">#4caf50</color>
     <color name="blue">#2196f3</color>
 
+
+    /*-------predefined colors for tasks----------*/
+    <color name="color1">#EC407A</color>
+    <color name="color2">#AB47BC</color>
+    <color name="color3">#5C6BC0</color>
+    <color name="color4">#42A5F5</color>
+    <color name="color5">#26C6DA</color>
+    <color name="color6">#26A69A</color>
+    <color name="color7">#66BB6A</color>
+    <color name="color8">#D4E157</color>
+    <color name="color9">#FFEE58</color>
+    <color name="color10">#FFA726</color>
+    <color name="color11">#FF7043</color>
+    <color name="color12">#FFFFFF</color>
+    /*-------------------------------------------*/
+
 </resources>
