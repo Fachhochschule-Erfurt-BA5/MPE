@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:overScrollMode="never">
 <GridLayout
-    android:id="@+id/GridLayout1"
+    android:id="@+id/category_grid_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -16,6 +16,7 @@
     android:layout_margin="16dp">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_grid_card"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
@@ -32,6 +33,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/category_grid_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -40,7 +42,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_name1"
+                android:id="@+id/category_grid_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -50,7 +52,7 @@
                 tools:text="STUDY" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_number_tasks"
+                android:id="@+id/category_grid_block"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -64,6 +66,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_grid_card2"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
@@ -78,6 +81,7 @@
         app:cardElevation="8dp">
 
         <LinearLayout
+            android:id="@+id/category_grid_info2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -86,7 +90,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_name2"
+                android:id="@+id/category_grid_name2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -97,7 +101,7 @@
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_number_tasks_2"
+                android:id="@+id/category_grid_block2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -109,6 +113,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_grid_card3"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
@@ -123,6 +128,7 @@
         app:cardElevation="8dp">
 
         <LinearLayout
+            android:id="@+id/category_grid_info3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -131,7 +137,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_name3"
+                android:id="@+id/category_grid_name3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -141,7 +147,7 @@
                 tools:text="@string/cooking" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_number_tasks_3"
+                android:id="@+id/category_grid_block3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -153,6 +159,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_grid_card4"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
@@ -167,6 +174,7 @@
         app:cardElevation="8dp">
 
         <LinearLayout
+            android:id="@+id/category_grid_info4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -175,7 +183,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_name4"
+                android:id="@+id/category_grid_name4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -186,7 +194,7 @@
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_number_tasks_4"
+                android:id="@+id/category_grid_block4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -197,6 +205,7 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_grid_card5"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
@@ -211,6 +220,7 @@
         app:cardElevation="8dp">
 
         <LinearLayout
+            android:id="@+id/category_grid_info5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -219,7 +229,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_name5"
+                android:id="@+id/category_grid_name5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -230,7 +240,7 @@
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_number_tasks_5"
+                android:id="@+id/category_grid_block5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -242,6 +252,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_grid_add"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
@@ -256,6 +267,7 @@
         app:cardElevation="8dp">
 
         <LinearLayout
+            android:id="@+id/category_grid_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -264,7 +276,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/add_category"
+                android:id="@+id/category_grid_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"

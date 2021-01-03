@@ -7,6 +7,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/task_item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -22,6 +23,7 @@
     >
 
         <LinearLayout
+            android:id="@+id/task_item_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -31,26 +33,26 @@
 
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/task_item_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/task_date"
                 android:textSize="12sp"
                 tools:text="09:00-12:00"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/task_item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:id="@+id/task_name"
                 android:textColor="@android:color/black"
                 tools:text="Task X"
                 android:textSize="16sp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/task_item_descrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:id="@+id/task_descrip"
                 android:textColor="@color/black_semi"
                 tools:text="Description"
                 android:textSize="13sp"/>
