@@ -48,6 +48,7 @@
     <string name="start">Start</string>
     <string name="finish">Finish</string>
     <string name="fixed">Fixed</string>
+    <string name="blocks">Blocks</string>
 
 
 </resources>

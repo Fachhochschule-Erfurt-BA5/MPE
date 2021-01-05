@@ -3,23 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_categories">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.pme.mpe.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_settings" />
-
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.pme.mpe.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_task" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_categories"
         android:name="com.pme.mpe.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_category" />
+        android:label="Categories"
+        tools:layout="@layout/fragment_show_category" />
+    <fragment
+        android:id="@+id/nav_blocks"
+        android:name="com.pme.mpe.ui.gallery.GalleryFragment"
+        android:label="Blocks"
+        tools:layout="@layout/fragement_show_block_category" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.pme.mpe.ui.home.HomeFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

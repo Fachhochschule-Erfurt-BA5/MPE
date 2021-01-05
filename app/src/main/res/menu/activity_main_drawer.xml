@@ -4,14 +4,16 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_tasks"
-            android:icon="@drawable/ic_assignment_black_48dp"
-            android:title="@string/tasks"/>
+
         <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/ic_apps_grey_500_24dp"
             android:title="@string/categories"/>
+        <item
+            android:id="@+id/nav_blocks"
+            android:icon="@drawable/ic_assignment_black_48dp"
+            android:title="@string/blocks"/>
+
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_setting"
