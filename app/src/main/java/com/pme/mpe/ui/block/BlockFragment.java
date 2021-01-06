@@ -1,4 +1,4 @@
-package com.pme.mpe.ui.category;
+package com.pme.mpe.ui.block;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,16 +14,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.pme.mpe.R;
 
-public class CategoryFragment extends Fragment {
+public class BlockFragment extends Fragment {
 
-    private CategoryViewModel categoryViewModel;
+    private BlockViewModel blockViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        categoryViewModel =
-                new ViewModelProvider(this).get(CategoryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_category, container, false);
-
+        blockViewModel =
+                new ViewModelProvider(this).get(BlockViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_block, container, false);
         return root;
     }
 }

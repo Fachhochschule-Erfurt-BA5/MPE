@@ -4,25 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.category.CategoryFragment">
+    tools:context=".ui.block.BlockFragment">
 
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never">
+
         <GridLayout
-            android:id="@+id/category_grid_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:columnCount="2"
-            android:layout_margin="16dp">
+            android:layout_margin="16dp"
+            android:columnCount="2">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/category_grid_card"
+                android:id="@+id/block_entity1"
                 android:layout_width="150dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_vertical"
@@ -34,12 +31,10 @@
                 android:focusable="true"
                 app:cardBackgroundColor="@color/schadeBlue2"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="8dp"
-
-                >
+                app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:id="@+id/category_grid_info"
+                    android:id="@+id/block_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -48,31 +43,30 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_name"
+                        android:id="@+id/block_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        tools:text="STUDY" />
+                        tools:text="Block 1" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_block"
+                        android:id="@+id/block_task_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/black_semi"
                         android:textSize="12sp"
-                        tools:text="25 Blocks" />
+                        tools:text="25 Tasks" />
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/category_grid_card2"
+                android:id="@+id/block_entity2"
                 android:layout_width="150dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_vertical"
@@ -82,12 +76,12 @@
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/purple_200"
+                app:cardBackgroundColor="@color/schadeBlue2"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:id="@+id/category_grid_info2"
+                    android:id="@+id/block_info2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -96,30 +90,30 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_name2"
+                        android:id="@+id/block_name2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        tools:text="FITNESS" />
-
+                        tools:text="Block 2" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_block2"
+                        android:id="@+id/block_task_number2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/black_semi"
                         android:textSize="12sp"
-                        tools:text="5 Blocks" />
+                        tools:text="10 Tasks" />
 
                 </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/category_grid_card3"
+                android:id="@+id/block_entity3"
                 android:layout_width="150dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_vertical"
@@ -129,12 +123,12 @@
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/teal_700"
+                app:cardBackgroundColor="@color/schadeBlue2"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:id="@+id/category_grid_info3"
+                    android:id="@+id/block_info3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -143,122 +137,30 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_name3"
+                        android:id="@+id/block_name3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        tools:text="@string/cooking" />
+                        tools:text="Block 3" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_block3"
+                        android:id="@+id/block_task_number3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/black_semi"
                         android:textSize="12sp"
-                        tools:text="10 Blocks" />
+                        tools:text="5 Tasks" />
 
                 </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/category_grid_card4"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="@color/teal_200"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="8dp">
-
-                <LinearLayout
-                    android:id="@+id/category_grid_info4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_name4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        tools:text="WORK" />
-
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_block4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@color/black_semi"
-                        android:textSize="12sp"
-                        tools:text="35 Blocks" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/category_grid_card5"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="@color/primaryColor"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="8dp">
-
-                <LinearLayout
-                    android:id="@+id/category_grid_info5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_name5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        tools:text="TRAVEL" />
-
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_block5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@color/black_semi"
-                        android:textSize="12sp"
-                        tools:text="15 Blocks" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/category_grid_add"
+                android:id="@+id/block_entity_add"
                 android:layout_width="150dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_vertical"
@@ -273,7 +175,6 @@
                 app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:id="@+id/category_grid_plus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -282,7 +183,7 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/category_grid_text"
+                        android:id="@+id/add_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
