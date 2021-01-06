@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_categories"
-        android:name="com.pme.mpe.ui.slideshow.SlideshowFragment"
+        android:name="com.pme.mpe.ui.category.CategoryFragment"
         android:label="Categories"
-        tools:layout="@layout/fragment_show_category" />
+        tools:layout="@layout/fragment_category" />
     <fragment
         android:id="@+id/nav_blocks"
         android:name="com.pme.mpe.ui.gallery.GalleryFragment"

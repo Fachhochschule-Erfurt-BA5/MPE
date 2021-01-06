@@ -22,4 +22,28 @@
 
     <include layout="@layout/content_main" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="#2196F3"
+        app:rippleColor="#000000"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/calendar_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+
+        android:layout_margin="@dimen/fab_margin"
+        android:translationX="-60dp"
+        app:backgroundTint="@color/purple_200"
+        app:layout_constraintVertical_bias="0.976"
+        app:rippleColor="#000000"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
