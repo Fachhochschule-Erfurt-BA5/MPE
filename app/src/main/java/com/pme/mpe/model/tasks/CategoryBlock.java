@@ -34,6 +34,10 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     private int version;
 
     @NotNull
+    @ColumnInfo(name = "title")
+    private String title;
+
+    @NotNull
     @ColumnInfo(name = "created")
     private LocalDate created;
 
@@ -67,7 +71,6 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     private List<Task> assignedTasks;
 
     /* /////////////////////Constructors/////////////////////////// */
-
     public CategoryBlock() {
     }
 
@@ -79,12 +82,19 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      * @param startTimeHour the start time hour
      * @param endTimeHour   the end time hour
      */
-    protected CategoryBlock(Category category, LocalDate date, int startTimeHour, int endTimeHour) {
+    protected CategoryBlock(String title, Category category, LocalDate date, int startTimeHour, int endTimeHour) {
+        this.title = title;
         this.category = category;
         this.date = date;
         this.startTimeHour = startTimeHour;
         this.endTimeHour = endTimeHour;
         this.assignedTasks = new ArrayList<>();
+    }
+
+    /*Test for RecyclerView*/
+    public CategoryBlock(String title,List<Task> assignedTasks) {
+        this.title = title;
+        this.assignedTasks = assignedTasks;
     }
 
     /* /////////////////////Getter/Setter///////////////////////// */
@@ -342,4 +352,25 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
                 ", category=" + category +
                 '}';
     }
+
+    /**
+     * Gets title.
+     *
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets title.
+     *
+     * @param title the title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+
 }

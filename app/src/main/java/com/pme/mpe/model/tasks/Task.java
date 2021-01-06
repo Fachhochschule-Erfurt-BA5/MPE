@@ -105,6 +105,11 @@ public class Task {
         this.isTaskFixed = false;
     }
 
+    /*Test for RecyclerView*/
+    public Task(String name) {
+        this.name = name;
+    }
+
     /**
      * Instantiates a new Task which is fixed to a Category Block.
      *

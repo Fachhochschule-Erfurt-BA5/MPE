@@ -326,7 +326,7 @@ public class Category {
      * @throws CategoryBlockException the category block exception
      * @throws TimeException          the time exception
      */
-    public void addCategoryBlock(LocalDate date, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
+/*HERE CONSTRUCTOR    public void addCategoryBlock(LocalDate date, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
 
         if(areTheGivenHoursValid(startTimeHour, endTimeHour))
         {
@@ -378,7 +378,7 @@ public class Category {
             }
         }
     }
-
+*/
     /**
      * Delete category block.
      * If there are Assigned Tasks to the Category Block, they would be unassigned
