@@ -326,7 +326,7 @@ public class Category {
      * @throws CategoryBlockException the category block exception
      * @throws TimeException          the time exception
      */
-/*HERE CONSTRUCTOR    public void addCategoryBlock(LocalDate date, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
+public void addCategoryBlock(String title, LocalDate date, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
 
         if(areTheGivenHoursValid(startTimeHour, endTimeHour))
         {
@@ -344,7 +344,7 @@ public class Category {
                     //Check that start time does not intercede whit another Category Block
                     if(startTimeHour >= this.getCategoryBlockList().get(i).getEndTimeHour() && endTimeHour <= this.getCategoryBlockList().get(i+1).getStartTimeHour())
                     {
-                        CategoryBlock cb = new CategoryBlock(this, date, startTimeHour, endTimeHour);
+                        CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
                         this.categoryBlockList.add(cb);
                         break;
                     }
@@ -363,7 +363,7 @@ public class Category {
             {
                 if(startTimeHour >= this.getCategoryBlockList().get(0).getEndTimeHour() || endTimeHour <= this.getCategoryBlockList().get(0).getStartTimeHour())
                 {
-                    CategoryBlock cb = new CategoryBlock(this, date, startTimeHour, endTimeHour);
+                    CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
                     this.categoryBlockList.add(cb);
                 }
                 else {
@@ -373,12 +373,12 @@ public class Category {
             }
             else if (categoryBlocksOnDay.size() == 0)
             {
-                CategoryBlock cb = new CategoryBlock(this, date, startTimeHour, endTimeHour);
+                CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
                 this.categoryBlockList.add(cb);
             }
         }
     }
-*/
+
     /**
      * Delete category block.
      * If there are Assigned Tasks to the Category Block, they would be unassigned
