@@ -29,7 +29,7 @@ public class CategoryTest {
     public void aTaskMayBeFixedAndUnfixedFromACategoryBlock() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
         //Given
         testCategory.createAndAssignTaskToCategory("Test-Task", "Description", 2, feb5);
-        testCategory.addCategoryBlock(feb5 , 10, 14 );
+        testCategory.addCategoryBlock("test", feb5 , 10, 14 );
 
         //Step 1 No Task Fixed to Category Block
         assertTrue(testCategory.getCategoryBlockList().get(0).getAssignedTasks().size() == 0);
@@ -50,7 +50,7 @@ public class CategoryTest {
     @Test
     public void aFixedTaskMayBeCreated() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb5, 10, 14 );
+        testCategory.addCategoryBlock("test", feb5, 10, 14 );
 
         //Create Task and Fix to category Block
         testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2, feb5, testCategory.getCategoryBlockList().get(0));
@@ -62,7 +62,7 @@ public class CategoryTest {
     @Test(expected = TaskFixException.class)
     public void aThrowableShouldBeThrownWhenTryingToAssignTaskToCategoryBlockWithNotEnoughTime() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb5, 10, 11 );
+        testCategory.addCategoryBlock("test", feb5, 10, 11 );
 
         //An Exception should be thrown here because of the duration
         testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2, feb5, testCategory.getCategoryBlockList().get(0));
@@ -71,7 +71,7 @@ public class CategoryTest {
     @Test(expected = TaskDeadlineException.class)
     public void aThrowableShouldBeThrownWhenTryingToAssignTaskToCategoryBlockNotInBoundFromDeadline() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb1 , 10, 15 );
+        testCategory.addCategoryBlock("test", feb1 , 10, 15 );
 
         //An Exception should be thrown here because of the deadline
         testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2,  feb5, testCategory.getCategoryBlockList().get(0));
@@ -80,7 +80,7 @@ public class CategoryTest {
     @Test
     public void aCategoryBlockMayBeDeletedIfNotTasksAssigned() throws TaskFixException, CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb5, 10, 15 );
+        testCategory.addCategoryBlock("test", feb5, 10, 15 );
 
         //Assert the Category Block is in the List from the Category
         assertTrue(testCategory.getCategoryBlockList().size() > 0);
@@ -95,7 +95,7 @@ public class CategoryTest {
     @Test
     public void ByDeletingACategoryBlockWithFixedTasksAllTasksShouldBeUnassigned() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb5, 10, 15 );
+        testCategory.addCategoryBlock("test", feb5, 10, 15 );
         testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",
                 2, feb5, testCategory.getCategoryBlockList().get(0));
 
@@ -112,7 +112,7 @@ public class CategoryTest {
     @Test
     public void ByChangingTheDurationOfAFixedTaskAndExceedingTheAvailableTimeOnCategoryBlockTheTaskIsUnfixed() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb5, 10, 13 );
+        testCategory.addCategoryBlock("test", feb5, 10, 13 );
         testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",
                 2, feb5, testCategory.getCategoryBlockList().get(0));
 
@@ -126,27 +126,27 @@ public class CategoryTest {
     @Test(expected = CategoryBlockException.class)
     public void ByCreatingACategoryBlockBetweenTwoOtherCBWhereItDoesNotFitAnExceptionShouldBeThrown() throws CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb5, 10, 11 );
-        testCategory.addCategoryBlock(feb5, 13, 15 );
+        testCategory.addCategoryBlock("test", feb5, 10, 11 );
+        testCategory.addCategoryBlock("test", feb5, 13, 15 );
 
         //By adding a non fitting Category Block an exception is thrown
-        testCategory.addCategoryBlock(feb5, 11, 15 );
+        testCategory.addCategoryBlock("test", feb5, 11, 15 );
     }
 
     @Test(expected = CategoryBlockException.class)
     public void ByCreatingACategoryBlockThatInterferesWithAnotherCBAnExceptionShouldBeThrown() throws CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb5, 10, 12 );
+        testCategory.addCategoryBlock("test", feb5, 10, 12 );
 
         //By adding a Category Block on the same time an exception is thrown
-        testCategory.addCategoryBlock(feb5, 9, 11 );
+        testCategory.addCategoryBlock("test", feb5, 9, 11 );
     }
 
     @Test(expected = CategoryBlockException.class)
     public void ExpandingTheTimeOfACategoryBlockAndInterferingWithAnotherShouldThrowAnException() throws CategoryBlockException, TimeException {
         //Given
-        testCategory.addCategoryBlock(feb5, 10, 12 );
-        testCategory.addCategoryBlock(feb5, 12, 14 );
+        testCategory.addCategoryBlock("test", feb5, 10, 12 );
+        testCategory.addCategoryBlock("test", feb5, 12, 14 );
 
         //Changing the end time of the first CB an exception should be thrown
         testCategory.updateStartAndEndTimeFromACategoryBlock(testCategory.getCategoryBlockList().get(0), 9, 13);

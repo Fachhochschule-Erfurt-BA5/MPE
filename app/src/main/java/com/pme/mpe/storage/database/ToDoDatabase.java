@@ -1,11 +1,10 @@
-package com.pme.mpe.storage.contactDatabase;
+package com.pme.mpe.storage.database;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.Insert;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
@@ -17,9 +16,7 @@ import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.model.user.User;
 import com.pme.mpe.model.util.LocalDateConverter;
-import com.pme.mpe.storage.dao.CategoryBlockDao;
-import com.pme.mpe.storage.dao.CategoryDao;
-import com.pme.mpe.storage.dao.TaskDao;
+import com.pme.mpe.storage.dao.TasksPackageDao;
 import com.pme.mpe.storage.dao.UserDao;
 
 import java.time.LocalDate;
@@ -35,19 +32,52 @@ public abstract class ToDoDatabase extends RoomDatabase {
 
     private static final String LOG_TAG_DB = "ToDoDB";
 
-    public abstract CategoryBlockDao categoryBlockDao();
-    public abstract CategoryDao categoryDao();
-    public abstract TaskDao taskDao();
+    /*
+        Contact DAO reference, will be filled by Android
+     */
+    public abstract TasksPackageDao tasksPackageDao();
     public abstract UserDao userDao();
 
-    private static final int NUMBER_OF_THREADS = 4;
-
-    private static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
+    /*
+        Singleton Instance
+     */
     private static volatile ToDoDatabase INSTANCE;
 
+    /*
+    Singleton 'getInstance' method to create database instance thereby opening and, if not
+    already done, init the database. Note the 'createCallback'.
+ */
+    public static ToDoDatabase getDatabase(final Context context)
+    {
+        Log.i( LOG_TAG_DB, "getDatabaseCalled");
+        if (INSTANCE == null)
+        {
+            synchronized (ToDoDatabase.class){
+                if(INSTANCE == null){
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            ToDoDatabase.class, "todo_database")
+                            .addCallback(createCallback)
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 
-    public static <T> T query(Callable<T> task) throws ExecutionException, InterruptedException
+    /*
+    Executor service to perform database operations asynchronous and independent from UI thread
+ */
+    private static final int NUMBER_OF_THREADS = 4;
+    private static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+
+    /*
+        Helper methods to ease external usage of ExecutorService
+        e.g. perform async database operations
+     */
+    public static <T> T executeWithReturn(Callable<T> task)
+            throws ExecutionException, InterruptedException
     {
         return databaseWriteExecutor.invokeAny(Collections.singletonList(task));
     }
@@ -57,21 +87,12 @@ public abstract class ToDoDatabase extends RoomDatabase {
         databaseWriteExecutor.execute(runnable);
     }
 
-    static ToDoDatabase getDatabase(final Context context)
-    {
-        Log.i( LOG_TAG_DB, "getDatabaseCalled");
-        if (INSTANCE == null)
-        {
-            synchronized (ToDoDatabase.class){
-                if(INSTANCE == null){
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ToDoDatabase.class, "todo_database").addCallback(createCallback).build();
-                }
-            }
-        }
-        return INSTANCE;
-    }
 
 
+    /*
+        Create DB Callback
+        Used to add some initial data
+    */
     private static RoomDatabase.Callback createCallback = new RoomDatabase.Callback()
     {
         @Override

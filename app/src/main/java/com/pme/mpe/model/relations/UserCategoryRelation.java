@@ -12,7 +12,7 @@ public class UserCategoryRelation {
     @Embedded public User user;
     @Relation(
             parentColumn = "userId",
-            entityColumn = "catUserId"
+            entityColumn = "userID"
     )
     public List<Category> categories;
 }

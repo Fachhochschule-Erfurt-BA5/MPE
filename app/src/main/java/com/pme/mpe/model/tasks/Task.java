@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey;
 
 import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
-import com.pme.mpe.model.user.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +21,7 @@ import java.time.LocalDate;
  * A task may be shared between users
  */
 @Entity
-public class Task {
+public class Task implements Comparable<Task>{
 
     /**
      * The constant LOG_TAG.
@@ -34,6 +33,8 @@ public class Task {
     @ColumnInfo(name = "id")
     private long id;
 
+    @NotNull
+    @ColumnInfo(name = "version")
     private int version;
 
     @NotNull
@@ -56,27 +57,34 @@ public class Task {
     @ColumnInfo(name = "duration")
     private int duration = 1;
 
-    //represent the Category ID , which this Task have
-    public long taskCategoryId;
-
     @NotNull
     @ColumnInfo(name = "deadline")
     private LocalDate deadline;
 
-    // For the case of a fixed Task, otherwise is null and false
-    // TODO the relation between the Entities definition
+    @NotNull
+    @ColumnInfo(name = "isTaskFixed")
+    private boolean isTaskFixed;
+
+    @NotNull
+    @ColumnInfo(name = "isTaskSoftFixed")
+    private boolean isTaskSoftFixed;
+
+    //represent the Category ID , which this Task have
+    @NotNull
+    @ColumnInfo(name = "T_categoryID")
+    public long T_categoryId;
+
+    //represent the CategoryBlock, where the task is being done
+    //It may be fixed or changed dynamically
+    @NotNull
+    @ColumnInfo(name = "T_categoryBlockID")
+    public long T_categoryBlockId;
+
     @Ignore
     private CategoryBlock categoryBlock;
 
     @Ignore
     private Category category;
-
-    @Ignore
-    private User user;
-
-    @NotNull
-    @ColumnInfo(name = "isTaskFixed")
-    private boolean isTaskFixed;
 
     /* /////////////////////Constructors/////////////////////////// */
 
@@ -91,14 +99,14 @@ public class Task {
      *
      * @param name         the name
      * @param description  the description
-     * @param taskCategory the category Id
+     * @param category the category Id
      * @param duration     the duration
      * @param deadline     the deadline
      */
-    protected Task(String name, String description, Category taskCategory, int duration, LocalDate deadline) {
+    protected Task(String name, String description, Category category, int duration, LocalDate deadline) {
         this.name = name;
         this.description = description;
-        this.taskCategoryId = taskCategory.categoryId;
+        this.T_categoryId = category.categoryId;
         this.duration = duration;
         this.deadline = deadline;
         this.categoryBlock = null;
@@ -106,6 +114,7 @@ public class Task {
     }
 
     /*Test for RecyclerView*/
+    @Ignore
     public Task(String name) {
         this.name = name;
     }
@@ -123,7 +132,8 @@ public class Task {
     protected Task(String name, String description, Category taskCategory, int duration, LocalDate deadline, CategoryBlock categoryBlock) {
         this.name = name;
         this.description = description;
-        this.taskCategoryId = taskCategory.categoryId;
+        this.T_categoryId = taskCategory.categoryId;
+        this.T_categoryBlockId = categoryBlock.getCatBlockId();
         this.duration = duration;
         this.deadline = deadline;
         this.categoryBlock = categoryBlock;
@@ -246,7 +256,7 @@ public class Task {
      * @return the category
      */
     public long getCategory() {
-        return taskCategoryId;
+        return T_categoryId;
     }
 
     /**
@@ -295,13 +305,32 @@ public class Task {
     }
 
     /**
-     * Sets Is task fixed boolean.
+     * Is task soft fixed boolean.
      *
-     * @param isTaskFixed
+     * @return the boolean
      */
-    public void isTaskFixed(boolean isTaskFixed){
-        this.isTaskFixed = isTaskFixed;
+    public boolean isTaskSoftFixed() {
+        return isTaskSoftFixed;
     }
+
+    /**
+     * Sets task fixed.
+     *
+     * @param taskFixed the task fixed
+     */
+    public void setTaskFixed(boolean taskFixed) {
+        isTaskFixed = taskFixed;
+    }
+
+    /**
+     * Sets task soft fixed.
+     *
+     * @param taskSoftFixed the task soft fixed
+     */
+    public void setTaskSoftFixed(boolean taskSoftFixed) {
+        isTaskSoftFixed = taskSoftFixed;
+    }
+
 
     /* /////////////////////Methods///////////////////////// */
 
@@ -313,7 +342,7 @@ public class Task {
      * @throws TaskFixException      the task fix exception
      * @throws TaskDeadlineException the task deadline exception
      */
-    protected boolean fixTaskToCategoryBlock(CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
+    protected boolean fixTaskToCategoryBlock(@NotNull CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
         boolean result = false;
 
         if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(this.deadline))
@@ -386,7 +415,6 @@ public class Task {
      * Duration is being changed, if the new duration does not fit the assigned Category Block, it will be unassigned.
      *
      * @param duration the duration
-     * @throws TaskFixException the task fix exception
      */
     public void setDuration(int duration) {
         if(this.isTaskFixed && this.categoryBlock != null)
@@ -416,9 +444,18 @@ public class Task {
         return "Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", categoryId=" + taskCategoryId +
+                ", categoryId=" + T_categoryId +
                 ", duration=" + duration +
                 ", taskCreator=" +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Task task) {
+        int cmp = (this.deadline.getYear() - task.deadline.getYear());
+        if (cmp == 0) {
+            cmp = (this.deadline.getDayOfYear() - this.deadline.getDayOfYear());
+        }
+        return cmp;
     }
 }

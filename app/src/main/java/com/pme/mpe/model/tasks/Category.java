@@ -39,6 +39,8 @@ public class Category {
     @ColumnInfo(name = "categoryId")
     public long categoryId;
 
+    @NotNull
+    @ColumnInfo(name = "version")
     private int version;
 
     @NotNull
@@ -57,11 +59,14 @@ public class Category {
     @ColumnInfo(name = "color")
     private String color;
 
+    // represent the User Id create this Cat
+    @NotNull
+    @ColumnInfo(name = "userID")
+    public long catUserId;
+
     @Ignore
     private User user;
 
-    // represent the User Id create this Cat
-    public long catUserId;
 
     @Ignore
     private List<Task> taskList;
@@ -90,6 +95,8 @@ public class Category {
         this.color = color;
         this.taskList = new ArrayList<>();
         this.categoryBlockList = new ArrayList<>();
+
+        CategoryBlock cb = new CategoryBlock(this);
     }
 
     /* /////////////////////Getter/Setter///////////////////////// */
@@ -229,6 +236,24 @@ public class Category {
         return categoryBlockList;
     }
 
+    /**
+     * Sets category block list.
+     *
+     * @param categoryBlockList the category block list
+     */
+    public void setCategoryBlockList(List<CategoryBlock> categoryBlockList) {
+        this.categoryBlockList = categoryBlockList;
+    }
+
+    /**
+     * Sets task list.
+     *
+     * @param taskList the task list
+     */
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
+    }
+
     /* /////////////////////Methods///////////////////////// */
 
     /**
@@ -239,10 +264,11 @@ public class Category {
      * @param duration    the duration
      * @param deadline    the deadline
      */
-    public void createAndAssignTaskToCategory(String name, String description, int duration, LocalDate deadline)
+    public Task createAndAssignTaskToCategory(String name, String description, int duration, LocalDate deadline)
     {
         Task createdTask = new Task(name, description, this, duration, deadline);
         this.taskList.add(createdTask);
+        return createdTask;
     }
 
     /**
@@ -326,7 +352,7 @@ public class Category {
      * @throws CategoryBlockException the category block exception
      * @throws TimeException          the time exception
      */
-public void addCategoryBlock(String title, LocalDate date, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
+    public CategoryBlock addCategoryBlock(String title, LocalDate date, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
 
         if(areTheGivenHoursValid(startTimeHour, endTimeHour))
         {
@@ -346,7 +372,7 @@ public void addCategoryBlock(String title, LocalDate date, int startTimeHour, in
                     {
                         CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
                         this.categoryBlockList.add(cb);
-                        break;
+                        return cb;
                     }
                     else {
                         slotFound = false;
@@ -365,6 +391,7 @@ public void addCategoryBlock(String title, LocalDate date, int startTimeHour, in
                 {
                     CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
                     this.categoryBlockList.add(cb);
+                    return cb;
                 }
                 else {
                     Log.w(LOG_TAG, "The given Time Interferes whit another Category Block");
@@ -375,8 +402,10 @@ public void addCategoryBlock(String title, LocalDate date, int startTimeHour, in
             {
                 CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
                 this.categoryBlockList.add(cb);
+                return cb;
             }
         }
+        return null;
     }
 
     /**
@@ -387,8 +416,11 @@ public void addCategoryBlock(String title, LocalDate date, int startTimeHour, in
      * @throws TaskFixException the task fix exception
      */
     public void deleteCategoryBlock(CategoryBlock categoryBlock) throws TaskFixException {
-        categoryBlock.prepareCategoryBlockToBeDeleted();
-        this.categoryBlockList.remove(categoryBlock);
+        if(!categoryBlock.isDefaultCB())
+        {
+            categoryBlock.prepareCategoryBlockToBeDeleted();
+            this.categoryBlockList.remove(categoryBlock);
+        }
     }
 
     /**
@@ -473,14 +505,16 @@ public void addCategoryBlock(String title, LocalDate date, int startTimeHour, in
     public void updateStartAndEndTimeFromACategoryBlock(CategoryBlock categoryBlock, int newStartingTime, int newEndTime)
             throws CategoryBlockException, TimeException {
 
-        if(isItPossibleToChangeTimeOnCategoryBlock(categoryBlock, newStartingTime, newEndTime))
+        if(!categoryBlock.isDefaultCB())
         {
-            //If it does not interfere with another Category Block, save the change
-            int indexOfGivenCategoryBlock = this.getCategoryBlockList().indexOf(categoryBlock);
-            this.getCategoryBlockList().get(indexOfGivenCategoryBlock).setStartTimeHour(newStartingTime);
-            this.getCategoryBlockList().get(indexOfGivenCategoryBlock).setEndTimeHour(newEndTime);
+            if(isItPossibleToChangeTimeOnCategoryBlock(categoryBlock, newStartingTime, newEndTime))
+            {
+                //If it does not interfere with another Category Block, save the change
+                int indexOfGivenCategoryBlock = this.getCategoryBlockList().indexOf(categoryBlock);
+                this.getCategoryBlockList().get(indexOfGivenCategoryBlock).setStartTimeHour(newStartingTime);
+                this.getCategoryBlockList().get(indexOfGivenCategoryBlock).setEndTimeHour(newEndTime);
+            }
         }
-
     }
 
     /**
@@ -539,13 +573,66 @@ public void addCategoryBlock(String title, LocalDate date, int startTimeHour, in
 
     /**
      * Auto assign tasks boolean.
+     * None fitting task whit the given category blocks, are to be added to the Default Category Block of a Category
      *
      * @return the boolean
      */
-    public boolean autoAssignTasks()
+    public void autoAssignTasks()
     {
+        removeAllSoftFixedTasksFromCB();
 
-        return true;
+        Collections.sort(taskList);
+
+        for (int i = 0; i < this.taskList.size(); i++) {
+            //Only relevant for not fixed tasks
+            if(!taskList.get(i).isTaskFixed())
+            {
+                Collections.sort(categoryBlockList);
+
+                boolean categoryBlockFound = false;
+                int defaultCBPosition = 0;
+
+                for (int j = 0; j < categoryBlockList.size(); j++) {
+
+                    if(!categoryBlockList.get(j).isDefaultCB())
+                    {
+                        //Is the deadline in bounds
+                        if(categoryBlockList.get(j).isTheDeadlineInBoundOfCategoryBlock(taskList.get(i).getDeadline()))
+                        {
+                            //Is enough time on category Block?
+                            if(categoryBlockList.get(j).isEnoughTimeForATaskAvailable(taskList.get(i)))
+                            {
+                                //Add task to the soft fixed tasks of the found block
+                                taskList.get(i).setTaskSoftFixed(true);
+                                categoryBlockList.get(j).addTaskToSoftFixedTasks(taskList.get(i));
+                                categoryBlockFound = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        defaultCBPosition = j;
+                    }
+                }
+                //Assign to default CB if not a better place was found
+                if(!categoryBlockFound)
+                {
+                    taskList.get(i).setTaskSoftFixed(true);
+                    categoryBlockList.get(defaultCBPosition).addTaskToSoftFixedTasks(taskList.get(i));
+                }
+            }
+        }
+    }
+
+    private void removeAllSoftFixedTasksFromCB()
+    {
+        for (int i = 0; i < this.categoryBlockList.size(); i++) {
+            for (int j = this.categoryBlockList.get(i).getTemporallyAssignedTasks().size(); j >= 0 ; j--) {
+                this.categoryBlockList.get(i).getTemporallyAssignedTasks().get(j).setTaskSoftFixed(false);
+                this.categoryBlockList.get(i).getTemporallyAssignedTasks().remove(j);
+            }
+        }
     }
 
     /* /////////////////////Overrides/////////////////////////// */

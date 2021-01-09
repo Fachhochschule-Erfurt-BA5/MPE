@@ -1,5 +1,6 @@
 package com.pme.mpe.storage.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,6 +12,7 @@ import com.pme.mpe.model.relations.CategoryBlockHaveTasks;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Dao
@@ -34,8 +36,14 @@ public interface CategoryBlockDao {
     @Query("SELECT * FROM CategoryBlock")
     List<CategoryBlock> getCategoryBlocks();
 
-    @Query("SELECT * FROM CategoryBlock ORDER BY startTimeHour ASC")
-    List<CategoryBlock> getCategoryBlocksSortByStartTimeHour();
+    @Query("SELECT * FROM CategoryBlock WHERE CB_CategoryId = :catId")
+    List<CategoryBlock> getCategoryBlocksFromACategory(Long catId);
+
+    @Query("SELECT * FROM CategoryBlock WHERE date = :queryDate ORDER BY startTimeHour ASC")
+    List<CategoryBlock> getCategoryBlocksInAGivenDayAndOrderByStartHour(LocalDate queryDate);
+
+    @Query("SELECT * FROM CategoryBlock WHERE CB_CategoryId = :catId and date = :queryDate ORDER BY startTimeHour ASC")
+    List<CategoryBlock> getCategoryBlockFromDayAndCategoryAndOrderByStartHour(Long catId, LocalDate queryDate);
 
     @Query("SELECT * FROM CategoryBlock ORDER BY id DESC LIMIT 1")
     CategoryBlock getLastCategoryBlockAdded();
@@ -43,9 +51,12 @@ public interface CategoryBlockDao {
     @Query("SELECT * FROM CategoryBlock WHERE endTimeHour < :search")
     List<CategoryBlock> getCategoryBlocksForDeadline(int search);
 
+    @Transaction
+    @Query("SELECT * FROM CategoryBlock WHERE ")
+    CategoryBlockHaveTasks getAllTasksFromAGivenCategoryBlock(CategoryBlock categoryBlock);
 
     // Query for Task CatBlock Relation
     @Transaction
     @Query("SELECT * FROM CategoryBlock")
-    List<CategoryBlockHaveTasks> getTasksForCategoryBlock();
+    LiveData<List<CategoryBlockHaveTasks>> getCategoryBlocksWhitTasks();
 }

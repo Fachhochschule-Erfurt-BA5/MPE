@@ -31,6 +31,8 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     @ColumnInfo(name = "id")
     public long catBlockId;
 
+    @NotNull
+    @ColumnInfo(name = "version")
     private int version;
 
     @NotNull
@@ -57,11 +59,12 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     @ColumnInfo(name = "endTimeHour")
     private int endTimeHour;
 
-    // represent the Category Id, where this block belong
-    public long catCatBlockId;
+    @NotNull
+    @ColumnInfo(name = "isDefaultCB")
+    private boolean isDefaultCB;
 
-    //represent the Category Block ID , which this Task belong to
-    public long taskCatBlockId;
+    //Represent the Category Id, where this block belong
+    public long CB_CategoryId;
 
     @Ignore
     public Category category;
@@ -70,9 +73,12 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     @Ignore
     private List<Task> assignedTasks;
 
+    //For the soft fixed tasks
+    @Ignore
+    private List<Task> temporallyAssignedTasks;
+
     /* /////////////////////Constructors/////////////////////////// */
-    public CategoryBlock() {
-    }
+    public CategoryBlock() {}
 
     /**
      * Instantiates a new Category block.
@@ -85,19 +91,36 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     protected CategoryBlock(String title, Category category, LocalDate date, int startTimeHour, int endTimeHour) {
         this.title = title;
         this.category = category;
+        this.catBlockId = category.getCategoryId();
         this.date = date;
         this.startTimeHour = startTimeHour;
         this.endTimeHour = endTimeHour;
         this.assignedTasks = new ArrayList<>();
+        this.isDefaultCB = false;
+    }
+
+    /**
+     * Instantiates a new Default Category block.
+     * Each Category has only one Default Category Block, where all the non fitting task are put
+     *
+     * @param category the category
+     */
+    protected CategoryBlock(Category category)
+    {
+        this.title = "Default CB";
+        this.category = category;
+        this.catBlockId = category.getCategoryId();
+        this.isDefaultCB = true;
     }
 
     /*Test for RecyclerView*/
-    public CategoryBlock(String title,List<Task> assignedTasks) {
+    public CategoryBlock(String title, List<Task> assignedTasks) {
         this.title = title;
         this.assignedTasks = assignedTasks;
     }
 
     /* /////////////////////Getter/Setter///////////////////////// */
+
 
     /**
      * Gets category.
@@ -228,6 +251,69 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
         this.updated = updated;
     }
 
+    /**
+     * Gets title.
+     *
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets title.
+     *
+     * @param title the title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Gets cat block id.
+     *
+     * @return the cat block id
+     */
+    public long getCatBlockId() {
+        return catBlockId;
+    }
+
+    /**
+     * Sets cat block id.
+     *
+     * @param catBlockId the cat block id
+     */
+    public void setCatBlockId(long catBlockId) {
+        this.catBlockId = catBlockId;
+    }
+
+    /**
+     * Is default cb boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isDefaultCB() {
+        return isDefaultCB;
+    }
+
+    /**
+     * Gets temporally assigned tasks.
+     *
+     * @return the temporally assigned tasks
+     */
+    public List<Task> getTemporallyAssignedTasks() {
+        return temporallyAssignedTasks;
+    }
+
+    /**
+     * Sets default cb.
+     *
+     * @param defaultCB the default cb
+     */
+    public void setDefaultCB(boolean defaultCB) {
+        isDefaultCB = defaultCB;
+    }
+
     /* /////////////////////Methods///////////////////////// */
 
     /**
@@ -235,9 +321,22 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      *
      * @param task the task
      */
-    protected void addTaskToFixedTasks(Task task)
+    public void addTaskToFixedTasks(Task task)
     {
-        this.assignedTasks.add(task);
+        if(!this.isDefaultCB)
+        {
+            this.assignedTasks.add(task);
+        }
+    }
+
+    /**
+     * Add task to fixed tasks.
+     *
+     * @param task the task
+     */
+    public void addTaskToSoftFixedTasks(Task task)
+    {
+        this.temporallyAssignedTasks.add(task);
     }
 
     /**
@@ -257,13 +356,20 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      */
     public int returnRemainingFreeTimeOnSlot()
     {
-        int totalFreeTimeOnSlot = this.endTimeHour - this.startTimeHour;
+        if(!isDefaultCB)
+        {
+            int totalFreeTimeOnSlot = this.endTimeHour - this.startTimeHour;
 
-        for (int i = 0; i < this.assignedTasks.size(); i++) {
-            totalFreeTimeOnSlot = totalFreeTimeOnSlot - assignedTasks.get(i).getDuration();
+            for (int i = 0; i < this.assignedTasks.size(); i++) {
+                totalFreeTimeOnSlot = totalFreeTimeOnSlot - assignedTasks.get(i).getDuration();
+            }
+
+            return totalFreeTimeOnSlot;
         }
-
-        return totalFreeTimeOnSlot;
+        else
+        {
+            return 100000;
+        }
     }
 
     /**
@@ -315,14 +421,21 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      */
     public boolean isTheDeadlineInBoundOfCategoryBlock(LocalDate taskDate)
     {
-        if(this.date.getYear() >= taskDate.getYear())
+        if(!isDefaultCB)
         {
-            if(this.date.getMonthValue() >= taskDate.getMonthValue())
+            if(this.date.getYear() >= taskDate.getYear())
             {
-                return this.date.getDayOfMonth() >= taskDate.getDayOfMonth();
+                if(this.date.getMonthValue() >= taskDate.getMonthValue())
+                {
+                    return this.date.getDayOfMonth() >= taskDate.getDayOfMonth();
+                }
             }
+            return false;
         }
-        return false;
+        else
+        {
+            return true;
+        }
     }
 
     /**
@@ -353,23 +466,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
                 '}';
     }
 
-    /**
-     * Gets title.
-     *
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
 
-    /**
-     * Sets title.
-     *
-     * @param title the title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
 
 

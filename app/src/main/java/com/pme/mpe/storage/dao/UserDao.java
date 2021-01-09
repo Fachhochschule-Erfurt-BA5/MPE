@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.pme.mpe.model.relations.CategoryHaveTasks;
 import com.pme.mpe.model.relations.UserCategoryRelation;
 import com.pme.mpe.model.user.User;
 
