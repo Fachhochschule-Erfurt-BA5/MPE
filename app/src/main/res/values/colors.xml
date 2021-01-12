@@ -34,4 +34,7 @@
     <color name="color12">#FFFFFF</color>
     /*-------------------------------------------*/
 
+    <color name="splash_color">#0382d3</color>
+
+
 </resources>
