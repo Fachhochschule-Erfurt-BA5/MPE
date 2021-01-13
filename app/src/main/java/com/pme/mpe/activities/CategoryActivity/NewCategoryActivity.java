@@ -11,17 +11,29 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.pme.mpe.R;
+import com.pme.mpe.model.tasks.Category;
 
 public class NewCategoryActivity extends AppCompatActivity {
+    private EditText categoryName;
+    private ImageButton categoryColor;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+
+    private final View.OnClickListener saveCategoryClickListener = v -> {
+
+        if( v.getId() == R.id.save_category) {
+            Category newCategory = new Category(null, categoryName.getText().toString(),"test");
+
+        }
+    };
+
+
+        protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_category);
 
-        ImageButton categoryColor = findViewById(R.id.category_color_btn);
-        EditText categoryName = findViewById(R.id.category_name_input);
-        Button categorySave = findViewById(R.id.save_category);
+        Button saveCategory = findViewById(R.id.save_category);
+        saveCategory.setOnClickListener(this.saveCategoryClickListener);
     }
 }
