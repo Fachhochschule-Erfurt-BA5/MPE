@@ -1,4 +1,4 @@
-package com.pme.mpe;
+package com.pme.mpe.ui.block;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.CategoryBlock;
 
 import java.util.List;
