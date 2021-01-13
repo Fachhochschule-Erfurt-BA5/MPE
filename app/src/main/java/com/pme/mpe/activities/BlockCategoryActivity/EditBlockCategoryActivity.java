@@ -1,4 +1,4 @@
 package com.pme.mpe.activities.BlockCategoryActivity;
 
-public class NewCategoryActivity {
+public class EditBlockCategoryActivity {
 }

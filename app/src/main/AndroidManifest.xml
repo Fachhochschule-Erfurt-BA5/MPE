@@ -22,7 +22,14 @@
         <activity android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MPE.NoActionBar"/>
-
+        <activity
+            android:name=".activities.TaskActivity.NewTaskActivity"
+            android:theme="@style/Theme.MPE.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activities.CategoryActivity.NewCategoryActivity"
+            android:theme="@style/Theme.MPE.NoActionBar">
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -1,5 +1,6 @@
 package com.pme.mpe.ui.category;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
+import com.pme.mpe.MainActivity;
 import com.pme.mpe.R;
+import com.pme.mpe.activities.CategoryActivity.NewCategoryActivity;
+import com.pme.mpe.activities.TaskActivity.NewTaskActivity;
 
 import java.util.List;
 
 public class CategoryFragment extends Fragment {
 
     private CategoryViewModel categoryViewModel;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +66,18 @@ public class CategoryFragment extends Fragment {
             }
         });
 
+        MaterialCardView addCategoryActivity = root.findViewById(R.id.category_grid_add);
+        addCategoryActivity.setOnClickListener(this.addButtonClickListener);
+
         return root;
     }
+
+    private final View.OnClickListener addButtonClickListener = v -> {
+
+        if( v.getId() == R.id.category_grid_add)
+        {
+            Intent newTaskIntent = new Intent(getContext(), NewCategoryActivity.class);
+            startActivity(newTaskIntent);
+        }
+    };
 }
