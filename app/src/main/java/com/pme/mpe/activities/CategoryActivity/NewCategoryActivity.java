@@ -18,13 +18,14 @@ import com.pme.mpe.model.tasks.Category;
 public class NewCategoryActivity extends AppCompatActivity {
     private EditText categoryName;
     private ImageButton categoryColor;
+    private NewCategoryActivityViewModel newCategoryActivityViewModel;
 
 
     private final View.OnClickListener saveCategoryClickListener = v -> {
 
         if( v.getId() == R.id.save_category) {
             Category newCategory = new Category(null, categoryName.getText().toString(),"test");
-
+            newCategoryActivityViewModel.saveCategory(newCategory);
         }
     };
 

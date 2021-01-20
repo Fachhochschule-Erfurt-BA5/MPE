@@ -1,12 +1,16 @@
 package com.pme.mpe.ui.category;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.pme.mpe.model.tasks.Category;
+import com.pme.mpe.storage.repository.TasksPackageRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,12 +18,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class CategoryViewModel extends ViewModel {
+public class CategoryViewModel extends AndroidViewModel {
+
+    private final TasksPackageRepository tasksPackageRepository;
 
     private MutableLiveData<List<String>> gCategoryList;
     private MutableLiveData<List<String>> gBlockList;
 
-    public CategoryViewModel() {
+    public CategoryViewModel (@NonNull Application application) {
+        super(application);
+        this.tasksPackageRepository = TasksPackageRepository.getRepository(application);
         gCategoryList = new MutableLiveData<>();
         gBlockList = new MutableLiveData<>();
         List<String> listCategory = new ArrayList<>();
@@ -45,5 +53,9 @@ public class CategoryViewModel extends ViewModel {
     }
     public LiveData<List<String>> getBlock() {
         return gBlockList;
+    }
+
+    public LiveData<List<Category>> getCategories() {
+        return this.tasksPackageRepository.getCategoriesLiveData();
     }
 }
