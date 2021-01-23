@@ -21,13 +21,15 @@ public class CategoryFragment extends Fragment {
 
     private CategoryViewModel categoryViewModel;
 
+    public Category categories[];
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_category, container, false);
         GridView gridView = (GridView) root.findViewById(R.id.category_grid_layout);
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this, categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories);
 
         MaterialCardView addCategoryActivity = root.findViewById(R.id.category_grid_add);
         addCategoryActivity.setOnClickListener(this.addButtonClickListener);
