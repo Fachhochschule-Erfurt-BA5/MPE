@@ -24,7 +24,7 @@ public class NewCategoryActivity extends AppCompatActivity {
     private final View.OnClickListener saveCategoryClickListener = v -> {
 
         if( v.getId() == R.id.save_category) {
-            Category newCategory = new Category(null, categoryName.getText().toString(),"test");
+            Category newCategory = new Category(1, categoryName.getText().toString(),"test");
             newCategoryActivityViewModel.saveCategory(newCategory);
         }
     };

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "24bd5250792ea2495cef33d4dd864c9f",
+    "identityHash": "d3d925e0470cf621d39544b4792f48c1",
     "entities": [
       {
         "tableName": "Category",
@@ -62,7 +62,7 @@
       },
       {
         "tableName": "CategoryBlock",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `version` INTEGER NOT NULL, `title` TEXT NOT NULL, `created` TEXT NOT NULL, `updated` TEXT NOT NULL, `date` TEXT, `startTimeHour` INTEGER NOT NULL, `endTimeHour` INTEGER NOT NULL, `isDefaultCB` INTEGER NOT NULL, `CB_CategoryId` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `version` INTEGER NOT NULL, `title` TEXT NOT NULL, `created` TEXT NOT NULL, `updated` TEXT NOT NULL, `date` TEXT NOT NULL, `startTimeHour` INTEGER NOT NULL, `endTimeHour` INTEGER NOT NULL, `isDefaultCB` INTEGER NOT NULL, `CB_CategoryId` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "catBlockId",
@@ -98,7 +98,7 @@
             "fieldPath": "date",
             "columnName": "date",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "startTimeHour",
@@ -298,7 +298,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '24bd5250792ea2495cef33d4dd864c9f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd3d925e0470cf621d39544b4792f48c1')"
     ]
   }
 }

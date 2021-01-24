@@ -7,7 +7,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.google.android.material.button.MaterialButton;
 import com.pme.mpe.model.tasks.exceptions.CategoryBlockException;
 import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
@@ -29,12 +28,11 @@ import java.util.List;
 @Entity
 public class Category {
 
-    /**
-     * The constant LOG_TAG.
-     */
+    @Ignore
     public static final String LOG_TAG = "Category";
 
     /* /////////////////////Attributes///////////////////////// */
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "categoryId")
     public long categoryId;
@@ -62,11 +60,7 @@ public class Category {
     // represent the User Id create this Cat
     @NotNull
     @ColumnInfo(name = "userID")
-    public long catUserId;
-
-    @Ignore
-    private User user;
-
+    public long userId;
 
     @Ignore
     private List<Task> taskList;
@@ -78,180 +72,99 @@ public class Category {
 
     /**
      * Instantiates a new Category.
-     */
-    public Category() {
-    }
-
-    /**
-     * Instantiates a new Category.
      *
-     * @param user         the user
+     * @param userId       the user id
      * @param categoryName the category name
      * @param color        the color
      */
-    public Category(User user, String categoryName, String color) {
-        this.user = user;
+    public Category(long userId, String categoryName, String color) {
+        this.userId = userId;
         this.categoryName = categoryName;
         this.color = color;
         this.taskList = new ArrayList<>();
         this.categoryBlockList = new ArrayList<>();
 
         CategoryBlock cb = new CategoryBlock(this);
+        this.categoryBlockList.add(cb);
     }
 
     /* /////////////////////Getter/Setter///////////////////////// */
 
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
     public long getCategoryId() {
         return categoryId;
     }
 
-    /**
-     * Sets id.
-     *
-     * @param categoryId the id
-     */
     public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
 
-    /**
-     * Gets version.
-     *
-     * @return the version
-     */
     public int getVersion() {
         return version;
     }
 
-    /**
-     * Sets version.
-     *
-     * @param version the version
-     */
     public void setVersion(int version) {
         this.version = version;
     }
 
-    /**
-     * Gets created.
-     *
-     * @return the created
-     */
+    @NotNull
     public LocalDate getCreated() {
         return created;
     }
 
-    /**
-     * Sets created.
-     *
-     * @param created the created
-     */
-    public void setCreated(LocalDate created) {
+    public void setCreated(@NotNull LocalDate created) {
         this.created = created;
     }
 
-    /**
-     * Gets updated.
-     *
-     * @return the updated
-     */
+    @NotNull
     public LocalDate getUpdated() {
         return updated;
     }
 
-    /**
-     * Sets updated.
-     *
-     * @param updated the updated
-     */
-    public void setUpdated(LocalDate updated) {
+    public void setUpdated(@NotNull LocalDate updated) {
         this.updated = updated;
     }
 
-    /**
-     * Gets user.
-     *
-     * @return the user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Gets category name.
-     *
-     * @return the category name
-     */
+    @NotNull
     public String getCategoryName() {
         return categoryName;
     }
 
-    /**
-     * Sets category name.
-     *
-     * @param categoryName the category name
-     */
-    public void setCategoryName(String categoryName) {
+    public void setCategoryName(@NotNull String categoryName) {
         this.categoryName = categoryName;
     }
 
-    /**
-     * Gets color.
-     *
-     * @return the color
-     */
+    @NotNull
     public String getColor() {
         return color;
     }
 
-    /**
-     * Sets color.
-     *
-     * @param color the color
-     */
-    public void setColor(String color) {
+    public void setColor(@NotNull String color) {
         this.color = color;
     }
 
-    /**
-     * Gets task list.
-     *
-     * @return the task list
-     */
+    @NotNull
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(@NotNull long userId) {
+        this.userId = userId;
+    }
+
     public List<Task> getTaskList() {
         return taskList;
     }
 
-    /**
-     * Gets category block list.
-     *
-     * @return the category block list
-     */
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
+    }
+
     public List<CategoryBlock> getCategoryBlockList() {
         return categoryBlockList;
     }
 
-    /**
-     * Sets category block list.
-     *
-     * @param categoryBlockList the category block list
-     */
     public void setCategoryBlockList(List<CategoryBlock> categoryBlockList) {
         this.categoryBlockList = categoryBlockList;
-    }
-
-    /**
-     * Sets task list.
-     *
-     * @param taskList the task list
-     */
-    public void setTaskList(List<Task> taskList) {
-        this.taskList = taskList;
     }
 
     /* /////////////////////Methods///////////////////////// */
@@ -266,7 +179,7 @@ public class Category {
      */
     public Task createAndAssignTaskToCategory(String name, String description, int duration, LocalDate deadline)
     {
-        Task createdTask = new Task(name, description, this, duration, deadline);
+        Task createdTask = new Task(name, description, this.categoryId, duration, deadline);
         this.taskList.add(createdTask);
         return createdTask;
     }
@@ -283,14 +196,14 @@ public class Category {
      * @throws TaskFixException      the task fix exception
      * @throws TaskDeadlineException the task deadline exception
      */
-    public boolean createdFixedTaskAndAssignToCategoryBlock(String name, String description, int duration, LocalDate deadline, CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
+    public Task createdFixedTaskAndAssignToCategoryBlock(String name, String description, int duration, LocalDate deadline, CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
+        Task createdTask = new Task(name, description, this.categoryId, duration, deadline, categoryBlock.getCatBlockId(), categoryBlock);
+        this.taskList.add(createdTask);
+
         if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(deadline))
         {
-            Task createdTask = new Task(name, description, this, duration, deadline, categoryBlock);
-
             if(categoryBlock.isEnoughTimeForATaskAvailable(createdTask))
             {
-                this.taskList.add(createdTask);
                 categoryBlock.addTaskToFixedTasks(createdTask);
             }
             else
@@ -305,7 +218,7 @@ public class Category {
             throw new TaskDeadlineException("Deadline is before the Category Block");
         }
 
-        return true;
+        return createdTask;
     }
 
     /**
@@ -342,6 +255,24 @@ public class Category {
         task.unfixTaskFromCategoryBlock();
     }
 
+    /**
+     * Gets default category block.
+     *
+     * @return the default category block
+     */
+    public CategoryBlock getDefaultCategoryBlock()
+    {
+        CategoryBlock defaultCB = null;
+
+        for (int i = 0; i < this.categoryBlockList.size(); i++) {
+            if (this.categoryBlockList.get(i).getTitle() == "Default CB")
+            {
+                defaultCB = this.categoryBlockList.get(i);
+            }
+        }
+
+        return defaultCB;
+    }
 
     /**
      * Add category block taking into account the surrounding Category Blocks
@@ -368,9 +299,9 @@ public class Category {
 
                 for (int i = 0; i < categoryBlocksOnDay.size(); i++) {
                     //Check that start time does not intercede whit another Category Block
-                    if(startTimeHour >= this.getCategoryBlockList().get(i).getEndTimeHour() && endTimeHour <= this.getCategoryBlockList().get(i+1).getStartTimeHour())
+                    if(startTimeHour >= categoryBlocksOnDay.get(i).getEndTimeHour() && endTimeHour <= categoryBlocksOnDay.get(i+1).getStartTimeHour())
                     {
-                        CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
+                        CategoryBlock cb = new CategoryBlock(title,this.getCategoryId(), date, startTimeHour, endTimeHour);
                         this.categoryBlockList.add(cb);
                         return cb;
                     }
@@ -387,9 +318,9 @@ public class Category {
             //If there is only one category block for that day
             else if (categoryBlocksOnDay.size() == 1)
             {
-                if(startTimeHour >= this.getCategoryBlockList().get(0).getEndTimeHour() || endTimeHour <= this.getCategoryBlockList().get(0).getStartTimeHour())
+                if(startTimeHour >= categoryBlocksOnDay.get(0).getEndTimeHour() || endTimeHour <= categoryBlocksOnDay.get(0).getStartTimeHour())
                 {
-                    CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
+                    CategoryBlock cb = new CategoryBlock(title,this.getCategoryId(), date, startTimeHour, endTimeHour);
                     this.categoryBlockList.add(cb);
                     return cb;
                 }
@@ -400,7 +331,7 @@ public class Category {
             }
             else if (categoryBlocksOnDay.size() == 0)
             {
-                CategoryBlock cb = new CategoryBlock(title,this, date, startTimeHour, endTimeHour);
+                CategoryBlock cb = new CategoryBlock(title,this.getCategoryId(), date, startTimeHour, endTimeHour);
                 this.categoryBlockList.add(cb);
                 return cb;
             }
@@ -646,7 +577,6 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "user=" + user +
                 ", categoryName='" + categoryName + '\'' +
                 ", taskList=" + taskList +
                 ", categoryBlockList=" + categoryBlockList +

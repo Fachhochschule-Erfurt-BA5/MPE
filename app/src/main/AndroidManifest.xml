@@ -3,13 +3,15 @@
     package="com.pme.mpe">
 
     <application
+        android:name=".core.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MPE"
-        android:name=".core.MainApplication">
+        android:testOnly="false"
+        android:theme="@style/Theme.MPE">
+
 
         <activity
             android:name=".SplashActivity">
@@ -19,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MPE.NoActionBar"/>
@@ -26,10 +29,12 @@
             android:name=".activities.TaskActivity.NewTaskActivity"
             android:theme="@style/Theme.MPE.NoActionBar">
         </activity>
+
         <activity
             android:name=".activities.CategoryActivity.NewCategoryActivity"
             android:theme="@style/Theme.MPE.NoActionBar">
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

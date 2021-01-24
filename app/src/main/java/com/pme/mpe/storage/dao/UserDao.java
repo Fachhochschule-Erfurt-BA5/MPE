@@ -16,13 +16,13 @@ import java.util.List;
 public interface UserDao {
 
     @Insert
-    void insert(User... users);
+    long insert(User user);
 
     @Update
-    void update(User... users);
+    void update(User user);
 
     @Delete
-    void delete(User... users);
+    void delete(User user);
 
     @Query("DELETE FROM User")
     void deleteAll();
@@ -40,7 +40,7 @@ public interface UserDao {
     User getLastUserAdded();
 
     @Query("SELECT * FROM User WHERE userId LIKE :search")
-    List<User> getUsersForId(long search);
+    User getUserForId(long search);
 
     // Query for the relation between the User and Category
     @Transaction

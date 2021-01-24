@@ -24,7 +24,8 @@ import java.util.stream.Collectors;
 public class TasksPackageRepository {
     public static final String LOG_TAG = "TasksPackageRepository";
 
-    Application application;
+    //Application application;
+
     private TasksPackageDao tasksPackageDao;
 
     private LiveData<List<Category>> allCategories;
@@ -49,9 +50,9 @@ public class TasksPackageRepository {
     }
 
     //////////////////Constructor//////////////////
-    private TasksPackageRepository(Context context)
+    private TasksPackageRepository(Application application)
     {
-        ToDoDatabase db = ToDoDatabase.getDatabase(context);
+        ToDoDatabase db = ToDoDatabase.getDatabase(application);
         this.tasksPackageDao = db.tasksPackageDao();
 
         this.getCategoryBlocksLiveData();

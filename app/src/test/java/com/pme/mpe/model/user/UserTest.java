@@ -16,7 +16,7 @@ public class UserTest {
         User testUser = new User("Max", "Mustermann", "test@mail.com", "verySecurePassword", "No-Profile-Image");
 
         //Step 1 (Add Category)
-        Category testCategory = new Category(testUser, "Test Category", "FFFFFF");
+        Category testCategory = new Category(testUser.getUserId(), "Test Category", "FFFFFF");
         testUser.addOneCategoryToUserCategories(testCategory);
         assertTrue(testUser.getUserCategories().size() > 0);
 
@@ -29,7 +29,7 @@ public class UserTest {
     public void aThrowableShouldBeThrownWhenTryingToDeleteANonExistingCategory() throws CategoryException {
         //Given
         User testUser = new User("Max", "Mustermann", "test@mail.com", "verySecurePassword", "No-Profile-Image");
-        Category testCategory = new Category(testUser, "Test Category", "FFFFFF");
+        Category testCategory = new Category(testUser.getUserId(), "Test Category", "FFFFFF");
 
         //Assertion Step
         testUser.removeOneCategoryFromUserCategories(testCategory);
@@ -39,8 +39,8 @@ public class UserTest {
     public void aCategoryMayBeUpdated() throws CategoryException {
         //Given
         User testUser = new User("Max", "Mustermann", "test@mail.com", "verySecurePassword", "No-Profile-Image");
-        Category oldCategory = new Category(testUser, "Test Category", "FFFFFF");
-        Category newCategory = new Category(testUser, "Updated Category", "FFFFFF");
+        Category oldCategory = new Category(testUser.getUserId(), "Test Category", "FFFFFF");
+        Category newCategory = new Category(testUser.getUserId(), "Updated Category", "FFFFFF");
         testUser.addOneCategoryToUserCategories(oldCategory);
 
         //Update Category

@@ -15,26 +15,23 @@ import com.pme.mpe.model.util.PasswordHashing;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * The type User.
- */
 @Entity
 public class User {
 
-    /**
-     * The constant LOG_TAG.
-     */
+    @Ignore
     public static final String LOG_TAG = "User";
-    /**
-     * The constant SALT_LENGTH.
-     */
+
+    @Ignore
     public static final int SALT_LENGTH = 30;
 
     /* /////////////////////Attributes///////////////////////// */
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "userId")
-    public long userId;
+    private long userId;
 
+    @NotNull
+    @ColumnInfo(name = "version")
     private long version;
 
     @NotNull
@@ -61,7 +58,6 @@ public class User {
     @ColumnInfo(name = "profileImageUrl")
     private String profileImageUrl;
 
-
     //For managing the password security
     @NotNull
     @ColumnInfo(name = "salt")
@@ -78,22 +74,16 @@ public class User {
     /* /////////////////////Constructors/////////////////////////// */
 
     /**
-     * Instantiates a new User.
-     */
-    public User() {
-    }
-
-    /**
      * Instantiates a new User. And creates the salt for the user
      * Creates as well a secure Password with given salt
      *
      * @param firstName         the first name
      * @param lastName          the last name
      * @param email             the email
-     * @param notSecurePassword the not secure password
+     * @param securePassword    the not secure password
      * @param profileImageUrl   the profile image url
      */
-    public User(String firstName, String lastName, String email, String notSecurePassword, String profileImageUrl) {
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email, @NotNull String securePassword, @NotNull String profileImageUrl) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -102,160 +92,82 @@ public class User {
 
         //Generate the Random salt and create the secure password
         this.salt = PasswordHashing.getSalt(SALT_LENGTH);
-        this.securePassword = PasswordHashing.generateSecurePassword(notSecurePassword, salt);
+        this.securePassword = PasswordHashing.generateSecurePassword(securePassword, salt);
     }
 
     /* /////////////////////Getter/Setter///////////////////////// */
 
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
     public long getUserId() {
         return userId;
     }
 
-    /**
-     * Sets id.
-     *
-     * @param userId the id
-     */
     public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    /**
-     * Gets version.
-     *
-     * @return the version
-     */
     public long getVersion() {
         return version;
     }
 
-    /**
-     * Sets version.
-     *
-     * @param version the version
-     */
     public void setVersion(long version) {
         this.version = version;
     }
 
-    /**
-     * Gets created.
-     *
-     * @return the created
-     */
+    @NotNull
     public LocalDate getCreated() {
         return created;
     }
 
-    /**
-     * Sets created.
-     *
-     * @param created the created
-     */
-    public void setCreated(LocalDate created) {
+    public void setCreated(@NotNull LocalDate created) {
         this.created = created;
     }
 
-    /**
-     * Gets updated.
-     *
-     * @return the updated
-     */
+    @NotNull
     public LocalDate getUpdated() {
         return updated;
     }
 
-    /**
-     * Sets updated.
-     *
-     * @param updated the updated
-     */
-    public void setUpdated(LocalDate updated) {
+    public void setUpdated(@NotNull LocalDate updated) {
         this.updated = updated;
     }
 
-    /**
-     * Gets first name.
-     *
-     * @return the first name
-     */
+    @NotNull
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * Sets first name.
-     *
-     * @param firstName the first name
-     */
-    public void setFirstName(String firstName) {
+    public void setFirstName(@NotNull String firstName) {
         this.firstName = firstName;
     }
 
-    /**
-     * Gets last name.
-     *
-     * @return the last name
-     */
+    @NotNull
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * Sets last name.
-     *
-     * @param lastName the last name
-     */
-    public void setLastName(String lastName) {
+    public void setLastName(@NotNull String lastName) {
         this.lastName = lastName;
     }
 
-    /**
-     * Gets email.
-     *
-     * @return the email
-     */
+    @NotNull
     public String getEmail() {
         return email;
     }
 
-    /**
-     * Sets email.
-     *
-     * @param email the email
-     */
-    public void setEmail(String email) {
+    public void setEmail(@NotNull String email) {
         this.email = email;
     }
 
-    /**
-     * Gets profile image url.
-     *
-     * @return the profile image url
-     */
+    @NotNull
     public String getProfileImageUrl() {
         return profileImageUrl;
     }
 
-    /**
-     * Sets profile image url.
-     *
-     * @param profileImageUrl the profile image url
-     */
-    public void setProfileImageUrl(String profileImageUrl) {
+    public void setProfileImageUrl(@NotNull String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
 
-    /**
-     * Gets salt.
-     *
-     * @return the salt
-     */
+    @NotNull
     public String getSalt() {
         return salt;
     }
@@ -263,11 +175,16 @@ public class User {
     public void setSalt(@NotNull String salt) {
         this.salt = salt;
     }
-    /**
-     * Gets secure password.
-     *
-     * @return the secure password
-     */
+
+    public List<Category> getUserCategories() {
+        return userCategories;
+    }
+
+    public void setUserCategories(List<Category> userCategories) {
+        this.userCategories = userCategories;
+    }
+
+    @NotNull
     public String getSecurePassword() {
         return securePassword;
     }
@@ -278,27 +195,9 @@ public class User {
      *
      * @param notSecurePassword the not secure password coming from the frontend
      */
-    public void setSecurePassword(String notSecurePassword) {
+    public void setSecurePassword(@NotNull String notSecurePassword) {
         this.salt = PasswordHashing.getSalt(SALT_LENGTH);
         this.securePassword = PasswordHashing.generateSecurePassword(notSecurePassword, salt);
-    }
-
-    /**
-     * Gets user categories.
-     *
-     * @return the user categories
-     */
-    public List<Category> getUserCategories() {
-        return userCategories;
-    }
-
-    /**
-     * Sets user categories.
-     *
-     * @param userCategories the user categories
-     */
-    public void setUserCategories(List<Category> userCategories) {
-        this.userCategories = userCategories;
     }
 
     /* /////////////////////Methods///////////////////////// */

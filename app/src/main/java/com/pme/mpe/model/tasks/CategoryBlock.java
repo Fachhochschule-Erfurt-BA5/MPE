@@ -21,9 +21,7 @@ import java.util.List;
 @Entity
 public class CategoryBlock implements Comparable<CategoryBlock>{
 
-    /**
-     * The constant LOG_TAG.
-     */
+    @Ignore
     public static final String LOG_TAG = "CategoryBlock";
 
     /* /////////////////////Attributes///////////////////////// */
@@ -47,15 +45,12 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     @ColumnInfo(name = "updated")
     private LocalDate updated;
 
-    @NotNull
     @ColumnInfo(name = "date")
     private LocalDate date;
 
-    @NotNull
     @ColumnInfo(name = "startTimeHour")
     private int startTimeHour;
 
-    @NotNull
     @ColumnInfo(name = "endTimeHour")
     private int endTimeHour;
 
@@ -64,10 +59,9 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     private boolean isDefaultCB;
 
     //Represent the Category Id, where this block belong
+    @NotNull
+    @ColumnInfo(name = "CB_CategoryId")
     public long CB_CategoryId;
-
-    @Ignore
-    public Category category;
 
     //For the hard fixed tasks
     @Ignore
@@ -78,20 +72,19 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     private List<Task> temporallyAssignedTasks;
 
     /* /////////////////////Constructors/////////////////////////// */
-    public CategoryBlock() {}
 
     /**
      * Instantiates a new Category block.
      *
-     * @param category      the category
+     * @param title         the title
+     * @param CB_CategoryId the category id
      * @param date          the date
      * @param startTimeHour the start time hour
      * @param endTimeHour   the end time hour
      */
-    protected CategoryBlock(String title, Category category, LocalDate date, int startTimeHour, int endTimeHour) {
+    public CategoryBlock(String title, long CB_CategoryId, LocalDate date, int startTimeHour, int endTimeHour) {
         this.title = title;
-        this.category = category;
-        this.catBlockId = category.getCategoryId();
+        this.CB_CategoryId = CB_CategoryId;
         this.date = date;
         this.startTimeHour = startTimeHour;
         this.endTimeHour = endTimeHour;
@@ -108,11 +101,12 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     protected CategoryBlock(Category category)
     {
         this.title = "Default CB";
-        this.category = category;
+        this.CB_CategoryId = category.getCategoryId();
         this.catBlockId = category.getCategoryId();
         this.isDefaultCB = true;
     }
 
+    //TODO:Bitte das löschen sobald es möglich ist
     /*Test for RecyclerView*/
     public CategoryBlock(String title, List<Task> assignedTasks) {
         this.title = title;
@@ -121,197 +115,103 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
 
     /* /////////////////////Getter/Setter///////////////////////// */
 
-
-    /**
-     * Gets category.
-     *
-     * @return the category
-     */
-    public Category getCategory() {
-        return category;
+    public long getCatBlockId() {
+        return catBlockId;
     }
 
-    /**
-     * Gets date.
-     *
-     * @return the date
-     */
-    public LocalDate getDate() {
-        return date;
+    public void setCatBlockId(long catBlockId) {
+        this.catBlockId = catBlockId;
     }
 
-    /**
-     * Sets date.
-     *
-     * @param date the date
-     */
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-
-    /**
-     * Gets version.
-     *
-     * @return the version
-     */
     public int getVersion() {
         return version;
     }
 
-    /**
-     * Sets version.
-     *
-     * @param version the version
-     */
     public void setVersion(int version) {
         this.version = version;
     }
 
-    /**
-     * Gets start time hour.
-     *
-     * @return the start time hour
-     */
-    public int getStartTimeHour() {
-        return startTimeHour;
+    @NotNull
+    public String getTitle() {
+        return title;
     }
 
-    /**
-     * Sets start time hour.
-     *
-     * @param startTimeHour the start time hour
-     */
-    public void setStartTimeHour(int startTimeHour) {
-        this.startTimeHour = startTimeHour;
+    public void setTitle(@NotNull String title) {
+        this.title = title;
     }
 
-    /**
-     * Gets end time hour.
-     *
-     * @return the end time hour
-     */
-    public int getEndTimeHour() {
-        return endTimeHour;
-    }
-
-    /**
-     * Sets end time hour.
-     *
-     * @param endTimeHour the end time hour
-     */
-    public void setEndTimeHour(int endTimeHour) {
-        this.endTimeHour = endTimeHour;
-    }
-
-    /**
-     * Gets assigned tasks.
-     *
-     * @return the assigned tasks
-     */
-    public List<Task> getAssignedTasks() {
-        return assignedTasks;
-    }
-
-    /**
-     * Gets created.
-     *
-     * @return the created
-     */
     @NotNull
     public LocalDate getCreated() {
         return created;
     }
 
-    /**
-     * Sets created.
-     *
-     * @param created the created
-     */
     public void setCreated(@NotNull LocalDate created) {
         this.created = created;
     }
 
-    /**
-     * Gets updated.
-     *
-     * @return the updated
-     */
     @NotNull
     public LocalDate getUpdated() {
         return updated;
     }
 
-    /**
-     * Sets updated.
-     *
-     * @param updated the updated
-     */
     public void setUpdated(@NotNull LocalDate updated) {
         this.updated = updated;
     }
 
-    /**
-     * Gets title.
-     *
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
+    public LocalDate getDate() {
+        return date;
     }
 
-    /**
-     * Sets title.
-     *
-     * @param title the title
-     */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    /**
-     * Gets cat block id.
-     *
-     * @return the cat block id
-     */
-    public long getCatBlockId() {
-        return catBlockId;
+    public int getStartTimeHour() {
+        return startTimeHour;
     }
 
-    /**
-     * Sets cat block id.
-     *
-     * @param catBlockId the cat block id
-     */
-    public void setCatBlockId(long catBlockId) {
-        this.catBlockId = catBlockId;
+    public void setStartTimeHour(int startTimeHour) {
+        this.startTimeHour = startTimeHour;
     }
 
-    /**
-     * Is default cb boolean.
-     *
-     * @return the boolean
-     */
+    public int getEndTimeHour() {
+        return endTimeHour;
+    }
+
+    public void setEndTimeHour(int endTimeHour) {
+        this.endTimeHour = endTimeHour;
+    }
+
     public boolean isDefaultCB() {
         return isDefaultCB;
     }
 
-    /**
-     * Gets temporally assigned tasks.
-     *
-     * @return the temporally assigned tasks
-     */
+    public void setDefaultCB(boolean defaultCB) {
+        isDefaultCB = defaultCB;
+    }
+
+    public long getCB_CategoryId() {
+        return CB_CategoryId;
+    }
+
+    public void setCB_CategoryId(long CB_CategoryId) {
+        this.CB_CategoryId = CB_CategoryId;
+    }
+
+    public List<Task> getAssignedTasks() {
+        return assignedTasks;
+    }
+
+    public void setAssignedTasks(List<Task> assignedTasks) {
+        this.assignedTasks = assignedTasks;
+    }
+
     public List<Task> getTemporallyAssignedTasks() {
         return temporallyAssignedTasks;
     }
 
-    /**
-     * Sets default cb.
-     *
-     * @param defaultCB the default cb
-     */
-    public void setDefaultCB(boolean defaultCB) {
-        isDefaultCB = defaultCB;
+    public void setTemporallyAssignedTasks(List<Task> temporallyAssignedTasks) {
+        this.temporallyAssignedTasks = temporallyAssignedTasks;
     }
 
     /* /////////////////////Methods///////////////////////// */
@@ -462,7 +362,6 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
                 "date=" + date +
                 ", startTimeHour=" + startTimeHour +
                 ", endTimeHour=" + endTimeHour +
-                ", category=" + category +
                 '}';
     }
 

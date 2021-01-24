@@ -83,36 +83,27 @@ public class Task implements Comparable<Task>{
     @Ignore
     private CategoryBlock categoryBlock;
 
-    @Ignore
-    private Category category;
-
     /* /////////////////////Constructors/////////////////////////// */
-
-    /**
-     * Instantiates a new Task.
-     */
-    public Task() {
-    }
 
     /**
      * Instantiates a new Task which is neither fixed or shared.
      *
      * @param name         the name
      * @param description  the description
-     * @param category the category Id
+     * @param T_categoryId the category id
      * @param duration     the duration
      * @param deadline     the deadline
      */
-    protected Task(String name, String description, Category category, int duration, LocalDate deadline) {
+    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline) {
         this.name = name;
         this.description = description;
-        this.T_categoryId = category.categoryId;
+        this.T_categoryId = T_categoryId;
         this.duration = duration;
         this.deadline = deadline;
-        this.categoryBlock = null;
         this.isTaskFixed = false;
     }
 
+    //TODO:Bitte das löschen sobald es möglich ist
     /*Test for RecyclerView*/
     @Ignore
     public Task(String name) {
@@ -122,215 +113,130 @@ public class Task implements Comparable<Task>{
     /**
      * Instantiates a new Task which is fixed to a Category Block.
      *
-     * @param name          the name
-     * @param description   the description
-     * @param taskCategory  the category
-     * @param duration      the duration
-     * @param deadline      the deadline
-     * @param categoryBlock the category block
+     * @param name              the name
+     * @param description       the description
+     * @param T_categoryId      the t category id
+     * @param duration          the duration
+     * @param deadline          the deadline
+     * @param T_categoryBlockId the category block id
      */
-    protected Task(String name, String description, Category taskCategory, int duration, LocalDate deadline, CategoryBlock categoryBlock) {
+    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline, long T_categoryBlockId, CategoryBlock categoryBlock) {
         this.name = name;
         this.description = description;
-        this.T_categoryId = taskCategory.categoryId;
-        this.T_categoryBlockId = categoryBlock.getCatBlockId();
+        this.T_categoryId = T_categoryId;
+        this.T_categoryBlockId = T_categoryBlockId;
         this.duration = duration;
         this.deadline = deadline;
-        this.categoryBlock = categoryBlock;
         this.isTaskFixed = true;
+        this.categoryBlock = categoryBlock;
     }
 
     /* /////////////////////Getter/Setter///////////////////////// */
 
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
     public long getId() {
         return id;
     }
 
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
     public void setId(long id) {
         this.id = id;
     }
 
-    /**
-     * Gets version.
-     *
-     * @return the version
-     */
     public int getVersion() {
         return version;
     }
 
-    /**
-     * Sets version.
-     *
-     * @param version the version
-     */
     public void setVersion(int version) {
         this.version = version;
     }
 
-    /**
-     * Gets created.
-     *
-     * @return the created
-     */
+    @NotNull
     public LocalDate getCreated() {
         return created;
     }
 
-    /**
-     * Sets created.
-     *
-     * @param created the created
-     */
-    public void setCreated(LocalDate created) {
+    public void setCreated(@NotNull LocalDate created) {
         this.created = created;
     }
 
-    /**
-     * Gets updated.
-     *
-     * @return the updated
-     */
+    @NotNull
     public LocalDate getUpdated() {
         return updated;
     }
 
-    /**
-     * Sets updated.
-     *
-     * @param updated the updated
-     */
-    public void setUpdated(LocalDate updated) {
+    public void setUpdated(@NotNull LocalDate updated) {
         this.updated = updated;
     }
 
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
+    @NotNull
     public String getName() {
         return name;
     }
 
-    /**
-     * Sets name.
-     *
-     * @param name the name
-     */
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
-    /**
-     * Gets description.
-     *
-     * @return the description
-     */
+    @NotNull
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Sets description.
-     *
-     * @param description the description
-     */
-    public void setDescription(String description) {
+    public void setDescription(@NotNull String description) {
         this.description = description;
     }
 
-    /**
-     * Gets category.
-     *
-     * @return the category
-     */
-    public long getCategory() {
-        return T_categoryId;
-    }
-
-    /**
-     * Gets duration.
-     *
-     * @return the duration
-     */
     public int getDuration() {
         return duration;
     }
 
-    /**
-     * Gets deadline.
-     *
-     * @return the deadline
-     */
+    @NotNull
     public LocalDate getDeadline() {
         return deadline;
     }
 
-    /**
-     * Sets deadline.
-     *
-     * @param deadline the deadline
-     */
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(@NotNull LocalDate deadline) {
         this.deadline = deadline;
     }
 
-    /**
-     * Gets category block.
-     *
-     * @return the category block
-     */
-    public CategoryBlock getCategoryBlock() {
-        return categoryBlock;
-    }
-
-    /**
-     * Is task fixed boolean.
-     *
-     * @return the boolean
-     */
     public boolean isTaskFixed() {
         return isTaskFixed;
     }
 
-    /**
-     * Is task soft fixed boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isTaskSoftFixed() {
-        return isTaskSoftFixed;
-    }
-
-    /**
-     * Sets task fixed.
-     *
-     * @param taskFixed the task fixed
-     */
     public void setTaskFixed(boolean taskFixed) {
         isTaskFixed = taskFixed;
     }
 
-    /**
-     * Sets task soft fixed.
-     *
-     * @param taskSoftFixed the task soft fixed
-     */
+    public boolean isTaskSoftFixed() {
+        return isTaskSoftFixed;
+    }
+
     public void setTaskSoftFixed(boolean taskSoftFixed) {
         isTaskSoftFixed = taskSoftFixed;
     }
 
+    public long getT_categoryId() {
+        return T_categoryId;
+    }
+
+    public void setT_categoryId(long t_categoryId) {
+        T_categoryId = t_categoryId;
+    }
+
+    public long getT_categoryBlockId() {
+        return T_categoryBlockId;
+    }
+
+    public void setT_categoryBlockId(long t_categoryBlockId) {
+        T_categoryBlockId = t_categoryBlockId;
+    }
+
+    public CategoryBlock getCategoryBlock() {
+        return categoryBlock;
+    }
+
+    public void setCategoryBlock(CategoryBlock categoryBlock) {
+        this.categoryBlock = categoryBlock;
+    }
 
     /* /////////////////////Methods///////////////////////// */
 
