@@ -51,6 +51,8 @@
     <string name="blocks">Blocks</string>
     <string name="home">Home</string>
     <string name="splash_text">TO DO IS TO BE</string>
+    <string name="confirm">Confirm</string>
+
 
 
 </resources>

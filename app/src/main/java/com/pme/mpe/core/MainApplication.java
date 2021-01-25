@@ -3,15 +3,15 @@ package com.pme.mpe.core;
 import android.app.Application;
 import android.util.Log;
 
+import com.pme.mpe.activities.CategoryActivity.NewCategoryActivityViewModel;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.user.User;
-import com.pme.mpe.storage.repository.TasksPackageRepository;
 import com.pme.mpe.storage.repository.UserRepository;
-
-import java.util.List;
 
 public class MainApplication extends Application {
     public static final String LOG_TAG = "AppClass";
+
+
 
     @Override
     public void onCreate() {
@@ -28,8 +28,8 @@ public class MainApplication extends Application {
 
         UserRepository userRepository = new UserRepository(this);
 
-        User DBTrigger = new User("a", "a","a", "a", "a");
-
+        User DBTrigger = new User("aa", "aa","aa", "aaa", "aaa");
         userRepository.insert(DBTrigger);
+
     }
 }
