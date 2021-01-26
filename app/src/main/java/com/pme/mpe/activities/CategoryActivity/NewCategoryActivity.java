@@ -20,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.pme.mpe.MainActivity;
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.storage.dao.ColorSelectorDialog;
@@ -38,8 +39,6 @@ public class NewCategoryActivity extends AppCompatActivity {
         if (v.getId() == R.id.save_category) {
             Category newCategory = new Category(4, categoryName.getText().toString(), categoryHex.getText().toString());
             newCategoryActivityViewModel.saveCategory(newCategory);
-            Intent categoryFragmentIntent = new Intent(this, CategoryFragment.class);
-            startActivity(categoryFragmentIntent);
         }
 
     };
