@@ -60,24 +60,24 @@ public class NewCategoryActivity extends AppCompatActivity {
         hexEditText.setTextColor(0);
         //CharSequence hexColor_argb = Integer.toHexString(4294967295);
         //String hexColor = "#" + hexColor_argb.charAt(2) + hexColor_argb.charAt(3) + hexColor_argb.charAt(4) + hexColor_argb.charAt(5) + hexColor_argb.charAt(6) + hexColor_argb.charAt(7);
-        hexEditText.setText("#FFFFFF");
+        hexEditText.setText("#ffffff");
         SeekBar[] colorSeekbars = new SeekBar[3];
 
         final SeekBar seekBarRed = (SeekBar) layout.findViewById(R.id.color_seekBar_red);
         final TextView red_text = (TextView) layout.findViewById(R.id.color_red_text);
-        seekBarRed.setProgress(Color.red(0));
+        seekBarRed.setProgress(Color.red(255));
         red_text.setText(String.format(getResources().getConfiguration().locale, format, Color.red(0)));
         colorSeekbars[0] = seekBarRed;
 
         final SeekBar seekBarGreen = (SeekBar) layout.findViewById(R.id.color_seekBar_green);
         final TextView green_text = (TextView) layout.findViewById(R.id.color_green_text);
-        seekBarGreen.setProgress(Color.green(0));
+        seekBarGreen.setProgress(Color.green(255));
         green_text.setText(String.format(getResources().getConfiguration().locale, format, Color.green(0)));
         colorSeekbars[1] = seekBarGreen;
 
         final SeekBar seekBarBlue = (SeekBar) layout.findViewById(R.id.color_seekBar_blue);
         final TextView blue_text = (TextView) layout.findViewById(R.id.color_blue_text);
-        seekBarBlue.setProgress(Color.blue(0));
+        seekBarBlue.setProgress(Color.blue(255));
         blue_text.setText(String.format(getResources().getConfiguration().locale, format, Color.blue(0)));
         colorSeekbars[2] = seekBarBlue;
 
