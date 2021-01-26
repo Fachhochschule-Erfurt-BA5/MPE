@@ -11,8 +11,7 @@
         android:id="@+id/color_preview_card"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:cardBackgroundColor="@color/grey"
-        app:cardCornerRadius="20dp">
+        app:cardBackgroundColor="@color/grey">
 
         <TextView
             android:id="@+id/color_preview_text"
