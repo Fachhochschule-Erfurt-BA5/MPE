@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:overScrollMode="never">
-    <GridLayout
+    android:orientation="vertical"
+    tools:context=".ui.category.CategoryFragment">
+
+    <GridView
         android:id="@+id/category_grid_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:columnCount="2"
-        android:layout_margin="16dp">
+        android:layout_width="fill_parent"
+        android:layout_height="550dp"
+        android:footerDividersEnabled="false"
+        android:horizontalSpacing="-15dp"
+        android:numColumns="2"
+        android:verticalSpacing="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-          <com.google.android.material.card.MaterialCardView
-            android:id="@+id/category_grid_add"
-            android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardBackgroundColor="@color/grey"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="8dp">
 
-            <LinearLayout
-                android:id="@+id/category_grid_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:orientation="vertical">
+    </GridView>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/category_grid_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
-                    tools:text="+" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/category_grid_add"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/primaryColor"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/category_grid_layout"
+        app:layout_constraintVertical_bias="0.0">
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/category_grid_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:paddingTop="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Add Category" />
 
-    </GridLayout>
-</ScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

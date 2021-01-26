@@ -28,31 +28,7 @@ public class CategoryViewModel extends AndroidViewModel {
     public CategoryViewModel (@NonNull Application application) {
         super(application);
         this.tasksPackageRepository = TasksPackageRepository.getRepository(application);
-        gCategoryList = new MutableLiveData<>();
-        gBlockList = new MutableLiveData<>();
-        List<String> listCategory = new ArrayList<>();
-        List<String> nListBlock = new ArrayList<>();
 
-        listCategory.add("Study");
-        listCategory.add("Fitness");
-        listCategory.add("Cooking");
-        listCategory.add("Work");
-        listCategory.add("Travel");
-        listCategory.add("+");
-        nListBlock.add("25 Blocks");
-        nListBlock.add("5 Blocks");
-        nListBlock.add("10 Blocks");
-        nListBlock.add("35 Blocks");
-        nListBlock.add("15 Blocks");
-        gCategoryList.setValue(listCategory);
-        gBlockList.setValue(nListBlock);
-    }
-
-    public LiveData<List<String>> getCategory() {
-        return gCategoryList;
-    }
-    public LiveData<List<String>> getBlock() {
-        return gBlockList;
     }
 
     public LiveData<List<Category>> getCategories() {

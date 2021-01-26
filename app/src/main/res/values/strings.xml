@@ -52,7 +52,6 @@
     <string name="home">Home</string>
     <string name="splash_text">TO DO IS TO BE</string>
     <string name="confirm">Confirm</string>
-
-
+    <string name="addCategory">Add Category</string>
 
 </resources>
