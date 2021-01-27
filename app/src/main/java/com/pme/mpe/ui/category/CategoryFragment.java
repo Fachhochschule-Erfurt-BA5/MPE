@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 
-import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
 import com.pme.mpe.activities.CategoryActivity.NewCategoryActivity;
 import com.pme.mpe.model.tasks.Category;
+import com.pme.mpe.storage.repository.TasksPackageRepository;
 
 import java.util.List;
 
@@ -25,23 +25,28 @@ public class CategoryFragment extends Fragment {
 
     private CategoryViewModel categoryViewModel;
     private AppCompatTextView categoryAdd;
+    private TasksPackageRepository tasksPackageRepository;
     public List<Category> categories;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        tasksPackageRepository = new TasksPackageRepository(categoryViewModel.getApplication());
         View root = inflater.inflate(R.layout.fragment_category, container, false);
         GridView gridView = (GridView) root.findViewById(R.id.category_grid_layout);
-        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories, tasksPackageRepository);
         gridView.setAdapter(categoryAdapter);
 
         categoryViewModel.getCategories().observe(this.requireActivity(),categoryAdapter::setCategories);
+
 
         categoryAdd = root.findViewById(R.id.category_grid_text);
         categoryAdd.setText(R.string.addCategory);
         LinearLayoutCompat addCategoryActivity = root.findViewById(R.id.category_grid_add);
         addCategoryActivity.setOnClickListener(this.addButtonClickListener);
+
 
         return root;
     }
@@ -54,4 +59,7 @@ public class CategoryFragment extends Fragment {
             startActivity(newCategoryIntent);
         }
     };
+
+
+
 }

@@ -50,7 +50,7 @@ public class TasksPackageRepository {
     }
 
     //////////////////Constructor//////////////////
-    private TasksPackageRepository(Application application)
+    public TasksPackageRepository(Application application)
     {
         ToDoDatabase db = ToDoDatabase.getDatabase(application);
         this.tasksPackageDao = db.tasksPackageDao();
@@ -142,6 +142,14 @@ public class TasksPackageRepository {
         task.setVersion(1);
 
         ToDoDatabase.execute( () -> tasksPackageDao.insertTask(task));
+    }
+
+
+
+    //test to delete a category (Hamza Harti)
+    public void deleteCategory(Category category)
+    {
+        ToDoDatabase.execute( () -> tasksPackageDao.deleteCategory(category));
     }
 
 

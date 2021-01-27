@@ -21,4 +21,5 @@ public class NewCategoryActivityViewModel extends AndroidViewModel {
     {
         this.tasksPackageRepository.insertCategory(category);
     }
+
 }

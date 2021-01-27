@@ -22,8 +22,6 @@ public class CategoryViewModel extends AndroidViewModel {
 
     private final TasksPackageRepository tasksPackageRepository;
 
-    private MutableLiveData<List<String>> gCategoryList;
-    private MutableLiveData<List<String>> gBlockList;
 
     public CategoryViewModel (@NonNull Application application) {
         super(application);
@@ -33,5 +31,10 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public LiveData<List<Category>> getCategories() {
         return this.tasksPackageRepository.getCategoriesLiveData();
+    }
+
+    public void deleteCategory (Category category)
+    {
+        this.tasksPackageRepository.deleteCategory(category);
     }
 }
