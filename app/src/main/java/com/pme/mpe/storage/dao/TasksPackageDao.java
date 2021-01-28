@@ -51,6 +51,10 @@ public interface TasksPackageDao {
     @Delete
     void deleteTask (Task task);
 
+    //Id helpers
+    @Query("SELECT categoryId from Category ORDER BY categoryId DESC LIMIT 1")
+    long getLastCategoryId();
+
     //Live Data Queries
     @Transaction
     @Query("SELECT * FROM Category")
@@ -58,5 +62,5 @@ public interface TasksPackageDao {
 
     @Transaction
     @Query("SELECT * FROM CategoryBlock")
-    LiveData<List<CategoryBlockHaveTasks>> getCategoryBlocksWhitTasks();
+    LiveData<List<CategoryBlockHaveTasks>> getCategoryBlocksWithTasks();
 }

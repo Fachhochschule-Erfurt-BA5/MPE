@@ -1,7 +1,7 @@
 package com.pme.mpe.storage.repository;
 
 import android.app.Application;
-import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -80,7 +80,7 @@ public class TasksPackageRepository {
         if(this.allCategoryBlocks == null)
         {
             this.allCategoryBlocks = Transformations.map(
-                    this.queryLiveData(this.tasksPackageDao::getCategoryBlocksWhitTasks),
+                    this.queryLiveData(this.tasksPackageDao::getCategoryBlocksWithTasks),
                     input -> input
                             .stream()
                             .map(CategoryBlockHaveTasks::merge)
@@ -110,10 +110,27 @@ public class TasksPackageRepository {
         category.setUpdated(category.getCreated());
         category.setVersion(1);
 
-        //Add the default Category Block
-        ToDoDatabase.execute( () -> tasksPackageDao.insertCategoryBlock(category.getCategoryBlockList().get(0)));
+        long catId = 0;
 
-        ToDoDatabase.execute( () -> tasksPackageDao.insertCategory(category));
+        try {
+            catId = ToDoDatabase.executeWithReturn( () -> tasksPackageDao.insertCategory( category ) );
+        }
+        catch (ExecutionException | InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        Log.i( LOG_TAG, "Just inserted Category ID: " + catId);
+
+        //Prepare the default Category block to be saved
+        CategoryBlock cb = category.getDefaultCategoryBlock();
+        cb.setCB_CategoryId(catId);
+        cb.setCreated(LocalDate.now());
+        cb.setUpdated(cb.getCreated());
+        cb.setVersion(1);
+
+        //Save the default category block
+        ToDoDatabase.execute( () -> tasksPackageDao.insertCategoryBlock(cb));
     }
 
     /*
@@ -156,5 +173,11 @@ public class TasksPackageRepository {
     public void updateCategory(Category category)
     {
         ToDoDatabase.execute( () -> tasksPackageDao.updateCategory(category));
+    }
+
+    //////////////////Id Helpers//////////////////
+    public long getLastInsertedCategoryId()
+    {
+        return tasksPackageDao.getLastCategoryId();
     }
 }
