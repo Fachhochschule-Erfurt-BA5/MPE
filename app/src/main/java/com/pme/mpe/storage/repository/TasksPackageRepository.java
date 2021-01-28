@@ -152,5 +152,9 @@ public class TasksPackageRepository {
         ToDoDatabase.execute( () -> tasksPackageDao.deleteCategory(category));
     }
 
-
+    //test to update a category (Hamza Harti)
+    public void updateCategory(Category category)
+    {
+        ToDoDatabase.execute( () -> tasksPackageDao.updateCategory(category));
+    }
 }

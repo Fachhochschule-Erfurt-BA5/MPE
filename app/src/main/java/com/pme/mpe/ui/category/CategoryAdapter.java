@@ -35,7 +35,7 @@ public class CategoryAdapter extends BaseAdapter {
 
 
     public int getItemCount() {
-        if( this.categories != null && !this.categories.isEmpty() )
+        if (this.categories != null && !this.categories.isEmpty())
             return this.categories.size();
         else
             return 0;
@@ -43,7 +43,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if( this.categories != null && !this.categories.isEmpty() )
+        if (this.categories != null && !this.categories.isEmpty())
             return this.categories.size();
         else
             return 0;
@@ -64,9 +64,11 @@ public class CategoryAdapter extends BaseAdapter {
         MaterialCardView categoryElement;
         AppCompatTextView categoryBlockNumber;
         ImageButton deleteBtn;
+        ImageButton editBtn;
         LinearLayout updateLayout;
         LinearLayoutCompat contentLayout;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -76,12 +78,13 @@ public class CategoryAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
 
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            convertView = inflater.inflate(R.layout.item_category_grid_element,parent,false);
+            convertView = inflater.inflate(R.layout.item_category_grid_element, parent, false);
 
             viewHolder.categoryName = (AppCompatTextView) convertView.findViewById(R.id.category_grid_name);
             viewHolder.categoryElement = (MaterialCardView) convertView.findViewById(R.id.category_grid_card);
             viewHolder.categoryBlockNumber = (AppCompatTextView) convertView.findViewById(R.id.category_grid_block);
             viewHolder.deleteBtn = (ImageButton) convertView.findViewById(R.id.delete_btn);
+            viewHolder.editBtn = (ImageButton) convertView.findViewById(R.id.edit_btn);
             viewHolder.contentLayout = (LinearLayoutCompat) convertView.findViewById(R.id.content_layout);
             viewHolder.updateLayout = (LinearLayout) convertView.findViewById(R.id.update_layout);
 
@@ -98,33 +101,36 @@ public class CategoryAdapter extends BaseAdapter {
             });
 
 
-
-
-           viewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
-
-
+            viewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                       tasksPackageRepository.deleteCategory(categories.get(position));
+                    tasksPackageRepository.deleteCategory(categories.get(position));
+                }
+            });
+
+            viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    categories.get(position).setCategoryName("testUpdate");
+                    tasksPackageRepository.updateCategory(categories.get(position));
                 }
             });
 
             convertView.setTag(viewHolder);
 
 
-
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
 
         viewHolder.categoryName.setText(categories.get(position).getCategoryName().toUpperCase());
         viewHolder.categoryElement.setCardBackgroundColor(Color.parseColor(categories.get(position).getColor()));
-        viewHolder.categoryBlockNumber.setText(categories.get(position).getCategoryBlockList().size()+" Blocks");
+        viewHolder.categoryBlockNumber.setText(categories.get(position).getCategoryBlockList().size() + " Blocks");
         return convertView;
     }
 
-    public void setCategories(List<Category> categories){
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
         notifyDataSetChanged();
     }

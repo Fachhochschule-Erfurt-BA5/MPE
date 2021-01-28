@@ -11,8 +11,9 @@
         android:id="@+id/category_grid_layout"
         android:layout_width="fill_parent"
         android:layout_height="550dp"
+        android:horizontalSpacing="-35dp"
         android:footerDividersEnabled="false"
-        android:horizontalSpacing="-15dp"
+
         android:numColumns="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
