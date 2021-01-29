@@ -40,6 +40,8 @@ public class NewCategoryActivity extends AppCompatActivity {
             ////////////////WICHTIG!!! LETTER COLOR ist jetzt drin, zurzeit nur als "" gespeichert////////////////////////
             Category newCategory = new Category(4, categoryName.getText().toString(), categoryHex.getText().toString(), "");
             newCategoryActivityViewModel.saveCategory(newCategory);
+            Intent categoryIntent = new Intent(getApplicationContext(), CategoryFragment.class);
+            startActivity(categoryIntent);
         }
 
     };
