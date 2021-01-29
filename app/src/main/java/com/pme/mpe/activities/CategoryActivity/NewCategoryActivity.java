@@ -39,6 +39,8 @@ public class NewCategoryActivity extends AppCompatActivity {
         if (v.getId() == R.id.save_category) {
             Category newCategory = new Category(4, categoryName.getText().toString(), categoryHex.getText().toString());
             newCategoryActivityViewModel.saveCategory(newCategory);
+            Intent categoryIntent = new Intent(getApplicationContext(), CategoryFragment.class);
+            startActivity(categoryIntent);
         }
 
     };
