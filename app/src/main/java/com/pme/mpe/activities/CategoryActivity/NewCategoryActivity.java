@@ -37,7 +37,8 @@ public class NewCategoryActivity extends AppCompatActivity {
     private final View.OnClickListener saveCategoryClickListener = v -> {
 
         if (v.getId() == R.id.save_category) {
-            Category newCategory = new Category(4, categoryName.getText().toString(), categoryHex.getText().toString());
+            ////////////////WICHTIG!!! LETTER COLOR ist jetzt drin, zurzeit nur als "" gespeichert////////////////////////
+            Category newCategory = new Category(4, categoryName.getText().toString(), categoryHex.getText().toString(), "");
             newCategoryActivityViewModel.saveCategory(newCategory);
         }
 

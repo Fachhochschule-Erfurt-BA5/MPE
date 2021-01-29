@@ -1,5 +1,7 @@
 package com.pme.mpe.model.user;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -242,6 +244,35 @@ public class User {
         }
         else{
             throw new CategoryException("Cannot update a Category that a user does not have");
+        }
+    }
+
+    /**
+     * Gets all category blocks from this user for a given date.
+     *
+     * @param date the date
+     * @return the all category blocks for a given date
+     */
+    public List<CategoryBlock> getAllCategoryBlocksFromUserForAGivenDate(LocalDate date, User user)
+    {
+        if(user == this)
+        {
+            List<CategoryBlock> categoryBlocks = new ArrayList<>();
+
+            for (int i = 0; i < this.userCategories.size(); i++) {
+                for (int j = 0; j < this.userCategories.get(i).getCategoryBlockList().size(); j++) {
+                    if(this.userCategories.get(i).getCategoryBlockList().get(j).getDate() == date)
+                    {
+                        categoryBlocks.add(this.userCategories.get(i).getCategoryBlockList().get(j));
+                    }
+                }
+            }
+
+            return categoryBlocks;
+        }
+        else
+        {
+            return null;
         }
     }
 

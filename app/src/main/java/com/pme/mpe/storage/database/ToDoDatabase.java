@@ -116,7 +116,7 @@ public abstract class ToDoDatabase extends RoomDatabase {
                     long userId = userDao.insert(user);
 
                     //Add some Categories
-                    Category category = new Category(userId, "Free Time", "#666666");
+                    Category category = new Category(userId, "Free Time", "#666666", "#000000");
                     category.setCreated(LocalDate.now());
                     category.setUpdated(user.getCreated());
                     category.setVersion(1);
@@ -134,7 +134,7 @@ public abstract class ToDoDatabase extends RoomDatabase {
                     CategoryBlock cb = null;
                     try {
                         cb = category.addCategoryBlock("TestCB", LocalDate.of(2021, Month.FEBRUARY, 16),
-                                                    12, 16);
+                                                    12, 16, user);
                     } catch (CategoryBlockException e) {
                         e.printStackTrace();
                     } catch (TimeException e) {

@@ -57,6 +57,10 @@ public class Category {
     @ColumnInfo(name = "color")
     private String color;
 
+    @NotNull
+    @ColumnInfo(name = "letterColor")
+    private String letterColor;
+
     // represent the User Id create this Cat
     @NotNull
     @ColumnInfo(name = "userID")
@@ -77,10 +81,11 @@ public class Category {
      * @param categoryName the category name
      * @param color        the color
      */
-    public Category(long userId, String categoryName, String color) {
+    public Category(long userId, String categoryName, String color, String letterColor) {
         this.userId = userId;
         this.categoryName = categoryName;
         this.color = color;
+        this.letterColor = letterColor;
         this.taskList = new ArrayList<>();
         this.categoryBlockList = new ArrayList<>();
 
@@ -140,6 +145,15 @@ public class Category {
 
     public void setColor(@NotNull String color) {
         this.color = color;
+    }
+
+    @NotNull
+    public String getLetterColor() {
+        return letterColor;
+    }
+
+    public void setLetterColor(@NotNull String letterColor) {
+        this.letterColor = letterColor;
     }
 
     @NotNull
@@ -270,70 +284,76 @@ public class Category {
                 defaultCB = this.categoryBlockList.get(i);
             }
         }
-
         return defaultCB;
     }
 
     /**
      * Add category block taking into account the surrounding Category Blocks
      *
+     * @param title         the title
      * @param date          the date
      * @param startTimeHour the start time hour
      * @param endTimeHour   the end time hour
+     * @param user          the user
+     * @return the category block
      * @throws CategoryBlockException the category block exception
      * @throws TimeException          the time exception
      */
-    public CategoryBlock addCategoryBlock(String title, LocalDate date, int startTimeHour, int endTimeHour) throws CategoryBlockException, TimeException {
+    public CategoryBlock addCategoryBlock(String title, LocalDate date, int startTimeHour, int endTimeHour, User user) throws CategoryBlockException, TimeException {
 
         if(areTheGivenHoursValid(startTimeHour, endTimeHour))
         {
             //Retrieve all Category Blocks from the required day
-            List<CategoryBlock> categoryBlocksOnDay = getAllCategoryBlocksForAGivenDate(date);
-            //Sort the List with the Starting Time
-            Collections.sort(categoryBlockList);
+            List<CategoryBlock> categoryBlocksOnDay = user.getAllCategoryBlocksFromUserForAGivenDate(date, user);
 
-            //Only if there are more or two Category Blocks in the day
-            if(categoryBlocksOnDay.size() >= 2)
+            if(categoryBlocksOnDay != null)
             {
-                boolean slotFound = true;
+                //Sort the List with the Starting Time
+                Collections.sort(categoryBlockList);
 
-                for (int i = 0; i < categoryBlocksOnDay.size(); i++) {
-                    //Check that start time does not intercede whit another Category Block
-                    if(startTimeHour >= categoryBlocksOnDay.get(i).getEndTimeHour() && endTimeHour <= categoryBlocksOnDay.get(i+1).getStartTimeHour())
+                //Only if there are more or two Category Blocks in the day
+                if(categoryBlocksOnDay.size() >= 2)
+                {
+                    boolean slotFound = true;
+
+                    for (int i = 0; i < categoryBlocksOnDay.size(); i++) {
+                        //Check that start time does not intercede whit another Category Block
+                        if(startTimeHour >= categoryBlocksOnDay.get(i).getEndTimeHour() && endTimeHour <= categoryBlocksOnDay.get(i+1).getStartTimeHour())
+                        {
+                            CategoryBlock cb = new CategoryBlock(title,this.getCategoryId(), date, startTimeHour, endTimeHour);
+                            this.categoryBlockList.add(cb);
+                            return cb;
+                        }
+                        else {
+                            slotFound = false;
+                        }
+                    }
+                    if(!slotFound)
+                    {
+                        Log.w(LOG_TAG, "The given Time Interferes with another Category Block");
+                        throw new CategoryBlockException("The given Time Interferes with another Category Block");
+                    }
+                }
+                //If there is only one category block for that day
+                else if (categoryBlocksOnDay.size() == 1)
+                {
+                    if(startTimeHour >= categoryBlocksOnDay.get(0).getEndTimeHour() || endTimeHour <= categoryBlocksOnDay.get(0).getStartTimeHour())
                     {
                         CategoryBlock cb = new CategoryBlock(title,this.getCategoryId(), date, startTimeHour, endTimeHour);
                         this.categoryBlockList.add(cb);
                         return cb;
                     }
                     else {
-                        slotFound = false;
+                        Log.w(LOG_TAG, "The given Time Interferes whit another Category Block");
+                        throw new CategoryBlockException("The given Time Interferes whit another Category Block");
                     }
                 }
-                if(!slotFound)
-                {
-                    Log.w(LOG_TAG, "The given Time Interferes whit another Category Block");
-                    throw new CategoryBlockException("The given Time Interferes whit another Category Block");
-                }
-            }
-            //If there is only one category block for that day
-            else if (categoryBlocksOnDay.size() == 1)
-            {
-                if(startTimeHour >= categoryBlocksOnDay.get(0).getEndTimeHour() || endTimeHour <= categoryBlocksOnDay.get(0).getStartTimeHour())
+                else if (categoryBlocksOnDay.size() == 0)
                 {
                     CategoryBlock cb = new CategoryBlock(title,this.getCategoryId(), date, startTimeHour, endTimeHour);
                     this.categoryBlockList.add(cb);
                     return cb;
                 }
-                else {
-                    Log.w(LOG_TAG, "The given Time Interferes whit another Category Block");
-                    throw new CategoryBlockException("The given Time Interferes whit another Category Block");
-                }
-            }
-            else if (categoryBlocksOnDay.size() == 0)
-            {
-                CategoryBlock cb = new CategoryBlock(title,this.getCategoryId(), date, startTimeHour, endTimeHour);
-                this.categoryBlockList.add(cb);
-                return cb;
             }
         }
         return null;
@@ -360,62 +380,66 @@ public class Category {
      * @param categoryBlock   the category block
      * @param newStartingTime the new starting time
      * @param newEndTime      the new end time
+     * @param user            the user
      * @return the boolean
      * @throws CategoryBlockException the category block exception
      * @throws TimeException          the time exception
      */
-    public boolean isItPossibleToChangeTimeOnCategoryBlock(CategoryBlock categoryBlock, int newStartingTime, int newEndTime) throws CategoryBlockException, TimeException {
+    public boolean isItPossibleToChangeTimeOnCategoryBlock(CategoryBlock categoryBlock, int newStartingTime, int newEndTime, User user) throws CategoryBlockException, TimeException {
         boolean result = true;
 
         if(areTheGivenHoursValid(newStartingTime, newEndTime))
         {
             //Get all Category Blocks from the same day
-            List<CategoryBlock> categoryBlocksOnDay = getAllCategoryBlocksForAGivenDate(categoryBlock.getDate());
+            List<CategoryBlock> categoryBlocksOnDay = user.getAllCategoryBlocksFromUserForAGivenDate(categoryBlock.getDate(), user);
 
-            //Sort the List with the Starting Time
-            Collections.sort(categoryBlockList);
-
-            int indexOnSortedList = categoryBlocksOnDay.indexOf(categoryBlock);
-
-            //Comparison whit both the next an the previous Category Blocks
-            if(categoryBlocksOnDay.size() >= 3)
+            if(categoryBlocksOnDay != null)
             {
-                if(categoryBlocksOnDay.get(indexOnSortedList - 1).getEndTimeHour() <= newStartingTime)
-                {
-                    if (categoryBlocksOnDay.get(indexOnSortedList + 1).getStartTimeHour() >= newEndTime)
-                    {
+                //Sort the List with the Starting Time
+                Collections.sort(categoryBlockList);
 
-                    }
-                    else
+                int indexOnSortedList = categoryBlocksOnDay.indexOf(categoryBlock);
+
+                //Comparison whit both the next an the previous Category Blocks
+                if(categoryBlocksOnDay.size() >= 3)
+                {
+                    if(categoryBlocksOnDay.get(indexOnSortedList - 1).getEndTimeHour() <= newStartingTime)
                     {
-                        Log.w(LOG_TAG, "The End Time Interferes whit another Category Block");
-                        throw new CategoryBlockException("The End Time Interferes whit another Category Block");
+                        if (categoryBlocksOnDay.get(indexOnSortedList + 1).getStartTimeHour() >= newEndTime)
+                        {
+
+                        }
+                        else
+                        {
+                            Log.w(LOG_TAG, "The End Time Interferes whit another Category Block");
+                            throw new CategoryBlockException("The End Time Interferes whit another Category Block");
+                        }
                     }
-                }
-                else
-                {
-                    Log.w(LOG_TAG, "The Start Time Interferes whit another Category Block");
-                    throw new CategoryBlockException("The Start Time Interferes whit another Category Block");
-                }
-            }
-            else if (categoryBlocksOnDay.size() == 2)
-            {
-                //Just check underneath
-                if(indexOnSortedList == 1)
-                {
-                    if(categoryBlocksOnDay.get(0).getEndTimeHour() <= newStartingTime) {}
                     else
                     {
                         Log.w(LOG_TAG, "The Start Time Interferes whit another Category Block");
                         throw new CategoryBlockException("The Start Time Interferes whit another Category Block");
                     }
                 }
-                else {
-                    if(categoryBlocksOnDay.get(1).getStartTimeHour() >= newEndTime) {}
-                    else
+                else if (categoryBlocksOnDay.size() == 2)
+                {
+                    //Just check underneath
+                    if(indexOnSortedList == 1)
                     {
-                        Log.w(LOG_TAG, "The End Time Interferes whit another Category Block");
-                        throw new CategoryBlockException("The End Time Interferes whit another Category Block");
+                        if(categoryBlocksOnDay.get(0).getEndTimeHour() <= newStartingTime) {}
+                        else
+                        {
+                            Log.w(LOG_TAG, "The Start Time Interferes whit another Category Block");
+                            throw new CategoryBlockException("The Start Time Interferes whit another Category Block");
+                        }
+                    }
+                    else {
+                        if(categoryBlocksOnDay.get(1).getStartTimeHour() >= newEndTime) {}
+                        else
+                        {
+                            Log.w(LOG_TAG, "The End Time Interferes whit another Category Block");
+                            throw new CategoryBlockException("The End Time Interferes whit another Category Block");
+                        }
                     }
                 }
             }
@@ -430,15 +454,16 @@ public class Category {
      * @param categoryBlock   the category block
      * @param newStartingTime the new starting time
      * @param newEndTime      the new end time
+     * @param user            the user
      * @throws CategoryBlockException the category block exception
      * @throws TimeException          the time exception
      */
-    public void updateStartAndEndTimeFromACategoryBlock(CategoryBlock categoryBlock, int newStartingTime, int newEndTime)
+    public void updateStartAndEndTimeFromACategoryBlock(CategoryBlock categoryBlock, int newStartingTime, int newEndTime, User user)
             throws CategoryBlockException, TimeException {
 
         if(!categoryBlock.isDefaultCB())
         {
-            if(isItPossibleToChangeTimeOnCategoryBlock(categoryBlock, newStartingTime, newEndTime))
+            if(isItPossibleToChangeTimeOnCategoryBlock(categoryBlock, newStartingTime, newEndTime, user))
             {
                 //If it does not interfere with another Category Block, save the change
                 int indexOfGivenCategoryBlock = this.getCategoryBlockList().indexOf(categoryBlock);
@@ -449,12 +474,12 @@ public class Category {
     }
 
     /**
-     * Gets all category blocks for a given date.
+     * [DEPRECATED] Gets all category blocks for a given date.
      *
      * @param date the date
      * @return the all category blocks for a given date
      */
-    public List<CategoryBlock> getAllCategoryBlocksForAGivenDate(LocalDate date)
+    private List<CategoryBlock> getAllCategoryBlocksForAGivenDate(LocalDate date)
     {
         List<CategoryBlock> categoryBlocks = new ArrayList<CategoryBlock>();
 
@@ -508,8 +533,7 @@ public class Category {
      *
      * @return the boolean
      */
-    public void autoAssignTasks()
-    {
+    public void autoAssignTasks() {
         removeAllSoftFixedTasksFromCB();
 
         Collections.sort(taskList);
@@ -531,7 +555,7 @@ public class Category {
                         if(categoryBlockList.get(j).isTheDeadlineInBoundOfCategoryBlock(taskList.get(i).getDeadline()))
                         {
                             //Is enough time on category Block?
-                            if(categoryBlockList.get(j).isEnoughTimeForATaskAvailable(taskList.get(i)))
+                            if(categoryBlockList.get(j).isEnoughTimeForATaskAvailableTakingIntoAccountSoftFixedTasks(taskList.get(i)))
                             {
                                 //Add task to the soft fixed tasks of the found block
                                 taskList.get(i).setTaskSoftFixed(true);
@@ -559,9 +583,12 @@ public class Category {
     private void removeAllSoftFixedTasksFromCB()
     {
         for (int i = 0; i < this.categoryBlockList.size(); i++) {
-            for (int j = this.categoryBlockList.get(i).getTemporallyAssignedTasks().size(); j >= 0 ; j--) {
-                this.categoryBlockList.get(i).getTemporallyAssignedTasks().get(j).setTaskSoftFixed(false);
-                this.categoryBlockList.get(i).getTemporallyAssignedTasks().remove(j);
+            if( this.categoryBlockList.get(i).getSoftFixedTasks().size() > 0)
+            {
+                for (int j = this.categoryBlockList.get(i).getSoftFixedTasks().size() - 1; j >= 0 ; j--) {
+                    this.categoryBlockList.get(i).getSoftFixedTasks().get(j).setTaskSoftFixed(false);
+                    this.categoryBlockList.get(i).getSoftFixedTasks().remove(j);
+                }
             }
         }
     }

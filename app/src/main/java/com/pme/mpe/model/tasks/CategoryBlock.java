@@ -69,7 +69,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
 
     //For the soft fixed tasks
     @Ignore
-    private List<Task> temporallyAssignedTasks;
+    private List<Task> softFixedTasks;
 
     /* /////////////////////Constructors/////////////////////////// */
 
@@ -89,6 +89,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
         this.startTimeHour = startTimeHour;
         this.endTimeHour = endTimeHour;
         this.assignedTasks = new ArrayList<>();
+        this.softFixedTasks = new ArrayList<>();
         this.isDefaultCB = false;
     }
 
@@ -104,6 +105,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
         this.CB_CategoryId = category.getCategoryId();
         this.catBlockId = category.getCategoryId();
         this.isDefaultCB = true;
+        this.softFixedTasks = new ArrayList<>();
     }
 
     //TODO:Bitte das löschen sobald es möglich ist
@@ -206,12 +208,12 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
         this.assignedTasks = assignedTasks;
     }
 
-    public List<Task> getTemporallyAssignedTasks() {
-        return temporallyAssignedTasks;
+    public List<Task> getSoftFixedTasks() {
+        return softFixedTasks;
     }
 
-    public void setTemporallyAssignedTasks(List<Task> temporallyAssignedTasks) {
-        this.temporallyAssignedTasks = temporallyAssignedTasks;
+    public void setSoftFixedTasks(List<Task> softFixedTasks) {
+        this.softFixedTasks = softFixedTasks;
     }
 
     /* /////////////////////Methods///////////////////////// */
@@ -236,7 +238,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      */
     public void addTaskToSoftFixedTasks(Task task)
     {
-        this.temporallyAssignedTasks.add(task);
+        this.softFixedTasks.add(task);
     }
 
     /**
@@ -272,6 +274,34 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
         }
     }
 
+
+    /**
+     * Return remaining free time on slot taking into account soft fixed tasks int.
+     *
+     * @return the int
+     */
+    public int returnRemainingFreeTimeOnSlotTakingIntoAccountSoftFixedTasks()
+    {
+        if(!isDefaultCB)
+        {
+            int totalFreeTimeOnSlot = this.endTimeHour - this.startTimeHour;
+
+            for (int i = 0; i < this.assignedTasks.size(); i++) {
+                totalFreeTimeOnSlot = totalFreeTimeOnSlot - assignedTasks.get(i).getDuration();
+            }
+
+            for (int i = 0; i < this.softFixedTasks.size(); i++) {
+                totalFreeTimeOnSlot = totalFreeTimeOnSlot - softFixedTasks.get(i).getDuration();
+            }
+
+            return totalFreeTimeOnSlot;
+        }
+        else
+        {
+            return 100000;
+        }
+    }
+
     /**
      * Is enough time for a task available boolean.
      *
@@ -280,8 +310,21 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      */
     public boolean isEnoughTimeForATaskAvailable(Task task)
     {
-        return returnRemainingFreeTimeOnSlot() > task.getDuration();
+        return returnRemainingFreeTimeOnSlot() >= task.getDuration();
     }
+
+
+    /**
+     * Is enough time for a task available taking into account soft fixed tasks boolean.
+     *
+     * @param task the task
+     * @return the boolean
+     */
+    public boolean isEnoughTimeForATaskAvailableTakingIntoAccountSoftFixedTasks(Task task)
+    {
+        return returnRemainingFreeTimeOnSlotTakingIntoAccountSoftFixedTasks() >= task.getDuration();
+    }
+
 
     /**
      * Is enough time for a task update available boolean.
@@ -323,14 +366,14 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     {
         if(!isDefaultCB)
         {
-            if(this.date.getYear() >= taskDate.getYear())
+            if(this.date.isAfter(taskDate) || this.date == taskDate)
             {
-                if(this.date.getMonthValue() >= taskDate.getMonthValue())
-                {
-                    return this.date.getDayOfMonth() >= taskDate.getDayOfMonth();
-                }
+                return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
         else
         {

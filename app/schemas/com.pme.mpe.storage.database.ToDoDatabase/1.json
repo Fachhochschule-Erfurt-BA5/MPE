@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "24bd5250792ea2495cef33d4dd864c9f",
+    "identityHash": "b954332717e571c0e1ea3bb8e9fdd04f",
     "entities": [
       {
         "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `version` INTEGER NOT NULL, `created` TEXT NOT NULL, `updated` TEXT NOT NULL, `categoryName` TEXT NOT NULL, `color` TEXT NOT NULL, `userID` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `version` INTEGER NOT NULL, `created` TEXT NOT NULL, `updated` TEXT NOT NULL, `categoryName` TEXT NOT NULL, `color` TEXT NOT NULL, `letterColor` TEXT NOT NULL, `userID` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "categoryId",
@@ -45,7 +45,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "catUserId",
+            "fieldPath": "letterColor",
+            "columnName": "letterColor",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
             "columnName": "userID",
             "affinity": "INTEGER",
             "notNull": true
@@ -298,7 +304,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '24bd5250792ea2495cef33d4dd864c9f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b954332717e571c0e1ea3bb8e9fdd04f')"
     ]
   }
 }
