@@ -458,7 +458,7 @@ public class Category {
      * @throws CategoryBlockException the category block exception
      * @throws TimeException          the time exception
      */
-    public void updateStartAndEndTimeFromACategoryBlock(CategoryBlock categoryBlock, int newStartingTime, int newEndTime, User user)
+    public CategoryBlock updateStartAndEndTimeFromACategoryBlock(CategoryBlock categoryBlock, int newStartingTime, int newEndTime, User user)
             throws CategoryBlockException, TimeException {
 
         if(!categoryBlock.isDefaultCB())
@@ -469,8 +469,10 @@ public class Category {
                 int indexOfGivenCategoryBlock = this.getCategoryBlockList().indexOf(categoryBlock);
                 this.getCategoryBlockList().get(indexOfGivenCategoryBlock).setStartTimeHour(newStartingTime);
                 this.getCategoryBlockList().get(indexOfGivenCategoryBlock).setEndTimeHour(newEndTime);
+                return this.getCategoryBlockList().get(indexOfGivenCategoryBlock);
             }
         }
+        return null;
     }
 
     /**

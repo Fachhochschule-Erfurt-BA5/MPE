@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 
 import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
+import com.pme.mpe.model.tasks.exceptions.TimeException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -194,10 +195,6 @@ public class Task implements Comparable<Task>{
         return deadline;
     }
 
-    public void setDeadline(@NotNull LocalDate deadline) {
-        this.deadline = deadline;
-    }
-
     public boolean isTaskFixed() {
         return isTaskFixed;
     }
@@ -322,19 +319,53 @@ public class Task implements Comparable<Task>{
      *
      * @param duration the duration
      */
-    public void setDuration(int duration) {
+    public void setDuration(int duration) throws TaskFixException {
         if(this.isTaskFixed && this.categoryBlock != null)
         {
             if(!this.categoryBlock.isEnoughTimeForAFixedTaskUpdateAvailable(this, duration))
             {
-                Log.w(LOG_TAG, "New Duration does not fit the current Category Block, therefor task was unassigned");
                 this.isTaskFixed = false;
                 this.categoryBlock = null;
                 this.duration = duration;
+
+                throw new TaskFixException("New Duration does not fit the current Category Block, therefor task was unassigned");
             }
         }
 
         this.duration = duration;
+    }
+
+    /**
+     * Update the deadline of a task.
+     *
+     * @param deadline the deadline
+     * @throws TimeException the time exception
+     */
+    public void setDeadline(LocalDate deadline) throws TimeException {
+        //It is only possible to set a deadline for today of the future
+        if(deadline.isAfter(LocalDate.now()) || deadline.isEqual(LocalDate.now()))
+        {
+            if(this.isTaskFixed())
+            {
+                //Is the new deadline in bound of the category block ?
+                if(this.getCategoryBlock().isTheDeadlineInBoundOfCategoryBlock(deadline))
+                {
+                    this.deadline = deadline;
+                }
+                else
+                {
+                    throw new TimeException("The Task is Fixed and Deadline is not in bound of the Category Block");
+                }
+            }
+            else
+            {
+                this.deadline = deadline;
+            }
+        }
+        else
+        {
+            throw new TimeException("Not possible to change the Deadline to the past");
+        }
     }
 
     /* /////////////////////Overrides/////////////////////////// */

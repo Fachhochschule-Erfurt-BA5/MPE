@@ -63,4 +63,16 @@ public interface TasksPackageDao {
     @Transaction
     @Query("SELECT * FROM CategoryBlock")
     LiveData<List<CategoryBlockHaveTasks>> getCategoryBlocksWithTasks();
+
+    //Get Category with given CatID
+    @Query("SELECT * FROM Category WHERE categoryId = :catId")
+    Category getCategoryWithID(long catId);
+
+    //Get Category block with given Category Block ID
+    @Query("SELECT * FROM CategoryBlock WHERE id = :categoryBlockID")
+    CategoryBlock getCategoryBlockWithID(long categoryBlockID);
+
+    //Get Task with given TaskID
+    @Query("SELECT * FROM task WHERE id = :taskID")
+    Task getTaskWithID(long taskID);
 }

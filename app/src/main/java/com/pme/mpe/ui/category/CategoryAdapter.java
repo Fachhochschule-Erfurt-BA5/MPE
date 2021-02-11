@@ -112,7 +112,8 @@ public class CategoryAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     categories.get(position).setCategoryName("testUpdate");
-                    tasksPackageRepository.updateCategory(categories.get(position));
+                    ////////////////TODO: The Update Method was changed on the Repository////////////////
+                    //tasksPackageRepository.updateCategory(categories.get(position));
                 }
             });
 
