@@ -6,6 +6,7 @@ import android.util.Log;
 import com.pme.mpe.activities.CategoryActivity.NewCategoryActivityViewModel;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.user.User;
+import com.pme.mpe.storage.KeyValueStore;
 import com.pme.mpe.storage.repository.UserRepository;
 
 public class MainApplication extends Application {
@@ -32,4 +33,22 @@ public class MainApplication extends Application {
         userRepository.insert(DBTrigger);
 
     }
+
+    // """""""""""""""""""""""" work with Key Value Store
+    private static final String STORE_KEY_USER ="";   // later will be tried to get the name of the User or his unique username
+
+    private KeyValueStore store;
+
+    // if our store is null, will create a new store to save the data
+    public KeyValueStore getStore()
+    {
+        if( this.store == null ) {
+            this.store = new KeyValueStore(this);
+        }
+        return this.store;
+    }
+
+
+
+
 }

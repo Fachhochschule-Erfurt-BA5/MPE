@@ -327,7 +327,44 @@ public class TasksPackageRepository {
     //test to delete a category (Hamza Harti)
     public void deleteCategory(Category category)
     {
-        ToDoDatabase.execute( () -> tasksPackageDao.deleteCategory(category));
+      ToDoDatabase.execute( () -> tasksPackageDao.deleteCategory(category));
     }
+
+    // delete a Single Task
+    public void deleteTask(Task task)
+    {
+        ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(task));
+    }
+
+    // delete Category Block with its Tasks
+    public void deleteCategoryBlock(CategoryBlock categoryBlock)
+    {
+        // get the Category block id
+        long id = categoryBlock.getCatBlockId();
+
+        // get all tasks with CatBlock to delete all tasks, which belong to this cat block
+        CategoryBlockHaveTasks categoryBlockHaveTasks = new CategoryBlockHaveTasks();
+        for (int i=0; i < categoryBlockHaveTasks.tasks.size(); i++)
+        {
+            if(categoryBlockHaveTasks.tasks.get(i).getT_categoryBlockId() == id)
+            {
+                final int j = i;
+                ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(categoryBlockHaveTasks.tasks.get(j)));
+            }
+        }
+        // when it is finish with deleting all Tasks ==> delete the Category Block
+        ToDoDatabase.execute( () -> tasksPackageDao.deleteCategoryBlock(categoryBlock));
+    }
+
+    // delete Category with its Category Blocks
+//    public void deleteCategory(Category category)
+//    {
+//        long id = category.getCategoryId();
+//        CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation = new CategoryWithCatBlocksAndTasksRelation();
+//         for (int i = 0 ; i< categoryWithCatBlocksAndTasksRelation.categoryBlocks.size(); i++)
+//         {
+//             final int j = i;
+//         }
+//    }
 
 }
