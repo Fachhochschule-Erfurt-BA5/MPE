@@ -325,10 +325,10 @@ public class TasksPackageRepository {
     //////////////////Delete//////////////////
 
     //test to delete a category (Hamza Harti)
-    public void deleteCategory(Category category)
-    {
-      ToDoDatabase.execute( () -> tasksPackageDao.deleteCategory(category));
-    }
+//    public void deleteCategory(Category category)
+//    {
+//      ToDoDatabase.execute( () -> tasksPackageDao.deleteCategory(category));
+//    }
 
     // delete a Single Task
     public void deleteTask(Task task)
@@ -337,34 +337,58 @@ public class TasksPackageRepository {
     }
 
     // delete Category Block with its Tasks
-    public void deleteCategoryBlock(CategoryBlock categoryBlock)
+    public void deleteCategoryBlock(CategoryBlock categoryBlock, CategoryBlockHaveTasks categoryBlockHaveTasks)
     {
         // get the Category block id
         long id = categoryBlock.getCatBlockId();
 
         // get all tasks with CatBlock to delete all tasks, which belong to this cat block
-        CategoryBlockHaveTasks categoryBlockHaveTasks = new CategoryBlockHaveTasks();
         for (int i=0; i < categoryBlockHaveTasks.tasks.size(); i++)
         {
+            // check if the tasks belong to this CatBlock
             if(categoryBlockHaveTasks.tasks.get(i).getT_categoryBlockId() == id)
             {
-                final int j = i;
-                ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(categoryBlockHaveTasks.tasks.get(j)));
+                // try to unfix the fixed Tasks in this Category Block
+                try {
+                    categoryBlockHaveTasks.tasks.get(i).unfixTaskFromCategoryBlock();
+                } catch (TaskFixException e) {
+                    e.getMessage();
+                }
             }
         }
-        // when it is finish with deleting all Tasks ==> delete the Category Block
+        // when it is finish with unfixing all fixed Tasks ==> delete this Category Block
         ToDoDatabase.execute( () -> tasksPackageDao.deleteCategoryBlock(categoryBlock));
     }
 
-    // delete Category with its Category Blocks
-//    public void deleteCategory(Category category)
-//    {
-//        long id = category.getCategoryId();
-//        CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation = new CategoryWithCatBlocksAndTasksRelation();
-//         for (int i = 0 ; i< categoryWithCatBlocksAndTasksRelation.categoryBlocks.size(); i++)
-//         {
-//             final int j = i;
-//         }
-//    }
+    // delete Category with its Category Blocks and Tasks
+    public void deleteCategory(Category category, CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation)
+    {
+        // get the Category Id, which will be deleted
+        long CategoryId = category.getCategoryId();
+
+        for(int i = 0; i < categoryWithCatBlocksAndTasksRelation.categoryBlocks.size(); i++){
+            if(categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(i).getCB_CategoryId() == CategoryId)
+            {
+                for(int j =0; j < categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(i).getAssignedTasks().size(); i++){
+                    final int x = i;
+                    // delete all tasks in all Category Blocks from this category
+                    ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(x).getAssignedTasks().get(j)));
+                    // if we want just to unfixed the Tasks --> just uncomment the following 5 Lines and delete the previous line
+//                    try {
+//                        categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(i).getAssignedTasks().get(j).unfixTaskFromCategoryBlock();
+//                    } catch (TaskFixException e) {
+//                        e.getMessage();
+//                    }
+                }
+
+                // now delete all the Category Blocks from this Category
+                final int y = i;
+                ToDoDatabase.execute(() -> tasksPackageDao.deleteCategoryBlock(categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(y)));
+            }
+        }
+        //  delete the Category after deleting all Tasks and CategoryBlocks from it
+        ToDoDatabase.execute(()-> tasksPackageDao.deleteCategory(category));
+
+    }
 
 }
