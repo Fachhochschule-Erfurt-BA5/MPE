@@ -75,4 +75,16 @@ public interface TasksPackageDao {
     //Get Task with given TaskID
     @Query("SELECT * FROM task WHERE id = :taskID")
     Task getTaskWithID(long taskID);
+
+    //Get all the Category blocks from a given Category with category id
+    @Query("SELECT * FROM CategoryBlock WHERE CB_CategoryId = :categoryID")
+    List<CategoryBlock> getCategoryBlocksWithCategoryID(long categoryID);
+
+    //Get all the Tasks from a given Category with category id
+    @Query("SELECT * FROM Task WHERE T_categoryID = :categoryID")
+    List<Task> getTasksWithCategoryID(long categoryID);
+
+    //Get all the Fixed Tasks from a given Category Block with category block id
+    @Query("SELECT * FROM Task WHERE T_categoryBlockID = :categoryBlockID")
+    List<Task> getFixedTasksFromCB(long categoryBlockID);
 }

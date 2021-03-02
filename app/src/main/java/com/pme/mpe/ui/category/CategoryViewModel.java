@@ -29,6 +29,6 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public void deleteCategory (Category category)
     {
-        this.tasksPackageRepository.deleteCategory(category,categoryWithCatBlocksAndTasksRelation);
+        this.tasksPackageRepository.deleteCategory(category);
     }
 }

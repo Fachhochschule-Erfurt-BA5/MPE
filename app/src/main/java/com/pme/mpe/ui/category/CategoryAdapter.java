@@ -112,7 +112,7 @@ public class CategoryAdapter extends BaseAdapter {
             viewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tasksPackageRepository.deleteCategory(categories.get(position), categoryWithCatBlocksAndTasksRelation);
+                    tasksPackageRepository.deleteCategory(categories.get(position));
                 }
             });
 

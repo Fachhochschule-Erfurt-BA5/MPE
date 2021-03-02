@@ -16,10 +16,12 @@ import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.tasks.exceptions.TimeException;
 import com.pme.mpe.storage.dao.TasksPackageDao;
 import com.pme.mpe.storage.database.ToDoDatabase;
+import com.pme.mpe.storage.repository.exceptions.FixedTaskException;
 import com.pme.mpe.storage.repository.exceptions.ObjectNotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -261,8 +263,9 @@ public class TasksPackageRepository {
      * @param categoryBlockID  the category block id from the CB to be changed
      * @param newCategoryBlock the new category block the return CB from the method mentioned above
      * @throws ObjectNotFoundException the object not found exception
+     * @throws FixedTaskException      the fixed task exception
      */
-    public void updateCategoryBlock(long categoryBlockID, CategoryBlock newCategoryBlock) throws ObjectNotFoundException {
+    public void updateCategoryBlock(long categoryBlockID, CategoryBlock newCategoryBlock) throws ObjectNotFoundException, FixedTaskException {
 
         //Fetch the Category Block from the Database
         CategoryBlock categoryBlock = this.tasksPackageDao.getCategoryBlockWithID(categoryBlockID);
@@ -271,6 +274,32 @@ public class TasksPackageRepository {
         {
             categoryBlock.setStartTimeHour(newCategoryBlock.getStartTimeHour());
             categoryBlock.setEndTimeHour(newCategoryBlock.getEndTimeHour());
+
+            List<Task> tasks = tasksPackageDao.getFixedTasksFromCB(categoryBlockID);
+
+            if(tasks.size() > 0)
+            {
+                //Unfix all the fixed tasks
+                for (int i = 0; i < tasks.size(); i++) {
+                    unfixTask(tasks.get(i));
+                }
+
+                int newTimeInSlot = categoryBlock.returnRemainingFreeTimeOnSlot();
+
+                //Try to re-fix the tasks
+                for (int i = 0; i < tasks.size(); i++) {
+
+                    if(tasks.get(i).getDuration() <= newTimeInSlot)
+                    {
+                        fixExistingTaskToCategoryBlock(tasks.get(i), categoryBlock);
+                        newTimeInSlot = newTimeInSlot - tasks.get(i).getDuration();
+                    }
+                    else
+                    {
+                        throw new FixedTaskException("One or more Tasks were unfixed with the change of time");
+                    }
+                }
+            }
 
             categoryBlock.setUpdated(LocalDate.now());
             categoryBlock.setVersion(categoryBlock.getVersion() + 1);
@@ -324,71 +353,190 @@ public class TasksPackageRepository {
 
     //////////////////Delete//////////////////
 
-    //test to delete a category (Hamza Harti)
-//    public void deleteCategory(Category category)
-//    {
-//      ToDoDatabase.execute( () -> tasksPackageDao.deleteCategory(category));
-//    }
+    /**
+     * Delete Category with its Category Blocks and Tasks.
+     *
+     * @param category the category
+     */
+    public void deleteCategory(Category category)
+    {
+        // Get the Category Id, which will be deleted
+        long categoryId = category.getCategoryId();
 
-    // delete a Single Task
+        // Fetch all category blocks of this category
+        List<CategoryBlock> categoryBlocks = tasksPackageDao.getCategoryBlocksWithCategoryID(categoryId);
+
+        // Fetch all tasks of this category
+        List<Task> tasks = tasksPackageDao.getTasksWithCategoryID(categoryId);
+
+        // Delete all tasks (if any)
+        if(tasks.size() > 0)
+        {
+            for (int i = 0; i < tasks.size(); i++) {
+                int finalI = i;
+                ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(tasks.get(finalI)));
+            }
+        }
+
+        // Delete all category blocks (if any)
+        if(categoryBlocks.size() > 0)
+        {
+            for (int i = 0; i < categoryBlocks.size(); i++) {
+                int finalI = i;
+                ToDoDatabase.execute( () -> tasksPackageDao.deleteCategoryBlock(categoryBlocks.get(finalI)));
+            }
+        }
+
+        // Delete the Category after deleting all Tasks and CategoryBlocks from it
+        ToDoDatabase.execute(()-> tasksPackageDao.deleteCategory(category));
+    }
+
+    /**
+     * Delete category block
+     * If there was fixed tasks on this category block, they would be be unfixed.
+     *
+     * @param categoryBlock          the category block
+     */
+    public void deleteCategoryBlock(CategoryBlock categoryBlock)
+    {
+        // Get the Category block id
+        long id = categoryBlock.getCatBlockId();
+
+        // Get all fixed tasks with CatBlockID
+        List<Task> fixedTasks = tasksPackageDao.getFixedTasksFromCB(id);
+
+        // Unfix all the fixed tasks (if any)
+        if(fixedTasks.size() > 0)
+        {
+            for (int i=0; i < fixedTasks.size(); i++)
+            {
+                // Try to unfix the fixed Tasks in this Category Block
+                try {
+                    fixedTasks.get(i).unfixTaskFromCategoryBlock();
+
+                    unfixTask(fixedTasks.get(i));
+
+                } catch (TaskFixException | FixedTaskException e) {
+                    e.getMessage();
+                }
+            }
+        }
+
+        // When it is finish with unfixing all fixed Tasks ==> delete this Category Block
+        ToDoDatabase.execute( () -> tasksPackageDao.deleteCategoryBlock(categoryBlock));
+    }
+
+
+    /**
+     * Delete a Single Task.
+     * We don't have to update the list from fixed tasks on the CB
+     * The list of fixed tasks is being generated each time the CB is fetched from DB
+     * If the fixed task is deleted it wont be found in the database and therefor not in the list
+     *
+     * @param task the task
+     */
     public void deleteTask(Task task)
     {
         ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(task));
     }
 
-    // delete Category Block with its Tasks
-    public void deleteCategoryBlock(CategoryBlock categoryBlock, CategoryBlockHaveTasks categoryBlockHaveTasks)
+//////////////////Helper functions//////////////////
+
+    /**
+     * Has a category block fixed tasks boolean.
+     *
+     * @param categoryBlock the category block
+     * @return true if any fixed tasks where found for this category block
+     */
+    public boolean hasACategoryBlockFixedTasks(CategoryBlock categoryBlock)
     {
-        // get the Category block id
+        // Get the Category block id
         long id = categoryBlock.getCatBlockId();
 
-        // get all tasks with CatBlock to delete all tasks, which belong to this cat block
-        for (int i=0; i < categoryBlockHaveTasks.tasks.size(); i++)
+        // Fetch all fixed tasks from this category block
+        List<Task> fixedTasks = tasksPackageDao.getFixedTasksFromCB(id);
+
+        if(fixedTasks.size() > 0)
         {
-            // check if the tasks belong to this CatBlock
-            if(categoryBlockHaveTasks.tasks.get(i).getT_categoryBlockId() == id)
-            {
-                // try to unfix the fixed Tasks in this Category Block
-                try {
-                    categoryBlockHaveTasks.tasks.get(i).unfixTaskFromCategoryBlock();
-                } catch (TaskFixException e) {
-                    e.getMessage();
-                }
-            }
+            return true;
         }
-        // when it is finish with unfixing all fixed Tasks ==> delete this Category Block
-        ToDoDatabase.execute( () -> tasksPackageDao.deleteCategoryBlock(categoryBlock));
+        else
+        {
+            return false;
+        }
     }
 
-    // delete Category with its Category Blocks and Tasks
-    public void deleteCategory(Category category, CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation)
-    {
-        // get the Category Id, which will be deleted
-        long CategoryId = category.getCategoryId();
+    //// WICHTIG!!
+    // Beim Updaten und löschen von Category block, cheken ob fixed tasks gibt!
+    //
+    //          if ( hasACategoryBlockFixedTasks (Category Block)
+    //            Warning ! CB has fixed tasks
+    //            Nutzer eingabe ( fortfahren oder abbrechen )
+    //            if ( fortfahren )
+    //              Update CB / Delete CB
+    //            else if ( abbrechen )
+    //              CB so lassen wie es war
+    //          else if ( hasACategoryBlockFixedTasks (Category Block) == false )
+    //              Update CB / Delete CB
 
-        for(int i = 0; i < categoryWithCatBlocksAndTasksRelation.categoryBlocks.size(); i++){
-            if(categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(i).getCB_CategoryId() == CategoryId)
-            {
-                for(int j =0; j < categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(i).getAssignedTasks().size(); i++){
-                    final int x = i;
-                    // delete all tasks in all Category Blocks from this category
-                    ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(x).getAssignedTasks().get(j)));
-                    // if we want just to unfixed the Tasks --> just uncomment the following 5 Lines and delete the previous line
-//                    try {
-//                        categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(i).getAssignedTasks().get(j).unfixTaskFromCategoryBlock();
-//                    } catch (TaskFixException e) {
-//                        e.getMessage();
-//                    }
-                }
 
-                // now delete all the Category Blocks from this Category
-                final int y = i;
-                ToDoDatabase.execute(() -> tasksPackageDao.deleteCategoryBlock(categoryWithCatBlocksAndTasksRelation.categoryBlocks.get(y)));
-            }
+    /**
+     * Fix existing task to a category block.
+     *
+     * @param task          the task
+     * @param categoryBlock the category block
+     * @throws FixedTaskException the fixed task exception
+     */
+    public void fixExistingTaskToCategoryBlock(Task task, CategoryBlock categoryBlock) throws FixedTaskException {
+
+        if(task.isTaskFixed())
+        {
+            throw new FixedTaskException("This task is already fixed!");
         }
-        //  delete the Category after deleting all Tasks and CategoryBlocks from it
-        ToDoDatabase.execute(()-> tasksPackageDao.deleteCategory(category));
+        else
+        {
+            if(!categoryBlock.isDefaultCB())
+            {
+                if(categoryBlock.isEnoughTimeForATaskAvailable(task))
+                {
+                    task.setTaskFixed(true);
+                    task.setT_categoryBlockId(categoryBlock.getCatBlockId());
+
+                    ToDoDatabase.execute( () -> tasksPackageDao.updateTask(task));
+                }
+                else
+                {
+                    throw new FixedTaskException("Not enough time for that task");
+                }
+            }
+            else
+            {
+                throw new FixedTaskException("Cannot fix task to default CB");
+            }
+
+        }
+    }
+
+    /**
+     * Unfix task from the Category Block.
+     *
+     * @param task the task
+     * @throws FixedTaskException the fixed task exception
+     */
+    public void unfixTask(Task task) throws FixedTaskException {
+        if(task.isTaskFixed())
+        {
+            task.setTaskFixed(false);
+            task.setT_categoryBlockId(0);
+
+            ToDoDatabase.execute( () -> tasksPackageDao.updateTask(task));
+        }
+        else
+        {
+            throw new FixedTaskException("Cannot unfix a not fixed tasks!");
+        }
 
     }
+
 
 }
