@@ -81,6 +81,7 @@ public abstract class ToDoDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             ToDoDatabase.class, "todo_database")
                             .addCallback(createCallback)
+                            .allowMainThreadQueries()//TODO: find a way around it (Hamza Harti)
                             .build();
                 }
             }
