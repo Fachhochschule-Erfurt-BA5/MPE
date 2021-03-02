@@ -3,6 +3,7 @@ package com.pme.mpe.ui.category;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,7 +121,7 @@ public class CategoryAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     ////////////////TODO: The Update Method was changed on the Repository////////////////
                     Intent editCategoryIntent = new Intent(String.valueOf(EditCategoryActivity.class));
-                    editCategoryIntent.putExtra("category",categories.get(position).categoryId);
+                    editCategoryIntent.putExtra("category", (Parcelable) categories.get(position));
                     mContext.startActivity(editCategoryIntent);
                 }
             });
