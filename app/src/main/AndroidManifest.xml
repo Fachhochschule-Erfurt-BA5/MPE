@@ -34,6 +34,10 @@
             android:name=".activities.CategoryActivity.NewCategoryActivity"
             android:theme="@style/Theme.MPE.NoActionBar">
         </activity>
+        <activity
+            android:name=".activities.CategoryActivity.EditCategoryActivity"
+            android:theme="@style/Theme.MPE.NoActionBar">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

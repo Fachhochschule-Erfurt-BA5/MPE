@@ -1,4 +1,6 @@
 package com.pme.mpe.activities.CategoryActivity;
 
-public class EditCategoryActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class EditCategoryActivity extends AppCompatActivity {
 }

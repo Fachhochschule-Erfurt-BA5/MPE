@@ -1,6 +1,7 @@
 package com.pme.mpe.ui.category;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
+import com.pme.mpe.activities.CategoryActivity.EditCategoryActivity;
+import com.pme.mpe.activities.CategoryActivity.NewCategoryActivity;
 import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
@@ -115,9 +118,10 @@ public class CategoryAdapter extends BaseAdapter {
             viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    categories.get(position).setCategoryName("testUpdate");
                     ////////////////TODO: The Update Method was changed on the Repository////////////////
-                    //tasksPackageRepository.updateCategory(categories.get(position));
+                    Intent editCategoryIntent = new Intent(String.valueOf(EditCategoryActivity.class));
+                    editCategoryIntent.putExtra("category",categories.get(position).categoryId);
+                    mContext.startActivity(editCategoryIntent);
                 }
             });
 
