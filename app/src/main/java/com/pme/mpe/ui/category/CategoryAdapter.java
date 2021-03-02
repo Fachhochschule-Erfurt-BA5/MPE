@@ -15,6 +15,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
+import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 
@@ -25,12 +26,14 @@ public class CategoryAdapter extends BaseAdapter {
     private final Context mContext;
     private List<Category> categories;
     private final TasksPackageRepository tasksPackageRepository;
+    private final CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation;
 
 
-    public CategoryAdapter(Context mContext, List<Category> categories, TasksPackageRepository tasksPackageRepository) {
+    public CategoryAdapter(Context mContext, List<Category> categories, TasksPackageRepository tasksPackageRepository, CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation) {
         this.mContext = mContext;
         this.categories = categories;
         this.tasksPackageRepository = tasksPackageRepository;
+        this.categoryWithCatBlocksAndTasksRelation = categoryWithCatBlocksAndTasksRelation;
     }
 
 
@@ -67,6 +70,7 @@ public class CategoryAdapter extends BaseAdapter {
         ImageButton editBtn;
         LinearLayout updateLayout;
         LinearLayoutCompat contentLayout;
+
     }
 
     @Override
@@ -104,7 +108,7 @@ public class CategoryAdapter extends BaseAdapter {
             viewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tasksPackageRepository.deleteCategory(categories.get(position));
+                    tasksPackageRepository.deleteCategory(categories.get(position), categoryWithCatBlocksAndTasksRelation);
                 }
             });
 
@@ -126,8 +130,10 @@ public class CategoryAdapter extends BaseAdapter {
 
 
         viewHolder.categoryName.setText(categories.get(position).getCategoryName().toUpperCase());
+        viewHolder.categoryName.setTextColor(Color.parseColor(categories.get(position).getLetterColor()));
         viewHolder.categoryElement.setCardBackgroundColor(Color.parseColor(categories.get(position).getColor()));
         viewHolder.categoryBlockNumber.setText(categories.get(position).getCategoryBlockList().size() + " Blocks");
+        viewHolder.categoryBlockNumber.setTextColor(Color.parseColor(categories.get(position).getLetterColor()));
         return convertView;
     }
 

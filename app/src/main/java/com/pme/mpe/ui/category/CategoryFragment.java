@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.pme.mpe.R;
 import com.pme.mpe.activities.CategoryActivity.NewCategoryActivity;
+import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 
@@ -26,6 +27,7 @@ public class CategoryFragment extends Fragment {
     private CategoryViewModel categoryViewModel;
     private AppCompatTextView categoryAdd;
     private TasksPackageRepository tasksPackageRepository;
+    private CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation;
     public List<Category> categories;
 
 
@@ -34,9 +36,10 @@ public class CategoryFragment extends Fragment {
 
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         tasksPackageRepository = new TasksPackageRepository(categoryViewModel.getApplication());
+        categoryWithCatBlocksAndTasksRelation = new CategoryWithCatBlocksAndTasksRelation();
         View root = inflater.inflate(R.layout.fragment_category, container, false);
         GridView gridView = (GridView) root.findViewById(R.id.category_grid_layout);
-        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories, tasksPackageRepository);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories, tasksPackageRepository,categoryWithCatBlocksAndTasksRelation);
         gridView.setAdapter(categoryAdapter);
 
         categoryViewModel.getCategories().observe(this.requireActivity(),categoryAdapter::setCategories);

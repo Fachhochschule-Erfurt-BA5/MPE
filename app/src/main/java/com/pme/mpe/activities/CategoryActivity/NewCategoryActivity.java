@@ -32,13 +32,14 @@ public class NewCategoryActivity extends AppCompatActivity {
     private EditText categoryName;
     private ImageButton categoryColor;
     private NewCategoryActivityViewModel newCategoryActivityViewModel;
+    String letterColor ="#000000";
+    String cardColor = "#54aadb";
 
 
     private final View.OnClickListener saveCategoryClickListener = v -> {
 
         if (v.getId() == R.id.save_category) {
-            ////////////////WICHTIG!!! LETTER COLOR ist jetzt drin, zurzeit nur als "" gespeichert////////////////////////
-            Category newCategory = new Category(4, categoryName.getText().toString(), categoryHex.getText().toString(), "");
+            Category newCategory = new Category(4, categoryName.getText().toString(), cardColor,letterColor);
             newCategoryActivityViewModel.saveCategory(newCategory);
             Intent categoryIntent = new Intent(getApplicationContext(), CategoryFragment.class);
             startActivity(categoryIntent);
@@ -52,8 +53,10 @@ public class NewCategoryActivity extends AppCompatActivity {
             public void colorPicked(int red, int green, int blue, int textColor) {
                 categoryColor.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(red,green,blue)));
                 CharSequence hexColor_argb = Integer.toHexString(Color.rgb(red,green,blue));
-                String hexColor = "#" + hexColor_argb.charAt(2) + hexColor_argb.charAt(3) + hexColor_argb.charAt(4) + hexColor_argb.charAt(5) + hexColor_argb.charAt(6) + hexColor_argb.charAt(7);
-                categoryHex.setText(hexColor);
+                cardColor = "#" + hexColor_argb.charAt(2) + hexColor_argb.charAt(3) + hexColor_argb.charAt(4) + hexColor_argb.charAt(5) + hexColor_argb.charAt(6) + hexColor_argb.charAt(7);
+                categoryHex.setText(cardColor);
+                CharSequence hexColor_argb1 = Integer.toHexString(textColor);
+                letterColor = "#" + hexColor_argb1.charAt(2) + hexColor_argb1.charAt(3) + hexColor_argb1.charAt(4) + hexColor_argb1.charAt(5) + hexColor_argb1.charAt(6) + hexColor_argb1.charAt(7);
             }
         };
         showColorSelectorDialog(colorSelectorDialog);
@@ -90,7 +93,19 @@ public class NewCategoryActivity extends AppCompatActivity {
         blue_text.setText(String.format(getResources().getConfiguration().locale, format, Color.blue(Color.parseColor("#FFFFFF"))));
         colorSeekbars[2] = seekBarBlue;
 
+
         colorCard.setCardBackgroundColor(Color.rgb(seekBarRed.getProgress(), seekBarGreen.getProgress(), seekBarBlue.getProgress()));
+
+        final SeekBar seekBarGrey = (SeekBar) layout.findViewById(R.id.color_seekBar_grey);
+        final TextView grey_text = (TextView) layout.findViewById(R.id.color_grey_text);
+            seekBarGrey.setProgress(0);
+            grey_text.setText(String.format(format, 0));
+
+        int color;
+        color = Color.parseColor("#000000");
+        grey_text.setText(String.format(format, 255));
+        colorTextView.setTextColor(color);
+        colorTextView.setText("Preview");
 
         for (int i = 0; i < colorSeekbars.length; i++) {
             colorSeekbars[i].setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -116,6 +131,31 @@ public class NewCategoryActivity extends AppCompatActivity {
                 }
             });
         }
+
+        seekBarGrey.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int color;
+                if (progress > 255) {
+                    color = Color.argb(seekBarGrey.getProgress() - 256, 255, 255, 255);
+                    grey_text.setText(String.format(format, seekBarGrey.getProgress() - 256));
+                } else {
+                    color = Color.argb(255 - seekBarGrey.getProgress(), 0, 0, 0);
+                    grey_text.setText(String.format(format, 255 - seekBarGrey.getProgress()));
+                }
+                colorTextView.setTextColor(color);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         hexEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -155,8 +195,14 @@ public class NewCategoryActivity extends AppCompatActivity {
                 .setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        int textcolor;
+                        if (seekBarGrey.getProgress() > 255) {
+                            textcolor = Color.argb(seekBarGrey.getProgress(), 255, 255, 255);
+                        } else {
+                            textcolor = Color.argb(255 - seekBarGrey.getProgress(), 0, 0, 0);
+                        }
                         colorSelectorDialog.colorPicked(seekBarRed.getProgress(),
-                                seekBarGreen.getProgress(), seekBarBlue.getProgress(),0);
+                                seekBarGreen.getProgress(), seekBarBlue.getProgress(),textcolor);
                     }
                 });
         colorPickDialog = builder.create();
