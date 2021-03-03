@@ -2,16 +2,11 @@ package com.pme.mpe;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.pme.mpe.model.tasks.Category;
-import com.pme.mpe.ui.category.CategoryFragment;
 
 @SuppressWarnings("deprecation")
 public class LoginActivity extends AppCompatActivity {
