@@ -153,6 +153,8 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/block_entity_add"
             android:layout_width="150dp"

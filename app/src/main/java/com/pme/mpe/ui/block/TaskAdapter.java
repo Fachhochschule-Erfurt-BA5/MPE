@@ -1,11 +1,13 @@
 package com.pme.mpe.ui.block;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pme.mpe.R;
@@ -16,6 +18,7 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private List<Task> taskList;
+    private BlockViewModel taskViewModel;
 
     TaskAdapter(List<Task> taskList) {
         this.taskList = taskList;
@@ -47,4 +50,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskName = itemView.findViewById(R.id.task_item_name);
         }
     }
+
+
+
+
 }
