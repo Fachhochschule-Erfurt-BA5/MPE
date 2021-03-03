@@ -55,7 +55,7 @@ public class EditCategoryActivity extends AppCompatActivity {
             } catch (ObjectNotFoundException e) {
                 e.printStackTrace();
             }
-            Intent categoryIntent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent categoryIntent = new Intent(getApplicationContext(), CategoryFragment.class);
             startActivity(categoryIntent);
         }
 
