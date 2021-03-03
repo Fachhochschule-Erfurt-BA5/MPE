@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
+import com.pme.mpe.storage.repository.exceptions.ObjectNotFoundException;
 
 public class NewCategoryActivityViewModel extends AndroidViewModel {
 
@@ -20,6 +21,10 @@ public class NewCategoryActivityViewModel extends AndroidViewModel {
     public void saveCategory (Category category)
     {
         this.tasksPackageRepository.insertCategory(category);
+    }
+
+    public void updateCategory (long categoryID, String newCatName, String newCatColor, String newCatLetterColor) throws ObjectNotFoundException {
+        this.tasksPackageRepository.updateCategory(categoryID, newCatName, newCatColor, newCatLetterColor);
     }
 
 }

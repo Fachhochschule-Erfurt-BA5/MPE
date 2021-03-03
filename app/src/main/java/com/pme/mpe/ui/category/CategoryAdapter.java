@@ -120,8 +120,11 @@ public class CategoryAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     ////////////////TODO: The Update Method was changed on the Repository////////////////
-                    Intent editCategoryIntent = new Intent(String.valueOf(EditCategoryActivity.class));
-                    editCategoryIntent.putExtra("category", (Parcelable) categories.get(position));
+                    Intent editCategoryIntent = new Intent(mContext.getApplicationContext(), EditCategoryActivity.class);
+                    editCategoryIntent.putExtra("categoryID",(int) categories.get(position).getCategoryId());
+                    editCategoryIntent.putExtra("categoryName",categories.get(position).getCategoryName());
+                    editCategoryIntent.putExtra("categoryColorBtn",categories.get(position).getColor());
+                    editCategoryIntent.putExtra("categoryColorText",categories.get(position).getLetterColor());
                     mContext.startActivity(editCategoryIntent);
                 }
             });

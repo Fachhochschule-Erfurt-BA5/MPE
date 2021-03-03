@@ -37,8 +37,8 @@
         <activity
             android:name=".activities.CategoryActivity.EditCategoryActivity"
             android:theme="@style/Theme.MPE.NoActionBar">
-        </activity>
 
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
