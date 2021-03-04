@@ -17,9 +17,9 @@ public class NewTaskActivityViewModel extends AndroidViewModel {
 
     private final TasksPackageRepository tasksPackageRepository;
 
-    public NewTaskActivityViewModel(@NonNull Application application, TasksPackageRepository tasksPackageRepository) {
+    public NewTaskActivityViewModel(@NonNull Application application) {
         super(application);
-        this.tasksPackageRepository = tasksPackageRepository.getRepository(application);
+        this.tasksPackageRepository = TasksPackageRepository.getRepository(application);
     }
 
     public void saveTasks (Task task)
