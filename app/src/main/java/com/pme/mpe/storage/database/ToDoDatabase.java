@@ -104,24 +104,37 @@ public abstract class ToDoDatabase extends RoomDatabase {
             {
                 UserDao userDao = INSTANCE.userDao();
                 TasksPackageDao tasksPackageDao = INSTANCE.tasksPackageDao();
-                Faker faker = Faker.instance();
 
-                for (int i = 0; i < 3; i++)
+                String[] names = {"Ahmad", "Benito", "Hamza", "Alejandro"};
+                String[] lastNames = {"AboLouha", "Grauel", "Harti", "R.Klinge"};
+
+                for (int i = 0; i < 4; i++)
                 {
                     //Add some Users
-                    User user = new User(faker.name().firstName(), faker.name().lastName(), "someMail@gmail.com",
-                                        "12345678", "URL");
+                    User user = new User(names[i], lastNames[i], names[i].toLowerCase() + '.' + lastNames[i].toLowerCase() + "@gmail.com","12345678", "URL");
                     user.setCreated(LocalDate.now());
                     user.setUpdated(user.getCreated());
                     user.setVersion(1);
                     long userId = userDao.insert(user);
 
+                    Log.i(LOG_TAG_DB, "user added");
+
                     //Add some Categories
-                    Category category = new Category(userId, "Free Time", "#666666", "#000000");
+                    Category category = new Category(userId, "Free Time", "#888888", "#000000");
                     category.setCreated(LocalDate.now());
-                    category.setUpdated(user.getCreated());
+                    category.setUpdated(category.getCreated());
                     category.setVersion(1);
                     category.setCategoryId(tasksPackageDao.insertCategory(category));
+
+                    Log.i(LOG_TAG_DB, "category 1 added");
+
+                    Category category2 = new Category(userId, "University", "#0000ff", "#ffffff");
+                    category2.setCreated(LocalDate.now());
+                    category2.setUpdated(category2.getCreated());
+                    category2.setVersion(1);
+                    category2.setCategoryId(tasksPackageDao.insertCategory(category2));
+
+                    Log.i(LOG_TAG_DB, "category 2 added");
 
                     //Prepare the Default CB to be saved
                     CategoryBlock defaultCB = category.getDefaultCategoryBlock();
@@ -131,10 +144,17 @@ public abstract class ToDoDatabase extends RoomDatabase {
                     defaultCB.setCB_CategoryId(category.getCategoryId());
                     tasksPackageDao.insertCategoryBlock(defaultCB);
 
+                    CategoryBlock defaultCB2 = category2.getDefaultCategoryBlock();
+                    defaultCB2.setCreated(LocalDate.now());
+                    defaultCB2.setUpdated(user.getCreated());
+                    defaultCB2.setVersion(1);
+                    defaultCB2.setCB_CategoryId(category2.getCategoryId());
+                    tasksPackageDao.insertCategoryBlock(defaultCB2);
+
                     //Add a Category Block for each Category
                     CategoryBlock cb = null;
                     try {
-                        cb = category.addCategoryBlock("TestCB", LocalDate.of(2021, Month.FEBRUARY, 16),
+                        cb = category.addCategoryBlock("TestCB", LocalDate.of(2021, Month.MARCH, 16),
                                                     12, 16, user);
                     } catch (CategoryBlockException e) {
                         e.printStackTrace();

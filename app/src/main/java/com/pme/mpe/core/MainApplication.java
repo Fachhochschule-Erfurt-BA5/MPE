@@ -59,21 +59,9 @@ public class MainApplication extends Application {
 
         Log.i(LOG_TAG, "Application created!");
 
-        testDatabase();
-
         isFirstUse();
     }
 
-    private void testDatabase()
-    {
-        Log.i(LOG_TAG, "Hello, this a test from the database");
-
-        UserRepository userRepository = new UserRepository(this);
-
-        User DBTrigger = new User("aa", "aa","aa", "aaa", "aaa");
-        userRepository.insert(DBTrigger);
-
-    }
 
 
 

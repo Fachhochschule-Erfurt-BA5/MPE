@@ -42,6 +42,13 @@ public interface UserDao {
     @Query("SELECT * FROM User WHERE userId LIKE :search")
     User getUserForId(long search);
 
+    @Query("SELECT * FROM User WHERE firstName LIKE :name")
+    User getUserWithName(String name);
+
+    @Query("SELECT * FROM User WHERE email LIKE :email")
+    User getUserWithEMail(String email);
+
+
     // Query for the relation between the User and Category
     @Transaction
     @Query("SELECT * FROM User")
