@@ -47,7 +47,7 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
         TaskAdapter taskAdapter = new TaskAdapter(block.getAssignedTasks());
 
         blockViewHolder.rvTaskItem.setLayoutManager(layoutManager);
-        blockViewHolder.rvTaskItem.setAdapter(taskAdapter);
+        //blockViewHolder.rvTaskItem.setAdapter(taskAdapter);  warum ist taskAdapter nicht vom Typ adapter?
         blockViewHolder.rvTaskItem.setRecycledViewPool(viewPool);
     }
 
