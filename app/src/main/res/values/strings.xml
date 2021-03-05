@@ -33,6 +33,9 @@
     <string name="cooking">COOKING</string>
     <string name="travel">TRAVEL</string>
     <string name="_08_00_12_00">08:00 – 12:00</string>
+    <string name="inputName">Enter your Name</string>
+    <string name="enter">Enter</string>
+    <string name="logo">Logo</string>
 
     <string-array name="Category_arrays">
         <item>Travel</item>

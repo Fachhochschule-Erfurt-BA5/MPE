@@ -6,7 +6,8 @@ import android.content.SharedPreferences;
 
 public class KeyValueStore {
     private static String KEY_VALUE_STORE_FILE_NAME = "TODO_app_kv_store";
-    private static final int DEFAULT_INT_VALUE = -1;
+    private static final String DEFAULT_STRING_VALUE = "";
+    private static final boolean DEFAULT_BOOL_VALUE = false;
 
     // Ref needed to access SharedPreferences
     private Application app;
@@ -20,16 +21,28 @@ public class KeyValueStore {
         return this.app.getSharedPreferences( KEY_VALUE_STORE_FILE_NAME, Context.MODE_PRIVATE);
     }
 
-    // to write the name of the User and his Id
-    public void writeIntValue(String key, int value )
+
+    // to write the Username
+    public void writeStringValue(String key, String value )
     {
-        this.getPreferences().edit().putInt(key, value).apply();
+        this.getPreferences().edit().putString(key, value).apply();
     }
 
-    // to get the id of the User
-    public int getIntValue( String key )
+    // to get the Username
+    public String getStringValue( String key )
     {
-        return this.getPreferences().getInt( key, DEFAULT_INT_VALUE );
+        return this.getPreferences().getString( key, DEFAULT_STRING_VALUE );
+    }
+
+    public void writeBoolValue(String key, boolean value )
+    {
+        this.getPreferences().edit().putBoolean(key, value).apply();
+    }
+
+    // to get the Username
+    public boolean getBoolValue( String key )
+    {
+        return this.getPreferences().getBoolean( key, DEFAULT_BOOL_VALUE );
     }
 
 }

@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.pme.mpe.core.MainApplication;
+
 
 @SuppressWarnings("deprecation")
 public class LoginActivity extends AppCompatActivity {
@@ -18,6 +20,8 @@ public class LoginActivity extends AppCompatActivity {
     private final View.OnClickListener startMainActivityClickListener = v -> {
 
         if (v.getId() == R.id.enter_button) {
+            MainApplication app = (MainApplication)getApplication();
+            app.putUsername(userName.toString());
             Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(mainIntent);
             finish();

@@ -1,5 +1,6 @@
 package com.pme.mpe;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.pme.mpe.core.MainApplication;
 
 @SuppressWarnings("deprecation")
 public class SplashActivity extends AppCompatActivity {
@@ -45,9 +48,21 @@ public class SplashActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                MainApplication app = (MainApplication)getApplication();
+
+                boolean isFirstUse = app.getStore().getBoolValue("isFirstUse");
+
+                Intent intent;
+                if(isFirstUse){
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+                }
+                else{
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                }
                 startActivity(intent);
                 finish();
+
+
             }
         },3000);
 
