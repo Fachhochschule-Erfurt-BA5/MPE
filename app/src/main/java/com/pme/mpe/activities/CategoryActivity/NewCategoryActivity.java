@@ -49,6 +49,7 @@ public class NewCategoryActivity extends AppCompatActivity {
             newCategoryActivityViewModel.saveCategory(newCategory);
             //Intent categoryIntent = new Intent(getApplicationContext(), CategoryFragment.class);
             //startActivity(categoryIntent);
+
         }
 
     };
