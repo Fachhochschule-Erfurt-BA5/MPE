@@ -59,12 +59,13 @@ public class NewTaskActivity extends AppCompatActivity {
         newTaskActivityViewModel = new ViewModelProvider(this).get(NewTaskActivityViewModel.class);
         taskName = findViewById(R.id.task_name_input);
         taskDescription = findViewById(R.id.task_descrip_input);
+        //taskCategoryId =
         //taskDuration = findViewById(R.id.task_duration_select);
         taskDate = findViewById(R.id.task_date_select);
         Button saveTask = findViewById(R.id.save_task);
 
         // TODO: Wenn Duration int ist, kann ich keine view dazu machen? Wenn ich die duration als TextView mache,
-        // TODO: verlangt er bei new Task ein int
+        // TODO: verlangt er bei new Task ein int. CategoryID muss irgendwie übergeben werden
 
         saveTask.setOnClickListener(this.saveTaskClickListener);
     }

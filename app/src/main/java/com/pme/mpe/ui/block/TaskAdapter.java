@@ -63,6 +63,7 @@ public class TaskAdapter extends BaseAdapter { //extends RecyclerView.Adapter<Ta
         AppCompatTextView taskName;
         AppCompatTextView taskDescription;
         AppCompatTextView taskDuration;
+
         MaterialCardView taskElement;
         ImageButton deleteBtn;
         ImageButton editBtn;
