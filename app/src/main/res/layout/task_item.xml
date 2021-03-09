@@ -23,6 +23,37 @@
     >
 
         <LinearLayout
+            android:id="@+id/update_task_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:alpha="0"
+            android:orientation="vertical">
+
+
+            <ImageButton
+                android:id="@+id/delete_task_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00ECEFEF"
+                app:srcCompat="@android:drawable/ic_delete" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey50" />
+
+            <ImageButton
+                android:id="@+id/edit_task_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00B84A4A"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/task_item_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

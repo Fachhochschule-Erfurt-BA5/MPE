@@ -1,10 +1,13 @@
 package com.pme.mpe.ui.block;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,20 +17,25 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.storage.repository.TasksPackageRepository;
 import com.pme.mpe.ui.category.CategoryAdapter;
 
 import java.util.List;
 
 public class TaskAdapter extends BaseAdapter { //extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder>
 
+    private final Context mContext;
     private List<Task> taskList;
     private BlockViewModel taskViewModel;
+    private final TasksPackageRepository tasksPackageRepository;
 
-    public TaskAdapter(List<Task> taskList) {
-
+    public TaskAdapter(Context mContext, List<Task> taskList, TasksPackageRepository tasksPackageRepository) {
+        this.mContext = mContext;
         this.taskList = taskList;
+        this.tasksPackageRepository = tasksPackageRepository;
     }
 
     /*@NonNull
@@ -53,10 +61,13 @@ public class TaskAdapter extends BaseAdapter { //extends RecyclerView.Adapter<Ta
 
     static class TaskViewHolder { //extends RecyclerView.ViewHolder
         AppCompatTextView taskName;
-        TextView taskDescription;
-        TextView taskDuration;
+        AppCompatTextView taskDescription;
+        AppCompatTextView taskDuration;
+        MaterialCardView taskElement;
+        ImageButton deleteBtn;
+        ImageButton editBtn;
         LinearLayout updateLayout;
-        LinearLayoutCompat contentLayout;
+        LinearLayout contentLayout;
 
         /*TaskViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +97,8 @@ public class TaskAdapter extends BaseAdapter { //extends RecyclerView.Adapter<Ta
         return this.taskList.get(position).getId();
     }
 
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -98,8 +111,40 @@ public class TaskAdapter extends BaseAdapter { //extends RecyclerView.Adapter<Ta
             convertView = inflater.inflate(R.layout.task_item, parent, false);
 
             viewHolder.taskName = (AppCompatTextView) convertView.findViewById(R.id.task_item_name);
-            viewHolder.taskDescription = (TextView) convertView.findViewById(R.id.task_item_descrip);
-            viewHolder.taskDuration = (TextView) convertView.findViewById(R.id.task_item_time);
+            viewHolder.taskDescription = (AppCompatTextView) convertView.findViewById(R.id.task_item_descrip);
+            viewHolder.taskDuration = (AppCompatTextView) convertView.findViewById(R.id.task_item_time);
+            viewHolder.deleteBtn = (ImageButton) convertView.findViewById(R.id.delete_task_btn);
+            viewHolder.editBtn = (ImageButton) convertView.findViewById(R.id.edit_task_btn);
+            viewHolder.contentLayout = convertView.findViewById(R.id.task_item_layout);
+            viewHolder.updateLayout = convertView.findViewById(R.id.update_task_layout);
+            viewHolder.taskElement = (MaterialCardView) convertView.findViewById(R.id.task_item_card);
+
+            viewHolder.taskElement.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    viewHolder.updateLayout.setAlpha(1);
+                    viewHolder.updateLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, parent.getContext().getResources().getDisplayMetrics());
+                    viewHolder.updateLayout.requestLayout();
+                    viewHolder.contentLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 115, parent.getContext().getResources().getDisplayMetrics());
+                    viewHolder.contentLayout.requestLayout();
+                    return true;
+                }
+            });
+
+
+            viewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
             convertView.setTag(viewHolder);
 
@@ -112,5 +157,10 @@ public class TaskAdapter extends BaseAdapter { //extends RecyclerView.Adapter<Ta
         viewHolder.taskDescription.setText(taskList.get(position).getDescription());
         viewHolder.taskDuration.setText(taskList.get(position).getDuration());
         return convertView;
+    }
+
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
+        notifyDataSetChanged();
     }
 }

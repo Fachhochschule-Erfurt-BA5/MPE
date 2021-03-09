@@ -34,6 +34,7 @@ public class MainApplication extends Application {
         String username = this.getStore().getStringValue(STORE_KEY_USERNAME);
 
         // if not the First use, it will go to the main Activity, otherwise will call the Login Activity
+        // isEmpty because the Default Value is "", if no user stored yet
         if(!username.isEmpty()){
             isFirstUse = false;
         }
