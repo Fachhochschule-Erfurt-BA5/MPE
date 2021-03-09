@@ -17,6 +17,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
+import com.pme.mpe.activities.BlockCategoryActivity.EditBlockCategoryActivity;
 import com.pme.mpe.activities.CategoryActivity.EditCategoryActivity;
 import com.pme.mpe.activities.CategoryActivity.NewCategoryActivity;
 import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
@@ -33,7 +34,7 @@ public class BlockGridAdapter extends BaseAdapter {
     private final TasksPackageRepository tasksPackageRepository;
 
 
-    public BlockGridAdapter(Context mContext, List<CategoryBlock> blocks, TasksPackageRepository tasksPackageRepository) {
+    public BlockGridAdapter(Context mContext, List<CategoryBlock> blocks, TasksPackageRepository tasksPackageRepository, CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation) {
         this.mContext = mContext;
         this.blocks = blocks;
         this.tasksPackageRepository = tasksPackageRepository;
@@ -111,14 +112,17 @@ public class BlockGridAdapter extends BaseAdapter {
             viewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    tasksPackageRepository.deleteCategoryBlock(blocks.get(position));
                 }
             });
 
             viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent editBlockIntent = new Intent(mContext.getApplicationContext(), EditBlockCategoryActivity.class);
+                    editBlockIntent.putExtra("blockID",(int) blocks.get(position).getCatBlockId());
+                    editBlockIntent.putExtra("blockName",blocks.get(position).getTitle());
+                    mContext.startActivity(editBlockIntent);
                 }
             });
 

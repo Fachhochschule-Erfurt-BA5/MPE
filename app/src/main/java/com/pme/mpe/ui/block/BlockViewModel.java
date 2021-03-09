@@ -1,38 +1,37 @@
 package com.pme.mpe.ui.block;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
+import com.pme.mpe.model.tasks.Category;
+import com.pme.mpe.model.tasks.CategoryBlock;
+import com.pme.mpe.storage.repository.TasksPackageRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockViewModel extends ViewModel {
-    private MutableLiveData<List<String>> gBlockCategoryList;
-    private MutableLiveData<List<String>> gTaskList;
+public class BlockViewModel extends AndroidViewModel {
+    private final TasksPackageRepository tasksPackageRepository;
+    private final CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation;
 
-    public BlockViewModel() {
-        gBlockCategoryList = new MutableLiveData<>();
-        gTaskList = new MutableLiveData<>();
-        List<String> listBlock = new ArrayList<>();
-        List<String> nListTask = new ArrayList<>();
-
-        listBlock.add("Block 1");
-        listBlock.add("Block 2");
-        listBlock.add("Block 3");
-        listBlock.add("+");
-        nListTask.add("25 Tasks");
-        nListTask.add("5 Tasks");
-        nListTask.add("10 Tasks");
-        gBlockCategoryList.setValue(listBlock);
-        gTaskList.setValue(nListTask);
+    public BlockViewModel(@NonNull Application application) {
+        super(application);
+        this.tasksPackageRepository = TasksPackageRepository.getRepository(application);
+        this.categoryWithCatBlocksAndTasksRelation = new CategoryWithCatBlocksAndTasksRelation();
     }
 
-    public LiveData<List<String>> getBlockCategory() {
-        return gBlockCategoryList;
+    public LiveData<List<CategoryBlock>> getBlocks() {
+        return this.tasksPackageRepository.getCategoryBlocksLiveData();
     }
-    public LiveData<List<String>> getNTask() {
-        return gTaskList;
+
+    public void deleteBlock (CategoryBlock categoryBlock)
+    {
+        this.tasksPackageRepository.deleteCategoryBlock(categoryBlock);
     }
-    
 }

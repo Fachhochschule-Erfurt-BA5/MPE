@@ -109,11 +109,11 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     }
 
     //TODO:Bitte das löschen sobald es möglich ist
-    /*Test for RecyclerView*/
+    /*Test for RecyclerView
     public CategoryBlock(String title, List<Task> assignedTasks) {
         this.title = title;
         this.assignedTasks = assignedTasks;
-    }
+    }*/
 
     /* /////////////////////Getter/Setter///////////////////////// */
 
