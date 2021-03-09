@@ -8,6 +8,7 @@ public class KeyValueStore {
     private static String KEY_VALUE_STORE_FILE_NAME = "TODO_app_kv_store";
     private static final String DEFAULT_STRING_VALUE = "";
     private static final boolean DEFAULT_BOOL_VALUE = false;
+    private static final int DEFAULT_INT_VALUE = -10;
 
     // Ref needed to access SharedPreferences
     private Application app;
@@ -43,6 +44,15 @@ public class KeyValueStore {
     public boolean getBoolValue( String key )
     {
         return this.getPreferences().getBoolean( key, DEFAULT_BOOL_VALUE );
+    }
+
+    public void writeIntValue(String key, int intValue)
+    {
+        this.getPreferences().edit().putInt( key, intValue);
+    }
+    public int getIntValue(String key)
+    {
+        return this.getPreferences().getInt(key, DEFAULT_INT_VALUE);
     }
 
 }

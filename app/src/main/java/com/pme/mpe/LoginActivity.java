@@ -3,6 +3,7 @@ package com.pme.mpe;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.pme.mpe.model.util.PasswordHashing;
 import com.pme.mpe.storage.repository.UserRepository;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 @SuppressWarnings("deprecation")
@@ -54,24 +56,31 @@ public class LoginActivity extends AppCompatActivity {
 
         if (v.getId() == R.id.enter_button) {
 
-            List<User> users = userRepository.getUsers();
+            long UserId = userRepository.logIN(userName.getText().toString(), password.getText().toString());
 
-            for(int i = 0 ; i< users.size(); i++)
+            if(UserId > 0)
             {
-                // TODO why its doesn't work here !!!
-                if(userName.toString().equals(users.get(i).getEmail()) && PasswordHashing.verifyUserPassword(password.toString(), users.get(i).getSecurePassword(), users.get(i).getSalt()))
-                {
-                    // save the username in the KVS for the later Usage of the App
-                    app.putUsername(userName.toString());
+                //save the username in the KVS for the later Usage of the App
+                app.putUsername(userName.getText().toString());
+                app.storeUserId((int)UserId);
 
-                    // forward to the Main Activity
-                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(mainIntent);
-                    finish();
+                // forward to the Main Activity
+                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(mainIntent);
+                finish();
+            }
+            else {
+                if(UserId == -1)
+                {
+                    CharSequence text = "User with that email not found on database ";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(app, text, duration);
+                    toast.show();
                 }
-                else{
-                    //if the username or the Password are wrong it will show the User a Message
-                    CharSequence text = "No user Found!\n please try again ";
+                else if(UserId == -2)
+                {
+                    CharSequence text = "password wrong, please try again ";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(app, text, duration);
