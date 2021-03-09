@@ -18,8 +18,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.mifmif.common.regex.Main;
 import com.pme.mpe.MainActivity;
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.Category;
@@ -38,13 +41,15 @@ public class NewCategoryActivity extends AppCompatActivity {
     String cardColor = "#54aadb";
 
 
+
     private final View.OnClickListener saveCategoryClickListener = v -> {
 
         if (v.getId() == R.id.save_category) {
             Category newCategory = new Category(4, categoryName.getText().toString(), cardColor,letterColor);
             newCategoryActivityViewModel.saveCategory(newCategory);
-            Intent categoryIntent = new Intent(getApplicationContext(), CategoryFragment.class);
-            startActivity(categoryIntent);
+            //Intent categoryIntent = new Intent(getApplicationContext(), CategoryFragment.class);
+            //startActivity(categoryIntent);
+
         }
 
     };
