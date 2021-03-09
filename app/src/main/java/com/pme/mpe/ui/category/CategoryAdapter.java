@@ -41,6 +41,7 @@ public class CategoryAdapter extends BaseAdapter {
     }
 
 
+
     public int getItemCount() {
         if (this.categories != null && !this.categories.isEmpty())
             return this.categories.size();

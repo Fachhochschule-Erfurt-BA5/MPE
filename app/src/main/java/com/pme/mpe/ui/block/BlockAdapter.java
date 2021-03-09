@@ -1,5 +1,6 @@
 package com.pme.mpe.ui.block;
 
+import android.app.Application;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.CategoryBlock;
+import com.pme.mpe.storage.repository.TasksPackageRepository;
 
 import java.util.List;
 
@@ -43,8 +45,8 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
         );
         layoutManager.setInitialPrefetchItemCount(block.getAssignedTasks().size());
 
-        // Create sub item view adapter
-        TaskAdapter taskAdapter = new TaskAdapter(block.getAssignedTasks());
+        // Create sub item view adapter //// Appliocation application?
+        //TaskAdapter taskAdapter = new TaskAdapter(block.getAssignedTasks(), TasksPackageRepository.getRepository(Application ));
 
         blockViewHolder.rvTaskItem.setLayoutManager(layoutManager);
         //blockViewHolder.rvTaskItem.setAdapter(taskAdapter);  warum ist taskAdapter nicht vom Typ adapter?
