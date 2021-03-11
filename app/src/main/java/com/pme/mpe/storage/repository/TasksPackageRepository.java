@@ -538,5 +538,15 @@ public class TasksPackageRepository {
 
     }
 
+    /*get a category Id using its name*****/
+    public Category getCategoryWithName(String categoryName){
+
+         Category selectedCategory;
+
+         selectedCategory = tasksPackageDao.getCategoryWithName(categoryName);
+
+         return selectedCategory;
+    }
+
 
 }

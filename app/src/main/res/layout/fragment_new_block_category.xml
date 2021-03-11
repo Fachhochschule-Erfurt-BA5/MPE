@@ -87,6 +87,36 @@
             android:background="@color/primaryColor" />
 
         <LinearLayout
+            android:id="@+id/block_category_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/block_category_output"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:text="@string/category_prompt" />
+
+            <Spinner
+                android:id="@+id/block_category_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/Category_arrays"
+                android:prompt="@string/category_prompt" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/primaryColor" />
+
+        <LinearLayout
             android:id="@+id/block_save_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,9 +127,9 @@
                 android:id="@+id/block_save_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/save_block"
                 android:backgroundTint="@color/primaryColor"
-                android:textColor="@color/white"/>
+                android:text="@string/save_block"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
