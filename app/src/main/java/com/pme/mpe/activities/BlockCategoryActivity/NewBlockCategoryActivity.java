@@ -45,7 +45,7 @@ public class NewBlockCategoryActivity extends AppCompatActivity {
     private NewBlockActivityViewModel newBlockActivityViewModel;
     private CategoryViewModel categoryViewModel;
     protected String categoryName;
-    private ArrayList<String> categoriesList;
+    private ArrayList<String> categoriesList = new ArrayList<String>();
     private TasksPackageRepository tasksPackageRepository;
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
