@@ -23,6 +23,7 @@ import com.pme.mpe.activities.CategoryActivity.NewCategoryActivity;
 import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
+import com.pme.mpe.storage.dao.TasksPackageDao;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 
 import java.util.List;
@@ -119,9 +120,17 @@ public class BlockGridAdapter extends BaseAdapter {
             viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int colorCardID = (int) blocks.get(position).CB_CategoryId;
+                    Category catBlock = tasksPackageRepository.getCategoryWithID(colorCardID);
                     Intent editBlockIntent = new Intent(mContext.getApplicationContext(), EditBlockCategoryActivity.class);
                     editBlockIntent.putExtra("blockID",(int) blocks.get(position).getCatBlockId());
                     editBlockIntent.putExtra("blockName",blocks.get(position).getTitle());
+                    editBlockIntent.putExtra("LocalDateCategoryBlock",blocks.get(position).getDate());
+                    editBlockIntent.putExtra("blockStart",blocks.get(position).getStartTimeHour());
+                    editBlockIntent.putExtra("blockFinish",blocks.get(position).getEndTimeHour());
+                    editBlockIntent.putExtra("Block_CategoryID",blocks.get(position).getCB_CategoryId());
+
+
                     mContext.startActivity(editBlockIntent);
                 }
             });
@@ -133,9 +142,13 @@ public class BlockGridAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
+        int colorCardID = (int) blocks.get(position).CB_CategoryId;
+        Category catBlock = tasksPackageRepository.getCategoryWithID(colorCardID);
+        viewHolder.blockName.setTextColor(Color.parseColor(catBlock.getLetterColor()));
+        viewHolder.blockElement.setCardBackgroundColor(Color.parseColor(catBlock.getColor()));
         viewHolder.blockName.setText(blocks.get(position).getTitle().toUpperCase());
-        viewHolder.tasksNumber.setText(blocks.get(position).getAssignedTasks().size() + " Blocks");
+        viewHolder.tasksNumber.setText(blocks.get(position).getAssignedTasks().size() + " Tasks");
+        viewHolder.tasksNumber.setTextColor(Color.parseColor(catBlock.getLetterColor()));
         return convertView;
     }
 

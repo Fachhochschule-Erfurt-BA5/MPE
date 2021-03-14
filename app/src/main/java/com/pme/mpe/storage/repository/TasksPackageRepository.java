@@ -548,5 +548,14 @@ public class TasksPackageRepository {
          return selectedCategory;
     }
 
+    public Category getCategoryWithID(long Id) {
+
+        Category selectedCategory;
+
+        selectedCategory = tasksPackageDao.getCategoryWithID(Id);
+
+        return selectedCategory;
+    }
+
 
 }
