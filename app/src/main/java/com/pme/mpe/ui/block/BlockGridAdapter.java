@@ -2,8 +2,6 @@ package com.pme.mpe.ui.block;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Parcelable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +15,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
-import com.pme.mpe.activities.CategoryActivity.EditCategoryActivity;
-import com.pme.mpe.activities.CategoryActivity.NewCategoryActivity;
+import com.pme.mpe.activities.BlockCategoryActivity.EditBlockCategoryActivity;
 import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
@@ -31,12 +28,14 @@ public class BlockGridAdapter extends BaseAdapter {
     private final Context mContext;
     private List<CategoryBlock> blocks;
     private final TasksPackageRepository tasksPackageRepository;
+    private final CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation;
 
 
-    public BlockGridAdapter(Context mContext, List<CategoryBlock> blocks, TasksPackageRepository tasksPackageRepository) {
+    public BlockGridAdapter(Context mContext, List<CategoryBlock> blocks, TasksPackageRepository tasksPackageRepository, CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation) {
         this.mContext = mContext;
         this.blocks = blocks;
         this.tasksPackageRepository = tasksPackageRepository;
+        this.categoryWithCatBlocksAndTasksRelation = categoryWithCatBlocksAndTasksRelation;
     }
 
 
@@ -80,6 +79,7 @@ public class BlockGridAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        int colorCardID = (int) blocks.get(position).getCB_CategoryId();
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -90,10 +90,10 @@ public class BlockGridAdapter extends BaseAdapter {
             viewHolder.blockName = (AppCompatTextView) convertView.findViewById(R.id.block_grid_name);
             viewHolder.blockElement = (MaterialCardView) convertView.findViewById(R.id.block_grid_card);
             viewHolder.tasksNumber = (AppCompatTextView) convertView.findViewById(R.id.block_grid_tasks);
-            viewHolder.deleteBtn = (ImageButton) convertView.findViewById(R.id.delete_btn);
-            viewHolder.editBtn = (ImageButton) convertView.findViewById(R.id.edit_btn);
-            viewHolder.contentLayout = (LinearLayoutCompat) convertView.findViewById(R.id.content_layout);
-            viewHolder.updateLayout = (LinearLayout) convertView.findViewById(R.id.update_layout);
+            viewHolder.deleteBtn = (ImageButton) convertView.findViewById(R.id.delete_block_btn);
+            viewHolder.editBtn = (ImageButton) convertView.findViewById(R.id.edit_block_btn);
+            viewHolder.contentLayout = (LinearLayoutCompat) convertView.findViewById(R.id.content_block_layout);
+            viewHolder.updateLayout = (LinearLayout) convertView.findViewById(R.id.update_block_layout);
 
             viewHolder.blockElement.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -111,14 +111,24 @@ public class BlockGridAdapter extends BaseAdapter {
             viewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    tasksPackageRepository.deleteCategoryBlock(blocks.get(position));
                 }
             });
 
             viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    
+                    Intent editBlockIntent = new Intent(mContext.getApplicationContext(), EditBlockCategoryActivity.class);
+                    editBlockIntent.putExtra("blockID",(int) blocks.get(position).getCatBlockId());
+                    editBlockIntent.putExtra("blockName",blocks.get(position).getTitle());
+                    editBlockIntent.putExtra("LocalDateCategoryBlock",blocks.get(position).getDate());
+                    editBlockIntent.putExtra("blockStart",blocks.get(position).getStartTimeHour());
+                    editBlockIntent.putExtra("blockFinish",blocks.get(position).getEndTimeHour());
+                    editBlockIntent.putExtra("Block_CategoryID",blocks.get(position).getCB_CategoryId());
 
+
+                    mContext.startActivity(editBlockIntent);
                 }
             });
 
@@ -129,9 +139,11 @@ public class BlockGridAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
+        //viewHolder.blockName.setTextColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getLetterColor()));
+        //viewHolder.blockElement.setCardBackgroundColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getColor()));
         viewHolder.blockName.setText(blocks.get(position).getTitle().toUpperCase());
-        viewHolder.tasksNumber.setText(blocks.get(position).getAssignedTasks().size() + " Blocks");
+        viewHolder.tasksNumber.setText(blocks.get(position).getAssignedTasks().size() + " Tasks");
+        //viewHolder.tasksNumber.setTextColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getLetterColor()));
         return convertView;
     }
 

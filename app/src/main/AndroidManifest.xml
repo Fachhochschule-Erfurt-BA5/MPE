@@ -44,6 +44,16 @@
 
         </activity>
 
+        <activity
+            android:name=".activities.BlockCategoryActivity.NewBlockCategoryActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/Theme.MPE.NoActionBar" />
+        <activity
+            android:name=".activities.BlockCategoryActivity.EditBlockCategoryActivity"
+            android:theme="@style/Theme.MPE.NoActionBar">
+
+        </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

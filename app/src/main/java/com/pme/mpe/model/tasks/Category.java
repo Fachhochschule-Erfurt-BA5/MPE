@@ -93,6 +93,7 @@ public class Category {
         this.categoryBlockList.add(cb);
     }
 
+
     /* /////////////////////Getter/Setter///////////////////////// */
 
     public long getCategoryId() {

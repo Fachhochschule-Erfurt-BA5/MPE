@@ -48,6 +48,9 @@ public interface UserDao {
     @Query("SELECT * FROM User WHERE email LIKE :email")
     User getUserWithEMail(String email);
 
+    @Query("SELECT securePassword FROM User WHERE email LIKE :email")
+    String getSecuredPasswordWithEMail(String email);
+
 
     // Query for the relation between the User and Category
     @Transaction

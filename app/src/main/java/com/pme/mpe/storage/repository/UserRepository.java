@@ -85,7 +85,7 @@ public class UserRepository {
 
         if(user != null)
         {
-            if(PasswordHashing.verifyUserPassword(password, user.getSecurePassword(), user.getSalt()))
+            if(PasswordHashing.verifyUserPassword(password, userDao.getSecuredPasswordWithEMail(email), user.getSalt()))
             {
                 return user.getUserId();
             }

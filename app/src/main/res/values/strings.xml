@@ -58,5 +58,6 @@
     <string name="splash_text">TO DO IS TO BE</string>
     <string name="confirm">Confirm</string>
     <string name="addCategory">Add Category</string>
+    <string name="addBlock">Add Block</string>
 
 </resources>

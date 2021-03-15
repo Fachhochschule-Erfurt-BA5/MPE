@@ -37,10 +37,10 @@ public class HomeFragment extends Fragment {
     }
     private List<CategoryBlock> buildBlockList() {
         List<CategoryBlock> BlockList = new ArrayList<>();
-        for (int i=1; i<6; i++) {
-            CategoryBlock block = new CategoryBlock("Block "+i, buildTaskList());
-            BlockList.add(block);
-        }
+      //  for (int i=1; i<6; i++) {
+        //    CategoryBlock block = new CategoryBlock("Block "+i, buildTaskList());
+          //  BlockList.add(block);
+        //}
         return BlockList;
     }
 

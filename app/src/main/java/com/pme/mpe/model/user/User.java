@@ -188,7 +188,7 @@ public class User {
 
     @NotNull
     public String getSecurePassword() {
-        return securePassword;
+        return this.securePassword;
     }
 
     /**

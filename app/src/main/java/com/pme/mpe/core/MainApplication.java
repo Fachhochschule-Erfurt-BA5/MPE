@@ -15,7 +15,7 @@ public class MainApplication extends Application {
 
     // """"""""" work with Key Value Store """""""""
     private static final String STORE_KEY_USERNAME ="User Name";
-    EditText usernameInput;
+    private static final String STORE_KEY_USER_ID = "User Id";
     boolean isFirstUse = true;
 
     private KeyValueStore store;
@@ -33,7 +33,6 @@ public class MainApplication extends Application {
     public void isFirstUse() {
         String username = this.getStore().getStringValue(STORE_KEY_USERNAME);
 
-        // if not the First use, it will go to the main Activity, otherwise will call the Login Activity
         // isEmpty because the Default Value is "", if no user stored yet
         if(!username.isEmpty()){
             isFirstUse = false;
@@ -43,9 +42,16 @@ public class MainApplication extends Application {
 
     }
 
+    // used to store the User name, so that the user doesn't need to login every time he uses the App
     public void putUsername(String username) {
         this.getStore().writeStringValue(STORE_KEY_USERNAME, username);
         isFirstUse = false;
+    }
+
+    //used to store the Id of the logged in user to filter the Date from Database
+    public void storeUserId(int userId)
+    {
+        this.getStore().writeIntValue(STORE_KEY_USER_ID, userId);
     }
 
 
