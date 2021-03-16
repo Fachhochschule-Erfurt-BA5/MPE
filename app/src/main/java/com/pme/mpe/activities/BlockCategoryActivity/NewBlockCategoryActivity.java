@@ -19,11 +19,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.pme.mpe.MainActivity;
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
-import com.pme.mpe.ui.block.BlockFragment;
 import com.pme.mpe.ui.category.CategoryViewModel;
 
 import java.time.LocalDate;
@@ -34,7 +34,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-public class NewBlockCategoryActivity extends AppCompatActivity {
+public class NewBlockCategoryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private EditText blockName;
     private TextView blockDate;
@@ -44,7 +44,7 @@ public class NewBlockCategoryActivity extends AppCompatActivity {
     private Spinner categorySpinner;
     private NewBlockActivityViewModel newBlockActivityViewModel;
     private CategoryViewModel categoryViewModel;
-    protected String categoryName;
+    protected String categoryName = "";
     private ArrayList<String> categoriesList = new ArrayList<String>();
     private TasksPackageRepository tasksPackageRepository;
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -52,26 +52,16 @@ public class NewBlockCategoryActivity extends AppCompatActivity {
     private LocalDate localDateCategoryBlock;
     private int start;
     private int finish;
+    private int flag = 0;
 
-
-    private final View.OnClickListener timePickerDialog = v -> {
-        DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialog();
-        timePicker.show(getSupportFragmentManager(), "Time Picker");
-    };
-
-
-    private final View.OnClickListener datePickerDialog = v -> {
-        DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialog();
-        datePicker.show(getSupportFragmentManager(), "Date Picker");
-    };
 
     private final View.OnClickListener saveBlockClickListener = v -> {
 
         if (v.getId() == R.id.block_save_btn) {
-            int categoryID = (int) tasksPackageRepository.getCategoryWithName(categoryName).getCategoryId();
-            CategoryBlock newCategoryBlock = new CategoryBlock(blockName.getText().toString(),categoryID,localDateCategoryBlock,start,finish);
+            int categoryID = (int) newBlockActivityViewModel.nameToIDCategory(categoryName).getCategoryId();
+            CategoryBlock newCategoryBlock = new CategoryBlock(blockName.getText().toString(), categoryID, localDateCategoryBlock, start, finish);
             newBlockActivityViewModel.saveBlock(newCategoryBlock);
-            Intent blockIntent = new Intent(getApplicationContext(), BlockFragment.class);
+            Intent blockIntent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(blockIntent);
         }
     };
@@ -115,40 +105,67 @@ public class NewBlockCategoryActivity extends AppCompatActivity {
             }
         });
 
-        blockStart.setOnClickListener(this.timePickerDialog);
-        blockFinish.setOnClickListener(this.timePickerDialog);
-        blockDate.setOnClickListener(this.datePickerDialog);
+        blockStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag = 1;
+                DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
+                timePicker.show(getSupportFragmentManager(), "Time Picker");
+            }
+        });
+        blockFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag = 2;
+                DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
+                timePicker.show(getSupportFragmentManager(), "Time Picker");
+            }
+        });
+
+        blockDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
+                datePicker.show(getSupportFragmentManager(), "Date Picker");
+            }
+        });
+
         blockSave.setOnClickListener(this.saveBlockClickListener);
 
-        dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.YEAR, year);
-                c.set(Calendar.MONTH, month);
-                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                TimeZone tz = c.getTimeZone();
-                ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
-                localDateCategoryBlock = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
 
-            }
-        };
+    }
 
-        timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                c.set(Calendar.MINUTE, minute);
-                if (view.getId() == R.id.block_start_select) {
-                    start = hourOfDay;
-                }
-                if (view.getId() == R.id.block_finish_select) {
-                    finish = hourOfDay;
-                }
-            }
-        };
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        TimeZone tz = c.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        localDateCategoryBlock = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
+        //String dateChosen = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        String dateChosen = dayOfMonth + "/" + month + "/" + year;
+        blockDate.setText(dateChosen);
+    }
 
 
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        if (flag == 1) {
+            flag = 0;
+            start = hourOfDay;
+            String timeChosen = hourOfDay + ":00";
+            blockStart.setText(timeChosen);
+        }
+        if (flag == 2) {
+            flag = 0;
+            finish = hourOfDay;
+            String timeChosen = hourOfDay + ":00";
+            blockFinish.setText(timeChosen);
+
+        }
     }
 }

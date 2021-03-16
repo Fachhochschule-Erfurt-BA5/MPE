@@ -96,13 +96,13 @@ public class NewTaskActivity extends AppCompatActivity {
 
 
     private final View.OnClickListener timePickerDialog = v -> {
-        DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialog();
+        DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
         timePicker.show(getSupportFragmentManager(), "Time Picker");
     };
 
 
     private final View.OnClickListener datePickerDialog = v -> {
-        DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialog();
+        DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
         datePicker.show(getSupportFragmentManager(), "Date Picker");
     };
 

@@ -27,4 +27,5 @@ public class NewCategoryActivityViewModel extends AndroidViewModel {
         this.tasksPackageRepository.updateCategory(categoryID, newCatName, newCatColor, newCatLetterColor);
     }
 
+
 }
