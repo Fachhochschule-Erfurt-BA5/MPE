@@ -144,7 +144,8 @@ public class NewBlockCategoryActivity extends AppCompatActivity implements DateP
         ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
         localDateCategoryBlock = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
         //String dateChosen = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        String dateChosen = dayOfMonth + "/" + month + "/" + year;
+        int stringMonth = month+1;
+        String dateChosen = dayOfMonth + "/" + stringMonth + "/" + year;
         blockDate.setText(dateChosen);
     }
 

@@ -41,7 +41,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class EditBlockCategoryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener  {
+public class EditBlockCategoryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private EditText blockName;
     private TextView blockDate;
@@ -60,7 +60,7 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
     private int start;
     private int finish;
     int categoryID;
-    int flag =0;
+    int flag = 0;
 
     private final View.OnClickListener saveBlockClickListener = v -> {
 
@@ -69,10 +69,11 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
             Bundle extras = catBlockIntent.getExtras();
             int categoryBlockID = extras.getInt("blockID");
             int categoryID = (int) newBlockActivityViewModel.nameToIDCategory(categoryName).getCategoryId();
-            CategoryBlock newCategoryBlock = new CategoryBlock(blockName.getText().toString(),categoryID,localDateCategoryBlock,start,finish);
+            CategoryBlock newCategoryBlock = new CategoryBlock(blockName.getText().toString(), categoryID, localDateCategoryBlock, start, finish);
+
             try {
-                newBlockActivityViewModel.updateBlock(categoryBlockID,newCategoryBlock);
-                Toast.makeText(getApplicationContext(), "in update", Toast.LENGTH_LONG).show();
+                newBlockActivityViewModel.updateBlock(categoryBlockID, newCategoryBlock);
+
             } catch (FixedTaskException | ObjectNotFoundException e) {
                 e.printStackTrace();
             }
@@ -130,9 +131,12 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
         //String colorText = extras.getString("blockColorText");
         //String colorBtn = extras.getString("blockColorCard");
 
+        start = blockStartExtra;
+        finish = blockFinishExtra;
+        localDateCategoryBlock = LocalDateBlock;
         blockName.setText(catBlockName);
-        blockStart.setText(blockStartExtra+":00");
-        blockFinish.setText(blockFinishExtra+":00");
+        blockStart.setText(blockStartExtra + ":00");
+        blockFinish.setText(blockFinishExtra + ":00");
         blockDate.setText(LocalDateBlock.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
 
@@ -140,7 +144,7 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
             @Override
             public void onClick(View v) {
                 Bundle dialogBundle = new Bundle();
-                dialogBundle.putInt("DialogID",1);
+                dialogBundle.putInt("DialogID", 1);
                 flag = 1;
                 DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
                 timePicker.setArguments(dialogBundle);
@@ -151,7 +155,7 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
             @Override
             public void onClick(View v) {
                 Bundle dialogBundle = new Bundle();
-                dialogBundle.putInt("DialogID",1);
+                dialogBundle.putInt("DialogID", 1);
                 flag = 2;
                 DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
                 timePicker.setArguments(dialogBundle);
@@ -163,13 +167,12 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
             @Override
             public void onClick(View v) {
                 Bundle dialogBundle = new Bundle();
-                dialogBundle.putInt("DialogID",1);
+                dialogBundle.putInt("DialogID", 1);
                 DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
                 datePicker.setArguments(dialogBundle);
                 datePicker.show(getSupportFragmentManager(), "Date Picker");
             }
         });
-
 
 
         blockSave.setOnClickListener(this.saveBlockClickListener);
@@ -186,7 +189,8 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
         ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
         localDateCategoryBlock = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
         //String dateChosen = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        String dateChosen = dayOfMonth + "/" + month + "/" + year;
+        int stringMonth = month + 1;
+        String dateChosen = dayOfMonth + "/" + stringMonth + "/" + year;
         blockDate.setText(dateChosen);
     }
 

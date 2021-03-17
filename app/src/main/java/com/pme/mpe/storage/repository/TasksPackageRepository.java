@@ -47,13 +47,10 @@ public class TasksPackageRepository {
      * @param application the application
      * @return the repository
      */
-    public static TasksPackageRepository getRepository(Application application)
-    {
-        if(INSTANCE == null)
-        {
+    public static TasksPackageRepository getRepository(Application application) {
+        if (INSTANCE == null) {
             synchronized (TasksPackageRepository.class) {
-                if(INSTANCE == null)
-                {
+                if (INSTANCE == null) {
                     INSTANCE = new TasksPackageRepository(application);
                 }
             }
@@ -70,8 +67,7 @@ public class TasksPackageRepository {
      *
      * @param application the application
      */
-    public TasksPackageRepository(Application application)
-    {
+    public TasksPackageRepository(Application application) {
         ToDoDatabase db = ToDoDatabase.getDatabase(application);
         this.tasksPackageDao = db.tasksPackageDao();
 
@@ -84,12 +80,11 @@ public class TasksPackageRepository {
     /**
      * Fetch the categories live data and merge the needed objects.
      * TODO: Filter just the Categories from a given User
+     *
      * @return the categories live data
      */
-    public LiveData<List<Category>> getCategoriesLiveData()
-    {
-        if(this.allCategories == null)
-        {
+    public LiveData<List<Category>> getCategoriesLiveData() {
+        if (this.allCategories == null) {
             this.allCategories = Transformations.map(
                     this.queryLiveData(this.tasksPackageDao::getCategoriesWithCategoryBlocks),
                     input -> input
@@ -104,12 +99,11 @@ public class TasksPackageRepository {
     /**
      * Fetch the category blocks live data and merge the needed objects.
      * TODO: Filter just the Categories Blocks from a given User
+     *
      * @return the category blocks live data
      */
-    public LiveData<List<CategoryBlock>> getCategoryBlocksLiveData()
-    {
-        if(this.allCategoryBlocks == null)
-        {
+    public LiveData<List<CategoryBlock>> getCategoryBlocksLiveData() {
+        if (this.allCategoryBlocks == null) {
             this.allCategoryBlocks = Transformations.map(
                     this.queryLiveData(this.tasksPackageDao::getCategoryBlocksWithTasks),
                     input -> input
@@ -123,12 +117,10 @@ public class TasksPackageRepository {
 
 //////////////////Help Functions//////////////////
 
-    private <T> LiveData<T> queryLiveData( Callable<LiveData<T>> query )
-    {
+    private <T> LiveData<T> queryLiveData(Callable<LiveData<T>> query) {
         try {
-            return ToDoDatabase.executeWithReturn( query );
-        }
-        catch (ExecutionException | InterruptedException e) {
+            return ToDoDatabase.executeWithReturn(query);
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -146,8 +138,7 @@ public class TasksPackageRepository {
      *
      * @param category the category
      */
-    public void insertCategory(Category category)
-    {
+    public void insertCategory(Category category) {
         category.setCreated(LocalDate.now());
         category.setUpdated(category.getCreated());
         category.setVersion(1);
@@ -155,14 +146,12 @@ public class TasksPackageRepository {
         long catId = 0;
 
         try {
-            catId = ToDoDatabase.executeWithReturn( () -> tasksPackageDao.insertCategory( category ) );
-        }
-        catch (ExecutionException | InterruptedException e)
-        {
+            catId = ToDoDatabase.executeWithReturn(() -> tasksPackageDao.insertCategory(category));
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        Log.i( LOG_TAG, "Just inserted Category ID: " + catId);
+        Log.i(LOG_TAG, "Just inserted Category ID: " + catId);
 
         //Prepare the default Category block to be saved
         CategoryBlock cb = category.getDefaultCategoryBlock();
@@ -172,27 +161,26 @@ public class TasksPackageRepository {
         cb.setVersion(1);
 
         //Save the default category block
-        ToDoDatabase.execute( () -> tasksPackageDao.insertCategoryBlock(cb));
+        ToDoDatabase.execute(() -> tasksPackageDao.insertCategoryBlock(cb));
     }
 
     /**
      * Insert a category block.
      * To ensure Security and Consistency on the Foreign Keys use:
      * Category.addCategoryBlock() method on the Category from this Category Block
-     *
+     * <p>
      * The mentioned method returns the just instantiated CategoryBlock with the correct Foreign Keys,
      * which should be manually added with this function
      *
      * @param categoryBlock the category block
      */
 
-    public void insertCategoryBlock(CategoryBlock categoryBlock)
-    {
+    public void insertCategoryBlock(CategoryBlock categoryBlock) {
         categoryBlock.setCreated(LocalDate.now());
         categoryBlock.setUpdated(categoryBlock.getCreated());
         categoryBlock.setVersion(1);
 
-        ToDoDatabase.execute( () -> tasksPackageDao.insertCategoryBlock(categoryBlock));
+        ToDoDatabase.execute(() -> tasksPackageDao.insertCategoryBlock(categoryBlock));
     }
 
     /**
@@ -200,18 +188,16 @@ public class TasksPackageRepository {
      * To ensure Security and Consistency on the Foreign Keys use:
      * Category.createAndAssignTaskToCategory() for instantiating Non-Fixed Task or
      * Category.createdFixedTaskAndAssignToCategoryBlock() for instantiating a Fixed Task
-     *
+     * <p>
      * These methods return the just added Task with the correct Foreign Keys,
      * which should be manually added with this following function
      *
      * @param task the task
      */
 
-    public void insertTask(Task task)
-    {
+    public void insertTask(Task task) {
         //The Foreign key from the Category Block should be saved as well if the Task is Fixed
-        if(task.isTaskFixed())
-        {
+        if (task.isTaskFixed()) {
             task.setT_categoryBlockId(task.getCategoryBlock().getCatBlockId());
         }
 
@@ -219,7 +205,7 @@ public class TasksPackageRepository {
         task.setUpdated(task.getCreated());
         task.setVersion(1);
 
-        ToDoDatabase.execute( () -> tasksPackageDao.insertTask(task));
+        ToDoDatabase.execute(() -> tasksPackageDao.insertTask(task));
     }
 
     //////////////////Update//////////////////
@@ -238,8 +224,7 @@ public class TasksPackageRepository {
         //Fetch the Category from the Database
         Category category = this.tasksPackageDao.getCategoryWithID(categoryID);
 
-        if(category != null)
-        {
+        if (category != null) {
             category.setCategoryName(newCatName);
             category.setColor(newCatColor);
             category.setLetterColor(newCatLetterColor);
@@ -247,9 +232,8 @@ public class TasksPackageRepository {
             category.setUpdated(LocalDate.now());
             category.setVersion(category.getVersion() + 1);
 
-            ToDoDatabase.execute( () -> tasksPackageDao.updateCategory(category));
-        }
-        else{
+            ToDoDatabase.execute(() -> tasksPackageDao.updateCategory(category));
+        } else {
             throw new ObjectNotFoundException("Category with given ID not found on Database");
         }
     }
@@ -270,15 +254,21 @@ public class TasksPackageRepository {
         //Fetch the Category Block from the Database
         CategoryBlock categoryBlock = this.tasksPackageDao.getCategoryBlockWithID(categoryBlockID);
 
-        if (categoryBlock != null)
-        {
+        if (categoryBlock != null) {
             categoryBlock.setStartTimeHour(newCategoryBlock.getStartTimeHour());
             categoryBlock.setEndTimeHour(newCategoryBlock.getEndTimeHour());
+            /**
+             * added by Hamza Harti
+             * to be reviewed by Backenders
+             */
+            categoryBlock.setDate(newCategoryBlock.getDate());
+            categoryBlock.setTitle(newCategoryBlock.getTitle());
+            categoryBlock.setCB_CategoryId(newCategoryBlock.getCB_CategoryId());
+            /** end of note*/
 
             List<Task> tasks = tasksPackageDao.getFixedTasksFromCB(categoryBlockID);
 
-            if(tasks.size() > 0)
-            {
+            if (tasks.size() > 0) {
                 //Unfix all the fixed tasks
                 for (int i = 0; i < tasks.size(); i++) {
                     unfixTask(tasks.get(i));
@@ -289,13 +279,10 @@ public class TasksPackageRepository {
                 //Try to re-fix the tasks
                 for (int i = 0; i < tasks.size(); i++) {
 
-                    if(tasks.get(i).getDuration() <= newTimeInSlot)
-                    {
+                    if (tasks.get(i).getDuration() <= newTimeInSlot) {
                         fixExistingTaskToCategoryBlock(tasks.get(i), categoryBlock);
                         newTimeInSlot = newTimeInSlot - tasks.get(i).getDuration();
-                    }
-                    else
-                    {
+                    } else {
                         throw new FixedTaskException("One or more Tasks were unfixed with the change of time");
                     }
                 }
@@ -304,10 +291,8 @@ public class TasksPackageRepository {
             categoryBlock.setUpdated(LocalDate.now());
             categoryBlock.setVersion(categoryBlock.getVersion() + 1);
 
-            ToDoDatabase.execute( () -> tasksPackageDao.updateCategoryBlock(categoryBlock));
-        }
-        else
-        {
+            ToDoDatabase.execute(() -> tasksPackageDao.updateCategoryBlock(categoryBlock));
+        } else {
             throw new ObjectNotFoundException("Category Block with given ID not found on Database");
         }
     }
@@ -332,8 +317,7 @@ public class TasksPackageRepository {
         //Fetch the task from the Database
         Task task = this.tasksPackageDao.getTaskWithID(taskID);
 
-        if(task != null)
-        {
+        if (task != null) {
             task.setName(newName);
             task.setDescription(newDescription);
 
@@ -343,10 +327,8 @@ public class TasksPackageRepository {
             task.setUpdated(LocalDate.now());
             task.setVersion(task.getVersion() + 1);
 
-            ToDoDatabase.execute( () -> tasksPackageDao.updateTask(task));
-        }
-        else
-        {
+            ToDoDatabase.execute(() -> tasksPackageDao.updateTask(task));
+        } else {
             throw new ObjectNotFoundException("Task with given ID not found on Database");
         }
     }
@@ -358,8 +340,7 @@ public class TasksPackageRepository {
      *
      * @param category the category
      */
-    public void deleteCategory(Category category)
-    {
+    public void deleteCategory(Category category) {
         // Get the Category Id, which will be deleted
         long categoryId = category.getCategoryId();
 
@@ -370,35 +351,32 @@ public class TasksPackageRepository {
         List<Task> tasks = tasksPackageDao.getTasksWithCategoryID(categoryId);
 
         // Delete all tasks (if any)
-        if(tasks.size() > 0)
-        {
+        if (tasks.size() > 0) {
             for (int i = 0; i < tasks.size(); i++) {
                 int finalI = i;
-                ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(tasks.get(finalI)));
+                ToDoDatabase.execute(() -> tasksPackageDao.deleteTask(tasks.get(finalI)));
             }
         }
 
         // Delete all category blocks (if any)
-        if(categoryBlocks.size() > 0)
-        {
+        if (categoryBlocks.size() > 0) {
             for (int i = 0; i < categoryBlocks.size(); i++) {
                 int finalI = i;
-                ToDoDatabase.execute( () -> tasksPackageDao.deleteCategoryBlock(categoryBlocks.get(finalI)));
+                ToDoDatabase.execute(() -> tasksPackageDao.deleteCategoryBlock(categoryBlocks.get(finalI)));
             }
         }
 
         // Delete the Category after deleting all Tasks and CategoryBlocks from it
-        ToDoDatabase.execute(()-> tasksPackageDao.deleteCategory(category));
+        ToDoDatabase.execute(() -> tasksPackageDao.deleteCategory(category));
     }
 
     /**
      * Delete category block
      * If there was fixed tasks on this category block, they would be be unfixed.
      *
-     * @param categoryBlock          the category block
+     * @param categoryBlock the category block
      */
-    public void deleteCategoryBlock(CategoryBlock categoryBlock)
-    {
+    public void deleteCategoryBlock(CategoryBlock categoryBlock) {
         // Get the Category block id
         long id = categoryBlock.getCatBlockId();
 
@@ -406,10 +384,8 @@ public class TasksPackageRepository {
         List<Task> fixedTasks = tasksPackageDao.getFixedTasksFromCB(id);
 
         // Unfix all the fixed tasks (if any)
-        if(fixedTasks.size() > 0)
-        {
-            for (int i=0; i < fixedTasks.size(); i++)
-            {
+        if (fixedTasks.size() > 0) {
+            for (int i = 0; i < fixedTasks.size(); i++) {
                 // Try to unfix the fixed Tasks in this Category Block
                 try {
                     fixedTasks.get(i).unfixTaskFromCategoryBlock();
@@ -423,7 +399,7 @@ public class TasksPackageRepository {
         }
 
         // When it is finish with unfixing all fixed Tasks ==> delete this Category Block
-        ToDoDatabase.execute( () -> tasksPackageDao.deleteCategoryBlock(categoryBlock));
+        ToDoDatabase.execute(() -> tasksPackageDao.deleteCategoryBlock(categoryBlock));
     }
 
 
@@ -435,9 +411,8 @@ public class TasksPackageRepository {
      *
      * @param task the task
      */
-    public void deleteTask(Task task)
-    {
-        ToDoDatabase.execute( () -> tasksPackageDao.deleteTask(task));
+    public void deleteTask(Task task) {
+        ToDoDatabase.execute(() -> tasksPackageDao.deleteTask(task));
     }
 
 //////////////////Helper functions//////////////////
@@ -448,20 +423,16 @@ public class TasksPackageRepository {
      * @param categoryBlock the category block
      * @return true if any fixed tasks where found for this category block
      */
-    public boolean hasACategoryBlockFixedTasks(CategoryBlock categoryBlock)
-    {
+    public boolean hasACategoryBlockFixedTasks(CategoryBlock categoryBlock) {
         // Get the Category block id
         long id = categoryBlock.getCatBlockId();
 
         // Fetch all fixed tasks from this category block
         List<Task> fixedTasks = tasksPackageDao.getFixedTasksFromCB(id);
 
-        if(fixedTasks.size() > 0)
-        {
+        if (fixedTasks.size() > 0) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -489,28 +460,19 @@ public class TasksPackageRepository {
      */
     public void fixExistingTaskToCategoryBlock(Task task, CategoryBlock categoryBlock) throws FixedTaskException {
 
-        if(task.isTaskFixed())
-        {
+        if (task.isTaskFixed()) {
             throw new FixedTaskException("This task is already fixed!");
-        }
-        else
-        {
-            if(!categoryBlock.isDefaultCB())
-            {
-                if(categoryBlock.isEnoughTimeForATaskAvailable(task))
-                {
+        } else {
+            if (!categoryBlock.isDefaultCB()) {
+                if (categoryBlock.isEnoughTimeForATaskAvailable(task)) {
                     task.setTaskFixed(true);
                     task.setT_categoryBlockId(categoryBlock.getCatBlockId());
 
-                    ToDoDatabase.execute( () -> tasksPackageDao.updateTask(task));
-                }
-                else
-                {
+                    ToDoDatabase.execute(() -> tasksPackageDao.updateTask(task));
+                } else {
                     throw new FixedTaskException("Not enough time for that task");
                 }
-            }
-            else
-            {
+            } else {
                 throw new FixedTaskException("Cannot fix task to default CB");
             }
 
@@ -524,28 +486,25 @@ public class TasksPackageRepository {
      * @throws FixedTaskException the fixed task exception
      */
     public void unfixTask(Task task) throws FixedTaskException {
-        if(task.isTaskFixed())
-        {
+        if (task.isTaskFixed()) {
             task.setTaskFixed(false);
             task.setT_categoryBlockId(0);
 
-            ToDoDatabase.execute( () -> tasksPackageDao.updateTask(task));
-        }
-        else
-        {
+            ToDoDatabase.execute(() -> tasksPackageDao.updateTask(task));
+        } else {
             throw new FixedTaskException("Cannot unfix a not fixed tasks!");
         }
 
     }
 
     /*get a category Id using its name*****/
-    public Category getCategoryWithName(String categoryName){
+    public Category getCategoryWithName(String categoryName) {
 
-         Category selectedCategory;
+        Category selectedCategory;
 
-         selectedCategory = tasksPackageDao.getCategoryWithName(categoryName);
+        selectedCategory = tasksPackageDao.getCategoryWithName(categoryName);
 
-         return selectedCategory;
+        return selectedCategory;
     }
 
     public Category getCategoryWithID(long Id) {
