@@ -2,6 +2,7 @@ package com.pme.mpe.ui.block;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -17,8 +19,8 @@ import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
 import com.pme.mpe.activities.BlockCategoryActivity.EditBlockCategoryActivity;
 import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
-import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
+import com.pme.mpe.storage.dao.TasksPackageDao;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 
 import java.util.List;
@@ -79,7 +81,6 @@ public class BlockGridAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        int colorCardID = (int) blocks.get(position).getCB_CategoryId();
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -118,14 +119,14 @@ public class BlockGridAdapter extends BaseAdapter {
             viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    
+
                     Intent editBlockIntent = new Intent(mContext.getApplicationContext(), EditBlockCategoryActivity.class);
-                    editBlockIntent.putExtra("blockID",(int) blocks.get(position).getCatBlockId());
-                    editBlockIntent.putExtra("blockName",blocks.get(position).getTitle());
-                    editBlockIntent.putExtra("LocalDateCategoryBlock",blocks.get(position).getDate());
-                    editBlockIntent.putExtra("blockStart",blocks.get(position).getStartTimeHour());
-                    editBlockIntent.putExtra("blockFinish",blocks.get(position).getEndTimeHour());
-                    editBlockIntent.putExtra("Block_CategoryID",blocks.get(position).getCB_CategoryId());
+                    editBlockIntent.putExtra("blockID", (int) blocks.get(position).getCatBlockId());
+                    editBlockIntent.putExtra("blockName", blocks.get(position).getTitle());
+                    editBlockIntent.putExtra("LocalDateCategoryBlock", blocks.get(position).getDate());
+                    editBlockIntent.putExtra("blockStart", blocks.get(position).getStartTimeHour());
+                    editBlockIntent.putExtra("blockFinish", blocks.get(position).getEndTimeHour());
+                    editBlockIntent.putExtra("Block_CategoryID", blocks.get(position).getCB_CategoryId());
 
 
                     mContext.startActivity(editBlockIntent);
@@ -139,11 +140,14 @@ public class BlockGridAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        //viewHolder.blockName.setTextColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getLetterColor()));
-        //viewHolder.blockElement.setCardBackgroundColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getColor()));
+        int colorCardID = (int) blocks.get(position).getCB_CategoryId();
+
+        viewHolder.blockName.setTextColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getLetterColor()));
+        viewHolder.blockElement.setCardBackgroundColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getColor()));
         viewHolder.blockName.setText(blocks.get(position).getTitle().toUpperCase());
+        //viewHolder.blockName.setText(colorCardID+"");
         viewHolder.tasksNumber.setText(blocks.get(position).getAssignedTasks().size() + " Tasks");
-        //viewHolder.tasksNumber.setTextColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getLetterColor()));
+        viewHolder.tasksNumber.setTextColor(Color.parseColor(tasksPackageRepository.getCategoryWithID(colorCardID).getLetterColor()));
         return convertView;
     }
 

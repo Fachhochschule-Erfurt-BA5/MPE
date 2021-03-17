@@ -17,6 +17,7 @@ import com.pme.mpe.R;
 import com.pme.mpe.activities.BlockCategoryActivity.NewBlockCategoryActivity;
 import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
 import com.pme.mpe.model.tasks.CategoryBlock;
+import com.pme.mpe.storage.dao.TasksPackageDao;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
 public class BlockFragment extends Fragment {
 
     private BlockViewModel blockViewModel;
-    private List<CategoryBlock> blocks;
+    public List<CategoryBlock> blocks;
     private AppCompatTextView blockAdd;
     private TasksPackageRepository tasksPackageRepository;
     private CategoryWithCatBlocksAndTasksRelation categoryWithCatBlocksAndTasksRelation;
@@ -32,12 +33,14 @@ public class BlockFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         blockViewModel = new ViewModelProvider(this).get(BlockViewModel.class);
+        tasksPackageRepository = new TasksPackageRepository(blockViewModel.getApplication());
+        categoryWithCatBlocksAndTasksRelation = new CategoryWithCatBlocksAndTasksRelation();
         View root = inflater.inflate(R.layout.fragment_block, container, false);
         GridView gridView = (GridView) root.findViewById(R.id.block_grid_layout);
-        BlockGridAdapter blockGridAdapter = new BlockGridAdapter(getContext(), blocks, tasksPackageRepository,categoryWithCatBlocksAndTasksRelation);
+        BlockGridAdapter blockGridAdapter = new BlockGridAdapter(getContext(), blocks, tasksPackageRepository, categoryWithCatBlocksAndTasksRelation);
         gridView.setAdapter(blockGridAdapter);
 
-        blockViewModel.getBlocks().observe(this.requireActivity(),blockGridAdapter::setBlocks);
+        blockViewModel.getBlocks().observe(this.requireActivity(), blockGridAdapter::setBlocks);
 
         blockAdd = root.findViewById(R.id.block_grid_text);
         blockAdd.setText(R.string.addBlock);
@@ -49,13 +52,11 @@ public class BlockFragment extends Fragment {
 
     private final View.OnClickListener addButtonClickListener = v -> {
 
-        if( v.getId() == R.id.block_grid_add)
-        {
+        if (v.getId() == R.id.block_grid_add) {
             Intent newBlockIntent = new Intent(getContext(), NewBlockCategoryActivity.class);
             startActivity(newBlockIntent);
         }
     };
-
 
 
 }
