@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -71,6 +72,7 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
             CategoryBlock newCategoryBlock = new CategoryBlock(blockName.getText().toString(),categoryID,localDateCategoryBlock,start,finish);
             try {
                 newBlockActivityViewModel.updateBlock(categoryBlockID,newCategoryBlock);
+                Toast.makeText(getApplicationContext(), "in update", Toast.LENGTH_LONG).show();
             } catch (FixedTaskException | ObjectNotFoundException e) {
                 e.printStackTrace();
             }
@@ -124,9 +126,9 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
         int blockStartExtra = extras.getInt("blockStart");
         int blockFinishExtra = extras.getInt("blockFinish");
         LocalDate LocalDateBlock = (LocalDate) extras.getSerializable("LocalDateCategoryBlock");
-        int block_CategoryID = extras.getInt("Block_CategoryID");
-        String colorText = extras.getString("blockColorText");
-        String colorBtn = extras.getString("blockColorCard");
+        //int block_CategoryID = extras.getInt("Block_CategoryID");
+        //String colorText = extras.getString("blockColorText");
+        //String colorBtn = extras.getString("blockColorCard");
 
         blockName.setText(catBlockName);
         blockStart.setText(blockStartExtra+":00");
@@ -137,16 +139,22 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
         blockStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID",1);
                 flag = 1;
                 DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
+                timePicker.setArguments(dialogBundle);
                 timePicker.show(getSupportFragmentManager(), "Time Picker");
             }
         });
         blockFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID",1);
                 flag = 2;
                 DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
+                timePicker.setArguments(dialogBundle);
                 timePicker.show(getSupportFragmentManager(), "Time Picker");
             }
         });
@@ -154,7 +162,10 @@ public class EditBlockCategoryActivity extends AppCompatActivity implements Date
         blockDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID",1);
                 DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
+                datePicker.setArguments(dialogBundle);
                 datePicker.show(getSupportFragmentManager(), "Date Picker");
             }
         });
