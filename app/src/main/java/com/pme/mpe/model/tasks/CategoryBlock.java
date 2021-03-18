@@ -103,7 +103,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
     {
         this.title = "Default CB";
         this.CB_CategoryId = category.getCategoryId();
-        this.catBlockId = category.getCategoryId();
+        this.catBlockId = category.getCategoryId(); //TODO: how does it work ? (Hamza Harti)
         this.isDefaultCB = true;
         this.softFixedTasks = new ArrayList<>();
     }

@@ -26,7 +26,7 @@ public class TaskViewModel extends AndroidViewModel {
 
    /* public LiveData<List<Task>> getTasks() {
         return this.tasksPackageRepository.getTasksLiveData();
-    }*/ //TODO: brauchen wir noch eine getTTaskLiveData() funktion, oder läuft das über die Blocks?
+    }*/ //TODO: brauchen wir noch eine getTaskLiveData() funktion, oder läuft das über die Blocks?
 
     public void deleteTask (Task task)
     {

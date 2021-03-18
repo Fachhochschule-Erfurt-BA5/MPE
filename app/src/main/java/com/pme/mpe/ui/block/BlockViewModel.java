@@ -30,6 +30,7 @@ public class BlockViewModel extends AndroidViewModel {
         return this.tasksPackageRepository.getCategoryBlocksLiveData();
     }
 
+
     public void deleteBlock (CategoryBlock categoryBlock)
     {
         this.tasksPackageRepository.deleteCategoryBlock(categoryBlock);

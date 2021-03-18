@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.tasks.exceptions.TimeException;
@@ -29,5 +30,9 @@ public class NewTaskActivityViewModel extends AndroidViewModel {
 
     public void updateTask (long taskID, String newName, String newDescription, int newDuration, LocalDate deadline) throws ObjectNotFoundException, TaskFixException, TimeException {
         this.tasksPackageRepository.updateTask(taskID, newName, newDescription, newDuration, deadline);
+    }
+
+    public Category nameToIDCategory(String CategoryName) {
+        return this.tasksPackageRepository.getCategoryWithName(CategoryName);
     }
 }

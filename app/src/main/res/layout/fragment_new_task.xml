@@ -103,7 +103,26 @@
             android:layout_marginTop="5dp"
             android:background="@color/primaryColor" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp">
 
+            <androidx.appcompat.widget.SwitchCompat
+
+                android:id="@+id/switch_fixed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fixed"
+                android:textColor="@color/blue"
+                android:checked="true"
+                android:theme="@style/SCBSwitch"
+                />
+
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/task_category_layout"
             android:layout_width="match_parent"
@@ -122,6 +141,29 @@
 
             <Spinner
                 android:id="@+id/task_category_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/Category_arrays"
+                android:prompt="@string/category_prompt" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/task_block_category_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/task_block_category_output"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:text="@string/block_prompt" />
+
+            <Spinner
+                android:id="@+id/task_block_category_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/Category_arrays"
@@ -152,28 +194,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
                 android:text="@string/select_predefined_color" />
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="5dp">
-
-            <androidx.appcompat.widget.SwitchCompat
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fixed"
-                android:textColor="@color/blue"
-                android:checked="true"
-                android:theme="@style/SCBSwitch"
-                />
-
         </LinearLayout>
 
         <View

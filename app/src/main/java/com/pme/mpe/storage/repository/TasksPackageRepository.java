@@ -497,7 +497,7 @@ public class TasksPackageRepository {
 
     }
 
-    /*get a category Id using its name*****/
+    /*get a category Id using its name (Hamza Harti)*****/
     public Category getCategoryWithName(String categoryName) {
 
         Category selectedCategory;
@@ -515,6 +515,8 @@ public class TasksPackageRepository {
 
         return selectedCategory;
     }
+
+
 
 
 }

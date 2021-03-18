@@ -27,6 +27,7 @@ public class CategoryViewModel extends AndroidViewModel {
         return this.tasksPackageRepository.getCategoriesLiveData();
     }
 
+
     public void deleteCategory (Category category)
     {
         this.tasksPackageRepository.deleteCategory(category);
