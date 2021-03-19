@@ -60,5 +60,6 @@
     <string name="addCategory">Add Category</string>
     <string name="addBlock">Add Block</string>
     <string name="block_prompt">Select a Block</string>
+    <string name="deadline">Deadline</string>
 
 </resources>
