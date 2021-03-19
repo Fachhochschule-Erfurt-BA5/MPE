@@ -105,12 +105,12 @@ public class Task implements Comparable<Task>{
     }
 
     //TODO:Bitte das löschen sobald es möglich ist
-    /*Test for RecyclerView*/
+    /*Test for RecyclerView
     @Ignore
     public Task(String name) {
         this.name = name;
     }
-
+*/
     /**
      * Instantiates a new Task which is fixed to a Category Block.
      *

@@ -29,6 +29,7 @@ import androidx.lifecycle.LifecycleRegistryOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.pme.mpe.MainActivity;
 import com.pme.mpe.R;
 import com.pme.mpe.activities.BlockCategoryActivity.NewBlockActivityViewModel;
 import com.pme.mpe.model.tasks.Category;
@@ -54,7 +55,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
-public class NewTaskActivity extends AppCompatActivity {
+public class NewTaskActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     private EditText taskName;
     private EditText taskDescription;
@@ -93,6 +94,8 @@ public class NewTaskActivity extends AppCompatActivity {
     private ImageButton taskColor;
     String letterColor = "#000000";
     String cardColor = "#54aadb";
+    private int flagTime = 0;
+    private int flagDate = 0;
 
 
     private final View.OnClickListener taskColorClickListener = v -> {
@@ -130,7 +133,7 @@ public class NewTaskActivity extends AppCompatActivity {
             categoryID = (int) tasksPackageRepository.getCategoryWithName(categoryName).getCategoryId();
             Task newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask);
             newTaskActivityViewModel.saveTasks(newTask);
-            Intent taskIntent = new Intent(getApplicationContext(), BlockFragment.class); //change to TaskFragment
+            Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(taskIntent);
         }
 
@@ -195,7 +198,8 @@ public class NewTaskActivity extends AppCompatActivity {
                             blockTextOutput.setText("no Block was found");
                             blockSpinner.setEnabled(false);
 
-                        }if (blocksList.size() != 0) {
+                        }
+                        if (blocksList.size() != 0) {
                             blockTextOutput.setText(R.string.block_prompt);
                             blockSpinner.setEnabled(true);
 
@@ -212,7 +216,6 @@ public class NewTaskActivity extends AppCompatActivity {
 
             }
         });
-
 
 
         blockSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -255,8 +258,30 @@ public class NewTaskActivity extends AppCompatActivity {
         });
 
 
-        taskTime.setOnClickListener(this.timePickerDialog);
-        taskDate.setOnClickListener(this.datePickerDialog);
+        taskTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID", 2);
+                DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
+                timePicker.setArguments(dialogBundle);
+                timePicker.show(getSupportFragmentManager(), "Time Picker");
+            }
+        });
+
+
+        taskDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID", 2);
+                DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
+                datePicker.setArguments(dialogBundle);
+                datePicker.show(getSupportFragmentManager(), "Date Picker");
+            }
+        });
+
+
         taskSave.setOnClickListener(this.saveTaskClickListener);
         taskColor.setOnClickListener(this.taskColorClickListener);
 
@@ -287,6 +312,24 @@ public class NewTaskActivity extends AppCompatActivity {
         };
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        TimeZone tz = c.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        localDateTask = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+            duration = hourOfDay;
+    }
 }
 
 

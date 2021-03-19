@@ -53,6 +53,7 @@ public class NewBlockCategoryActivity extends AppCompatActivity implements DateP
     private int start;
     private int finish;
     private int flag = 0;
+    private int flagD = 0;
 
 
     private final View.OnClickListener saveBlockClickListener = v -> {
@@ -144,7 +145,7 @@ public class NewBlockCategoryActivity extends AppCompatActivity implements DateP
         ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
         localDateCategoryBlock = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
         //String dateChosen = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        int stringMonth = month+1;
+        int stringMonth = month + 1;
         String dateChosen = dayOfMonth + "/" + stringMonth + "/" + year;
         blockDate.setText(dateChosen);
     }

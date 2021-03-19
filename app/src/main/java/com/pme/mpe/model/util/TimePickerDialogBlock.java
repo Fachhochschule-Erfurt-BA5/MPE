@@ -1,5 +1,6 @@
 package com.pme.mpe.model.util;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.app.TimePickerDialog;
 
 import com.pme.mpe.activities.BlockCategoryActivity.EditBlockCategoryActivity;
 import com.pme.mpe.activities.BlockCategoryActivity.NewBlockCategoryActivity;
+import com.pme.mpe.activities.TaskActivity.NewTaskActivity;
 
 import java.util.Calendar;
 
@@ -26,10 +28,23 @@ public class TimePickerDialogBlock extends DialogFragment {
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-        if (dialogID != 1) {
-            return new TimePickerDialog(getActivity(), (NewBlockCategoryActivity) getActivity(), hour, minute, android.text.format.DateFormat.is24HourFormat(getActivity()));
-        } else {
-            return new TimePickerDialog(getActivity(), (EditBlockCategoryActivity) getActivity(), hour, minute, android.text.format.DateFormat.is24HourFormat(getActivity()));
+
+        TimePickerDialog timePickerDialog;
+
+        switch (dialogID) {
+            case 0:
+                timePickerDialog = new TimePickerDialog(getActivity(), (NewBlockCategoryActivity) getActivity(), hour, minute, android.text.format.DateFormat.is24HourFormat(getActivity()));
+                break;
+            case 1:
+                timePickerDialog = new TimePickerDialog(getActivity(), (EditBlockCategoryActivity) getActivity(), hour, minute, android.text.format.DateFormat.is24HourFormat(getActivity()));
+                break;
+            case 2:
+                timePickerDialog = new TimePickerDialog(getActivity(), (NewTaskActivity) getActivity(), hour, minute, android.text.format.DateFormat.is24HourFormat(getActivity()));
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + dialogID);
         }
+        return timePickerDialog;
     }
 }
+
