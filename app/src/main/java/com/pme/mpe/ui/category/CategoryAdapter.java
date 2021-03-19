@@ -103,7 +103,7 @@ public class CategoryAdapter extends BaseAdapter {
                     viewHolder.updateLayout.setAlpha(1);
                     viewHolder.updateLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, parent.getContext().getResources().getDisplayMetrics());
                     viewHolder.updateLayout.requestLayout();
-                    viewHolder.contentLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 115, parent.getContext().getResources().getDisplayMetrics());
+                    viewHolder.contentLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 165, parent.getContext().getResources().getDisplayMetrics());
                     viewHolder.contentLayout.requestLayout();
                     return true;
                 }

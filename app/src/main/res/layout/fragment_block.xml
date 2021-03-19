@@ -11,8 +11,8 @@
         android:layout_width="fill_parent"
         android:layout_height="550dp"
         android:footerDividersEnabled="false"
-        android:horizontalSpacing="-35dp"
-
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="0dp"
         android:numColumns="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
