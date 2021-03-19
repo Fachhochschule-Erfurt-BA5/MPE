@@ -38,9 +38,6 @@ public class TimePickerDialogBlock extends DialogFragment {
             case 1:
                 timePickerDialog = new TimePickerDialog(getActivity(), (EditBlockCategoryActivity) getActivity(), hour, minute, android.text.format.DateFormat.is24HourFormat(getActivity()));
                 break;
-            case 2:
-                timePickerDialog = new TimePickerDialog(getActivity(), (NewTaskActivity) getActivity(), hour, minute, android.text.format.DateFormat.is24HourFormat(getActivity()));
-                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + dialogID);
         }

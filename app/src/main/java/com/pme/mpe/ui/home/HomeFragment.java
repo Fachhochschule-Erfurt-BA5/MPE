@@ -46,10 +46,10 @@ public class HomeFragment extends Fragment {
 
     private List<Task> buildTaskList() {
         List<Task> taskList = new ArrayList<>();
-        for (int i=1; i<5; i++) {
-            Task Task = new Task("Task "+i);
-            taskList.add(Task);
-        }
+       // for (int i=1; i<5; i++) {
+         //   Task Task = new Task("Task "+i);
+           // taskList.add(Task);
+        //}
         return taskList;
     }
 }

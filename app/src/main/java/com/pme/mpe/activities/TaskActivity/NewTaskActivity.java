@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.app.DatePickerDialog;
@@ -36,6 +37,7 @@ import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.model.util.ColorSelector;
+import com.pme.mpe.model.util.NumberPickerDialog;
 import com.pme.mpe.storage.dao.ColorSelectorDialog;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 import com.pme.mpe.ui.block.BlockFragment;
@@ -55,7 +57,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
-public class NewTaskActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class NewTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NumberPicker.OnValueChangeListener {
 
     private EditText taskName;
     private EditText taskDescription;
@@ -147,7 +149,6 @@ public class NewTaskActivity extends AppCompatActivity  implements DatePickerDia
         taskName = findViewById(R.id.task_name_input);
         taskDescription = findViewById(R.id.task_descrip_input);
         taskDate = findViewById(R.id.task_date_select);
-        taskTime = findViewById(R.id.task_start_select);
         taskDuration = findViewById(R.id.task_duration_select);
         isFixed = findViewById(R.id.switch_fixed);// Switch (fixed?)
         taskHex = findViewById(R.id.task_color_output);
@@ -258,18 +259,6 @@ public class NewTaskActivity extends AppCompatActivity  implements DatePickerDia
         });
 
 
-        taskTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle dialogBundle = new Bundle();
-                dialogBundle.putInt("DialogID", 2);
-                DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
-                timePicker.setArguments(dialogBundle);
-                timePicker.show(getSupportFragmentManager(), "Time Picker");
-            }
-        });
-
-
         taskDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -281,35 +270,19 @@ public class NewTaskActivity extends AppCompatActivity  implements DatePickerDia
             }
         });
 
+        taskDuration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NumberPickerDialog numberPicker = new com.pme.mpe.model.util.NumberPickerDialog();
+                numberPicker.setValueChangeListener(NewTaskActivity.this);
+                numberPicker.show(getSupportFragmentManager(), "Number Picker");
+            }
+        });
+
 
         taskSave.setOnClickListener(this.saveTaskClickListener);
         taskColor.setOnClickListener(this.taskColorClickListener);
 
-        dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.YEAR, year);
-                c.set(Calendar.MONTH, month);
-                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                TimeZone tz = c.getTimeZone();
-                ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
-                localDateTask = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
-
-            }
-        };
-        timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                c.set(Calendar.MINUTE, minute);
-                if (view.getId() == R.id.task_duration_select) {
-                    duration = hourOfDay;
-                }
-
-            }
-        };
     }
 
     @Override
@@ -321,14 +294,17 @@ public class NewTaskActivity extends AppCompatActivity  implements DatePickerDia
         TimeZone tz = c.getTimeZone();
         ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
         localDateTask = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
+        int stringMonth = month + 1;
+        String dateChosen = dayOfMonth + "/" + stringMonth + "/" + year;
+        taskDate.setText(dateChosen);
+
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        c.set(Calendar.MINUTE, minute);
-            duration = hourOfDay;
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+        duration = picker.getValue();
+        String durationChosen = duration + " h";
+        taskDuration.setText(durationChosen);
     }
 }
 

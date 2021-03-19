@@ -154,7 +154,6 @@ public class EditTaskActivity extends AppCompatActivity {
         taskName = findViewById(R.id.task_name_input);
         taskDescription = findViewById(R.id.task_descrip_input);
         taskDate = findViewById(R.id.task_date_select);
-        taskTime = findViewById(R.id.task_start_select);
         taskDuration = findViewById(R.id.task_duration_select);
         categorySpinner = findViewById(R.id.task_category_spinner);
         // Switch (fixed?)
