@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -82,6 +83,7 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
     private int duration;
     int categoryID;
     private LinearLayout blockSpinnerLayout;
+    private LinearLayout colorPickerTask;
     private NewBlockActivityViewModel newBlockActivityViewModel;
 
     private ArrayList<String> categoriesList = new ArrayList<String>();
@@ -90,6 +92,7 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
     private ImageButton predefinedColor;
     private SwitchCompat isFixed; //how to save it?
     private Button saveTaskBtn;
+    private Boolean isCheckedTask = true;
 
     private TextView taskHex;
     private ColorSelector colorSelector;
@@ -99,22 +102,26 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
     private int flagTime = 0;
     private int flagDate = 0;
 
-
-    private final View.OnClickListener taskColorClickListener = v -> {
-        ColorSelectorDialog colorSelectorDialog = new ColorSelectorDialog() {
-            @Override
-            public void colorPicked(int red, int green, int blue, int textColor) {
-                taskColor.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(red, green, blue)));
-                CharSequence hexColor_argb = Integer.toHexString(Color.rgb(red, green, blue));
-                cardColor = "#" + hexColor_argb.charAt(2) + hexColor_argb.charAt(3) + hexColor_argb.charAt(4) + hexColor_argb.charAt(5) + hexColor_argb.charAt(6) + hexColor_argb.charAt(7);
-                taskHex.setText(cardColor);
-                CharSequence hexColor_argb1 = Integer.toHexString(textColor);
-                letterColor = "#" + hexColor_argb1.charAt(2) + hexColor_argb1.charAt(3) + hexColor_argb1.charAt(4) + hexColor_argb1.charAt(5) + hexColor_argb1.charAt(6) + hexColor_argb1.charAt(7);
-            }
-        };
-        colorSelector = new ColorSelector();
-        colorSelector.showColorSelectorDialog(this, colorSelectorDialog);
-    };
+    void Init_Color_Picker() {
+        String[] colors = getResources().getStringArray(R.array.color_picker);
+        int iMax = colors.length;
+        for (int iColor = 0; iColor < iMax; iColor++) {
+            String color = colors[iColor];
+            Button btn = new Button(this);
+            btn.setBackgroundColor(Color.parseColor(color));
+            LinearLayout panel_color = findViewById(R.id.task_color_picker);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Button btn=(Button) v;
+                    ColorDrawable viewColor = (ColorDrawable) btn.getBackground();
+                    int colorId = viewColor.getColor();
+                    String sColor=String.valueOf(colorId);
+                }
+            });
+            panel_color.addView(btn);
+        }
+    }
 
 
     private final View.OnClickListener timePickerDialog = v -> {
@@ -132,11 +139,29 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
     private final View.OnClickListener saveTaskClickListener = v -> {
 
         if (v.getId() == R.id.save_task) {
+<<<<<<< HEAD
+            int categoryID = (int) newTaskActivityViewModel.nameToIDCategory(categoryName).getCategoryId();
+            Task newTask;
+            if (!isCheckedTask) {
+                newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask);
+                newTaskActivityViewModel.saveTasks(newTask);
+            }
+            if (isCheckedTask) {
+                CategoryBlock catyBlock = newTaskActivityViewModel.getBlockWithCategoryIDAndName(categoryID, blockName);
+                newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask, catyBlock.getCatBlockId(), catyBlock);
+                newTaskActivityViewModel.saveTasks(newTask);
+            }
+
+
+            //Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
+            //startActivity(taskIntent);
+=======
             categoryID = (int) tasksPackageRepository.getCategoryWithName(categoryName).getCategoryId();
             Task newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask, colorSelector.toString());
             newTaskActivityViewModel.saveTasks(newTask);
             Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(taskIntent);
+>>>>>>> 7b73582e6d19431211e533f1f8a4d5cf0687b8d7
         }
 
     };
@@ -158,6 +183,8 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
         blockSpinner = findViewById(R.id.task_block_category_spinner);
         blockSpinnerLayout = findViewById(R.id.task_block_category_layout);
         blockTextOutput = findViewById(R.id.task_block_category_output);
+        colorPickerTask = findViewById(R.id.task_color_picker_layout);
+        Init_Color_Picker();
 
         ArrayAdapter<String> adapterSpinnerCategories = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, categoriesList);
         adapterSpinnerCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -242,6 +269,7 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
 
                     blockSpinnerLayout.setLayoutParams(layoutParams);
                     blockSpinnerLayout.requestLayout();
+                    isCheckedTask = false;
                 }
                 if (isChecked) {
                     blockSpinnerLayout.setAlpha(1);
@@ -254,6 +282,7 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
                     layoutParams.setMargins(left, top, right, bottom);
                     blockSpinnerLayout.setLayoutParams(layoutParams);
                     blockSpinnerLayout.requestLayout();
+                    isCheckedTask = true;
                 }
             }
         });
@@ -281,7 +310,17 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
 
 
         taskSave.setOnClickListener(this.saveTaskClickListener);
-        taskColor.setOnClickListener(this.taskColorClickListener);
+
+        taskColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                colorPickerTask.setAlpha(1);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                colorPickerTask.setLayoutParams(layoutParams);
+                colorPickerTask.requestLayout();
+            }
+        });
 
     }
 

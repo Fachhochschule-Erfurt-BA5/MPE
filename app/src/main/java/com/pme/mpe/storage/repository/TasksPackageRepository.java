@@ -499,21 +499,16 @@ public class TasksPackageRepository {
 
     /*get a category Id using its name (Hamza Harti)*****/
     public Category getCategoryWithName(String categoryName) {
-
-        Category selectedCategory;
-
-        selectedCategory = tasksPackageDao.getCategoryWithName(categoryName);
-
-        return selectedCategory;
+        return tasksPackageDao.getCategoryWithName(categoryName);
     }
 
     public Category getCategoryWithID(long Id) {
+        return tasksPackageDao.getCategoryWithID(Id);
 
-        Category selectedCategory;
+    }
 
-        selectedCategory = tasksPackageDao.getCategoryWithID(Id);
-
-        return selectedCategory;
+    public CategoryBlock getBlockWithCategoryIDAndName(long catId,String blockName) {
+        return tasksPackageDao.getCategoryBlockWithCategoryIDAndName(catId,blockName);
     }
 
 

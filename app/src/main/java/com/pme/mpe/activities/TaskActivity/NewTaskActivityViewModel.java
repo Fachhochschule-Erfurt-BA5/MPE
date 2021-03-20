@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.pme.mpe.model.tasks.Category;
+import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.tasks.exceptions.TimeException;
@@ -34,5 +35,9 @@ public class NewTaskActivityViewModel extends AndroidViewModel {
 
     public Category nameToIDCategory(String CategoryName) {
         return this.tasksPackageRepository.getCategoryWithName(CategoryName);
+    }
+
+    public CategoryBlock getBlockWithCategoryIDAndName(long Id,String blockName) {
+        return this.tasksPackageRepository.getBlockWithCategoryIDAndName(Id,blockName);
     }
 }
