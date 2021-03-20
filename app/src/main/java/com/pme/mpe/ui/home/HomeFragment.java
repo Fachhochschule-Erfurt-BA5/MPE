@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
 
         RecyclerView rvBlock = root.findViewById(R.id.recycler_main);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList());
+        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList());
         rvBlock.setAdapter(itemAdapter);
         rvBlock.setLayoutManager(layoutManager);
 
@@ -41,11 +41,7 @@ public class HomeFragment extends Fragment {
     }
 
     private List<Task> buildTaskList() {
-        List<Task> taskList = new ArrayList<>();
-       // for (int i=1; i<5; i++) {
-         //   Task Task = new Task("Task "+i);
-           // taskList.add(Task);
-        //}
-        return taskList;
+        return homeViewModel.getTasks();
     }
+
 }

@@ -514,4 +514,9 @@ public class TasksPackageRepository {
     public List<CategoryBlock> getCategoryBlocks(){
      return tasksPackageDao.getCategoryBlocks();
     }
+
+    public List<Task> getTasks(){
+        return tasksPackageDao.getTasks();
+    }
+
 }

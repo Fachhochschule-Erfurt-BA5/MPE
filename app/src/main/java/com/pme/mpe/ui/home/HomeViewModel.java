@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
+import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class HomeViewModel extends AndroidViewModel {
 
     public List<CategoryBlock> getCategoryBlocks() {
         return this.tasksPackageRepository.getCategoryBlocks();
+    }
+    public List<Task> getTasks(){
+        return this.tasksPackageRepository.getTasks();
     }
 
 }

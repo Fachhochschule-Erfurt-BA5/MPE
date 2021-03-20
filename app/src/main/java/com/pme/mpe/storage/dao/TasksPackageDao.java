@@ -99,4 +99,8 @@ public interface TasksPackageDao {
     @Query("SELECT * FROM CategoryBlock")
     List<CategoryBlock> getCategoryBlocks();
 
+    //Get All Tasks
+    @Query("SELECT * FROM task")
+    List<Task> getTasks();
+
 }

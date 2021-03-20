@@ -32,4 +32,7 @@ public class TaskViewModel extends AndroidViewModel {
     {
         this.tasksPackageRepository.deleteTask(task);
     }
+
+    public List<Task> getTasks(long blockID) { return this.tasksPackageRepository.getTasks(); }
+
 }
