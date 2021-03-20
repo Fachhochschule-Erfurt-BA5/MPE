@@ -77,6 +77,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     Toast toast = Toast.makeText(app, text, duration);
                     toast.show();
+                    /*********TODO:delete***/
+                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(mainIntent);
+                    finish();
                 }
                 else if(UserId == -2)
                 {

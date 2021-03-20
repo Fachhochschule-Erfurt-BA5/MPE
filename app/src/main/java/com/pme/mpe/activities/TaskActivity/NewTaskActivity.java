@@ -117,8 +117,8 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
                     Button btn=(Button) v;
                     ColorDrawable viewColor = (ColorDrawable) btn.getBackground();
                     int colorId = viewColor.getColor();
-                    taskColorPicker=String.valueOf(colorId);
-                    taskColor.setBackgroundColor(Color.parseColor(taskColorPicker));
+                    taskColorPicker= String.format("#%06X", (0xFFFFFF & colorId));
+                    taskColor.setBackgroundTintList(ColorStateList.valueOf(colorId));
                     colorPickerTask.setAlpha(0);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getApplication().getResources().getDisplayMetrics()));
@@ -129,18 +129,6 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
             panel_color.addView(btn);
         }
     }
-
-
-    private final View.OnClickListener timePickerDialog = v -> {
-        DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
-        timePicker.show(getSupportFragmentManager(), "Time Picker");
-    };
-
-
-    private final View.OnClickListener datePickerDialog = v -> {
-        DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
-        datePicker.show(getSupportFragmentManager(), "Date Picker");
-    };
 
 
     private final View.OnClickListener saveTaskClickListener = v -> {

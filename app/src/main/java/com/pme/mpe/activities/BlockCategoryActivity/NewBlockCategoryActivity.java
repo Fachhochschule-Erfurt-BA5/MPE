@@ -59,6 +59,7 @@ public class NewBlockCategoryActivity extends AppCompatActivity implements DateP
     private final View.OnClickListener saveBlockClickListener = v -> {
 
         if (v.getId() == R.id.block_save_btn) {
+
             int categoryID = (int) newBlockActivityViewModel.nameToIDCategory(categoryName).getCategoryId();
             CategoryBlock newCategoryBlock = new CategoryBlock(blockName.getText().toString(), categoryID, localDateCategoryBlock, start, finish);
             newBlockActivityViewModel.saveBlock(newCategoryBlock);
@@ -109,16 +110,22 @@ public class NewBlockCategoryActivity extends AppCompatActivity implements DateP
         blockStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID", 0);
                 flag = 1;
                 DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
+                timePicker.setArguments(dialogBundle);
                 timePicker.show(getSupportFragmentManager(), "Time Picker");
             }
         });
         blockFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID", 0);
                 flag = 2;
                 DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
+                timePicker.setArguments(dialogBundle);
                 timePicker.show(getSupportFragmentManager(), "Time Picker");
             }
         });
@@ -126,7 +133,10 @@ public class NewBlockCategoryActivity extends AppCompatActivity implements DateP
         blockDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID", 0);
                 DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
+                datePicker.setArguments(dialogBundle);
                 datePicker.show(getSupportFragmentManager(), "Date Picker");
             }
         });
