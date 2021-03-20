@@ -95,4 +95,8 @@ public interface TasksPackageDao {
     @Query("SELECT * FROM CategoryBlock WHERE CB_CategoryId = :categoryID AND title = :blockName")
     CategoryBlock getCategoryBlockWithCategoryIDAndName(long categoryID, String blockName);
 
+    //Get all the Category blocks
+    @Query("SELECT * FROM CategoryBlock")
+    List<CategoryBlock> getCategoryBlocks();
+
 }

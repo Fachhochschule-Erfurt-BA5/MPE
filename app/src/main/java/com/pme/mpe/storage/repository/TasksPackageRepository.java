@@ -511,7 +511,7 @@ public class TasksPackageRepository {
         return tasksPackageDao.getCategoryBlockWithCategoryIDAndName(catId,blockName);
     }
 
-
-
-
+    public List<CategoryBlock> getCategoryBlocks(){
+     return tasksPackageDao.getCategoryBlocks();
+    }
 }

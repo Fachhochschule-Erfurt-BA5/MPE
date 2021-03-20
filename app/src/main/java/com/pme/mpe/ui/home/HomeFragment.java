@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,12 +37,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
     private List<CategoryBlock> buildBlockList() {
-        List<CategoryBlock> BlockList = new ArrayList<>();
-      //  for (int i=1; i<6; i++) {
-        //    CategoryBlock block = new CategoryBlock("Block "+i, buildTaskList());
-          //  BlockList.add(block);
-        //}
-        return BlockList;
+        return homeViewModel.getCategoryBlocks();
     }
 
     private List<Task> buildTaskList() {

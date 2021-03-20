@@ -21,11 +21,8 @@ public class HomeViewModel extends AndroidViewModel {
         this.tasksPackageRepository = TasksPackageRepository.getRepository(application);
     }
 
-    public LiveData<List<CategoryBlock>> getCategoryBlocks() {
-        return this.tasksPackageRepository.getCategoryBlocksLiveData();
+    public List<CategoryBlock> getCategoryBlocks() {
+        return this.tasksPackageRepository.getCategoryBlocks();
     }
 
-    public LiveData<List<Category>> getCategories() {
-        return this.tasksPackageRepository.getCategoriesLiveData();
-    }
 }
