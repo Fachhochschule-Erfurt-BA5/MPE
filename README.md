@@ -72,6 +72,36 @@ We divided our team into two parts: Frontend and Backend.
 ## Documentation
 
 //TODO: HIER ERGÄNZEN (Wie funktioniert das ganze, Struktur, uzw...)
+### Activity
+#### Block-Categotry
+#### Category
+#### Task
+#### Setting
+### Core
+#### Main Application
+in the [Main Class](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/main/app/src/main/java/com/pme/mpe/core/MainApplication.java) The Key Value Store checks whether a user is already logged in or this is the first time the app has been used. Based on the result, the user is forwarded either to the login page or the main page of the app.
+### Model
+#### Tasks Package
+##### Category
+has the information about a category (name, ID, color ...) as well as a list of CategoryBlocks and a list of tasks and their functionality
+##### Category-Block
+has the information about a category block (name, ID, color ...) as well as a list of tasks and a reference to the associated category and its functionality
+##### Task
+hat die Information über ein Task (Name, description, duration, deadline) sowie ein Category_id, außerdem hat die infos, ob ein Task fixd oder nicht,
+#### User
+#### util
+#### Relation
+### Storage
+#### DAOs
+#### Database
+#### Repositories
+#### Key Value Store
+### UI
+### Resources
+
+#### 
+
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
