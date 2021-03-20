@@ -126,9 +126,9 @@ public class Task implements Comparable<Task>{
      * @param duration          the duration
      * @param deadline          the deadline
      * @param T_categoryBlockId the category block id
-     * @param TaskColor         the Color
+     * @param taskColor         the Color
      */
-    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline, long T_categoryBlockId, CategoryBlock categoryBlock, String TaskColor) {
+    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline, long T_categoryBlockId, CategoryBlock categoryBlock, String taskColor) {
         this.name = name;
         this.description = description;
         this.T_categoryId = T_categoryId;
