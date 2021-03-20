@@ -70,6 +70,10 @@ public class Task implements Comparable<Task>{
     @ColumnInfo(name = "isTaskSoftFixed")
     private boolean isTaskSoftFixed;
 
+    @NotNull
+    @ColumnInfo(name = "taskColor")
+    private String taskColor;
+
     //represent the Category ID , which this Task have
     @NotNull
     @ColumnInfo(name = "T_categoryID")
@@ -94,14 +98,16 @@ public class Task implements Comparable<Task>{
      * @param T_categoryId the category id
      * @param duration     the duration
      * @param deadline     the deadline
+     * @param taskColor    the Color
      */
-    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline) {
+    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline, String taskColor) {
         this.name = name;
         this.description = description;
         this.T_categoryId = T_categoryId;
         this.duration = duration;
         this.deadline = deadline;
         this.isTaskFixed = false;
+        this.taskColor = taskColor;
     }
 
     //TODO:Bitte das löschen sobald es möglich ist
@@ -120,8 +126,9 @@ public class Task implements Comparable<Task>{
      * @param duration          the duration
      * @param deadline          the deadline
      * @param T_categoryBlockId the category block id
+     * @param TaskColor         the Color
      */
-    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline, long T_categoryBlockId, CategoryBlock categoryBlock) {
+    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline, long T_categoryBlockId, CategoryBlock categoryBlock, String TaskColor) {
         this.name = name;
         this.description = description;
         this.T_categoryId = T_categoryId;
@@ -130,6 +137,7 @@ public class Task implements Comparable<Task>{
         this.deadline = deadline;
         this.isTaskFixed = true;
         this.categoryBlock = categoryBlock;
+        this.taskColor = taskColor;
     }
 
     /* /////////////////////Getter/Setter///////////////////////// */
@@ -234,6 +242,9 @@ public class Task implements Comparable<Task>{
     public void setCategoryBlock(CategoryBlock categoryBlock) {
         this.categoryBlock = categoryBlock;
     }
+
+    public void setTaskColor(String taskColor){this.taskColor = taskColor;}
+    public String getTaskColor(){return this.taskColor;}
 
     /* /////////////////////Methods///////////////////////// */
 

@@ -133,7 +133,7 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
 
         if (v.getId() == R.id.save_task) {
             categoryID = (int) tasksPackageRepository.getCategoryWithName(categoryName).getCategoryId();
-            Task newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask);
+            Task newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask, colorSelector.toString());
             newTaskActivityViewModel.saveTasks(newTask);
             Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(taskIntent);

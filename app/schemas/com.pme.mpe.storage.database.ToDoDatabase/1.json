@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b954332717e571c0e1ea3bb8e9fdd04f",
+    "identityHash": "40242bb1712fa879cd93bf29321bb6b3",
     "entities": [
       {
         "tableName": "Category",
@@ -142,7 +142,7 @@
       },
       {
         "tableName": "Task",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `version` INTEGER NOT NULL, `created` TEXT NOT NULL, `updated` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `duration` INTEGER NOT NULL, `deadline` TEXT NOT NULL, `isTaskFixed` INTEGER NOT NULL, `isTaskSoftFixed` INTEGER NOT NULL, `T_categoryID` INTEGER NOT NULL, `T_categoryBlockID` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `version` INTEGER NOT NULL, `created` TEXT NOT NULL, `updated` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `duration` INTEGER NOT NULL, `deadline` TEXT NOT NULL, `isTaskFixed` INTEGER NOT NULL, `isTaskSoftFixed` INTEGER NOT NULL, `taskColor` TEXT NOT NULL, `T_categoryID` INTEGER NOT NULL, `T_categoryBlockID` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -202,6 +202,12 @@
             "fieldPath": "isTaskSoftFixed",
             "columnName": "isTaskSoftFixed",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taskColor",
+            "columnName": "taskColor",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -304,7 +310,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b954332717e571c0e1ea3bb8e9fdd04f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '40242bb1712fa879cd93bf29321bb6b3')"
     ]
   }
 }

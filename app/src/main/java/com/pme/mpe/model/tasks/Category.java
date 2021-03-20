@@ -192,9 +192,9 @@ public class Category {
      * @param duration    the duration
      * @param deadline    the deadline
      */
-    public Task createAndAssignTaskToCategory(String name, String description, int duration, LocalDate deadline)
+    public Task createAndAssignTaskToCategory(String name, String description, int duration, LocalDate deadline, String taskColor)
     {
-        Task createdTask = new Task(name, description, this.categoryId, duration, deadline);
+        Task createdTask = new Task(name, description, this.categoryId, duration, deadline, taskColor);
         this.taskList.add(createdTask);
         return createdTask;
     }
@@ -211,8 +211,8 @@ public class Category {
      * @throws TaskFixException      the task fix exception
      * @throws TaskDeadlineException the task deadline exception
      */
-    public Task createdFixedTaskAndAssignToCategoryBlock(String name, String description, int duration, LocalDate deadline, CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
-        Task createdTask = new Task(name, description, this.categoryId, duration, deadline, categoryBlock.getCatBlockId(), categoryBlock);
+    public Task createdFixedTaskAndAssignToCategoryBlock(String name, String description, int duration, LocalDate deadline, CategoryBlock categoryBlock, String taskColor) throws TaskFixException, TaskDeadlineException {
+        Task createdTask = new Task(name, description, this.categoryId, duration, deadline, categoryBlock.getCatBlockId(), categoryBlock, taskColor);
         this.taskList.add(createdTask);
 
         if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(deadline))
