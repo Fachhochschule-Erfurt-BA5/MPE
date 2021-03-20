@@ -119,6 +119,11 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
                     int colorId = viewColor.getColor();
                     taskColorPicker=String.valueOf(colorId);
                     taskColor.setBackgroundColor(Color.parseColor(taskColorPicker));
+                    colorPickerTask.setAlpha(0);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getApplication().getResources().getDisplayMetrics()));
+                    colorPickerTask.setLayoutParams(layoutParams);
+                    colorPickerTask.requestLayout();
                 }
             });
             panel_color.addView(btn);
