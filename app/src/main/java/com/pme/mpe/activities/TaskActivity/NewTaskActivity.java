@@ -93,7 +93,7 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
     private SwitchCompat isFixed; //how to save it?
     private Button saveTaskBtn;
     private Boolean isCheckedTask = true;
-    private String taskColorPicker;
+    private String taskColorPicker ="#F6402C";
 
     private TextView taskHex;
     private ColorSelector colorSelector;
@@ -171,6 +171,7 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
         blockSpinnerLayout = findViewById(R.id.task_block_category_layout);
         blockTextOutput = findViewById(R.id.task_block_category_output);
         colorPickerTask = findViewById(R.id.task_color_picker_layout);
+        taskColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(taskColorPicker)));
         Init_Color_Picker();
 
         ArrayAdapter<String> adapterSpinnerCategories = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, categoriesList);
