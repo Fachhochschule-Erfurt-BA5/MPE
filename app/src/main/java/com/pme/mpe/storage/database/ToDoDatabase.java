@@ -171,7 +171,7 @@ public abstract class ToDoDatabase extends RoomDatabase {
 
                     //Add a non Fixed Task
                     Task softTask = category.createAndAssignTaskToCategory("Test Task", "Description",
-                                                        2, LocalDate.of(2021, Month.MARCH, 30));
+                                                        2, LocalDate.of(2021, Month.MARCH, 30),"#000000");
                     softTask.setCreated(LocalDate.now());
                     softTask.setUpdated(user.getCreated());
                     softTask.setVersion(1);
@@ -183,7 +183,7 @@ public abstract class ToDoDatabase extends RoomDatabase {
                     {
                         try {
                             fixedTask = category.createdFixedTaskAndAssignToCategoryBlock("Test Fixed Task", "Fixed description", 2,
-                                                                                LocalDate.of(2021, Month.FEBRUARY, 16), cb);
+                                                                                LocalDate.of(2021, Month.FEBRUARY, 16), cb,"#000000");
                         } catch (TaskFixException e) {
                             e.printStackTrace();
                         } catch (TaskDeadlineException e) {
