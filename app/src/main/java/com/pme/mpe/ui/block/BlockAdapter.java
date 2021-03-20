@@ -1,9 +1,11 @@
 package com.pme.mpe.ui.block;
 
 import android.app.Application;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,11 +66,15 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
     static class BlockViewHolder extends RecyclerView.ViewHolder {
         private TextView blockTitle;
         private RecyclerView rvTaskItem;
+        private LinearLayout blockItem;
+        private TextView timeTask;
 
         BlockViewHolder(View itemView) {
             super(itemView);
             blockTitle = itemView.findViewById(R.id.block_title_item);
             rvTaskItem = itemView.findViewById(R.id.rv_task_item);
+            blockItem = itemView.findViewById(R.id.block_item_layout);
+            timeTask = itemView.findViewById(R.id.block_time_item);
         }
     }
     public List<Task> assignTasks(CategoryBlock block, List<Task> taskList){

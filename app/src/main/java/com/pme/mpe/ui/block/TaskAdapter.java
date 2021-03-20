@@ -1,14 +1,17 @@
 package com.pme.mpe.ui.block;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.Task;
 
@@ -31,6 +34,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task task = taskList.get(i);
         taskViewHolder.taskName.setText(task.getName());
         taskViewHolder.taskDescription.setText(task.getDescription());
+        taskViewHolder.taskCard.setCardBackgroundColor(Color.parseColor(task.getTaskColor()));
     }
 
     @Override
@@ -39,10 +43,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     static class TaskViewHolder extends RecyclerView.ViewHolder {
         AppCompatTextView taskName;
         TextView taskDescription;
+        MaterialCardView taskCard;
         TaskViewHolder(View itemView) {
             super(itemView);
             taskName = (AppCompatTextView) itemView.findViewById(R.id.task_item_name);
             taskDescription = (TextView) itemView.findViewById(R.id.task_item_descrip);
+            taskCard = (MaterialCardView) itemView.findViewById(R.id.task_item_card);
+
         }
 
     }
