@@ -14,6 +14,7 @@ import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -98,6 +99,10 @@ public interface TasksPackageDao {
     //Get all the Category blocks
     @Query("SELECT * FROM CategoryBlock")
     List<CategoryBlock> getCategoryBlocks();
+
+    // Get CategoryBlocks by Date
+    @Query("SELECT * FROM CategoryBlock WHERE date = :date")
+    List<CategoryBlock> getCatBlocksByDay(LocalDate date);
 
     //Get All Tasks
     @Query("SELECT * FROM task")

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.pme.mpe.core.MainApplication;
 import com.pme.mpe.model.relations.CategoryBlockHaveTasks;
 import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
 import com.pme.mpe.model.tasks.Category;
@@ -30,8 +31,8 @@ public class TasksPackageRepository {
 
     public static final String LOG_TAG = "TasksPackageRepository";
 
-    private TasksPackageDao tasksPackageDao;
 
+    private TasksPackageDao tasksPackageDao;
     private LiveData<List<Category>> allCategories;
     private LiveData<List<CategoryBlock>> allCategoryBlocks;
 
@@ -129,6 +130,13 @@ public class TasksPackageRepository {
     }
 
 //////////////////Transactions//////////////////
+
+    //////////////////Get//////////////////
+    public List<CategoryBlock> getCategoryBlocksByGivenDay(LocalDate localDate)
+    {
+        List<CategoryBlock> catBlocks =  tasksPackageDao.getCatBlocksByDay(localDate);
+        return catBlocks;
+    }
 
     //////////////////Insert//////////////////
 
