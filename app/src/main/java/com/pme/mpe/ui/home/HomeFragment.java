@@ -2,6 +2,7 @@ package com.pme.mpe.ui.home;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                 dialogBundle.putInt("DialogID", 3);
                 DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
                 datePicker.setArguments(dialogBundle);
-                assert getFragmentManager() != null;
                 datePicker.show(getFragmentManager(), "Date Picker");
             }
         });
@@ -85,6 +85,10 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         calendarYear.setText(String.valueOf(year));
         calendarMonth.setText(String.valueOf(month));
         calendarDay.setText(String.valueOf(dayOfMonth));
+        Log.d("MyLog",String.valueOf(year));
+        Log.d("MyLog",String.valueOf(month));
+        Log.d("MyLog",String.valueOf(dayOfMonth));
+
     }
 
 }
