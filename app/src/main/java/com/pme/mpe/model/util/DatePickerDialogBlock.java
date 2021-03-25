@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment;
 import com.pme.mpe.activities.BlockCategoryActivity.EditBlockCategoryActivity;
 import com.pme.mpe.activities.BlockCategoryActivity.NewBlockCategoryActivity;
 import com.pme.mpe.activities.TaskActivity.NewTaskActivity;
+import com.pme.mpe.ui.home.HomeFragment;
 
 import java.util.Calendar;
 
@@ -38,6 +39,9 @@ public class DatePickerDialogBlock extends DialogFragment {
                 break;
             case 2:
                 datePickerDialog = new DatePickerDialog(getActivity(), (NewTaskActivity) getActivity(), year, month, day);
+                break;
+            case 3:
+                datePickerDialog = new DatePickerDialog(getContext(), (HomeFragment) getTargetFragment(), year, month, day);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + dialogID);

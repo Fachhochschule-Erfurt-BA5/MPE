@@ -8,82 +8,81 @@
     tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
-        android:id="@+id/home_date_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:background="@drawable/blue"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:orientation="horizontal" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/home_date_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/blue"
+            android:orientation="horizontal"
+            android:scaleType="centerCrop">
+
+            <TextView
+                android:id="@+id/Day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="34dp"
+                android:text="TextView"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/Year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="-3dp"
+                android:layout_marginBottom="58dp"
+                android:layout_toEndOf="@+id/Day"
+                android:text="TextView"
+                android:textColor="@color/colorGrey50"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/Month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="19dp"
+                android:text="TextView"
+                android:textColor="@color/grey"
+                android:textSize="18sp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/calendar_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:src="@android:drawable/ic_menu_my_calendar"
+                app:backgroundTint="@color/color6"
+                app:rippleColor="#000000">
+
+            </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_main"
+            android:layout_width="match_parent"
+            android:layout_height="765dp"
+            android:background="@color/white"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/category_block_item" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_main"
-        android:layout_width="match_parent"
-        android:layout_height="765dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:background="@color/white"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/category_block_item" />
 
-    <TextView
-        android:id="@+id/Day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/Month"
-        android:layout_width="83dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Day"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="319dp"
-        android:layout_marginBottom="17dp"
-        android:text="TextView"
-        android:textColor="@color/grey"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/Year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="60dp"
-        android:layout_toEndOf="@+id/Day"
-        android:text="TextView"
-        android:textColor="@color/colorGrey50"
-        android:textSize="18sp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/calendar_selector"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="345dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="10dp"
-        android:src="@android:drawable/ic_menu_my_calendar"
-        app:backgroundTint="@color/color6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_date_view"
-        app:rippleColor="#000000">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
+    </LinearLayout>
 </RelativeLayout>
