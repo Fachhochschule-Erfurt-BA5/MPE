@@ -25,7 +25,7 @@ public class CategoryTest {
     @Test
     public void aTaskMayBeFixedAndUnfixedFromACategoryBlock() throws TaskFixException, TaskDeadlineException, CategoryBlockException, TimeException {
         //Given
-        testCategory.createAndAssignTaskToCategory("Test-Task", "Description", 2, may5);
+        testCategory.createAndAssignTaskToCategory("Test-Task", "Description", 2, may5, "#FEFEFE");
         testCategory.addCategoryBlock("test", may5, 10, 14 , testUser);
 
         //Step 1 No Task Fixed to Category Block
@@ -50,7 +50,7 @@ public class CategoryTest {
         testCategory.addCategoryBlock("test", may5, 10, 14 , testUser);
 
         //Create Task and Fix to category Block
-        testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2, may5, testCategory.getCategoryBlockList().get(1));
+        testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2, may5, testCategory.getCategoryBlockList().get(1), "#FEFEFE");
 
         //Assert the the Task is fixed to the category block
         assertTrue(testCategory.getCategoryBlockList().get(1).getAssignedTasks().get(0) == testCategory.getTaskList().get(0));
@@ -62,7 +62,7 @@ public class CategoryTest {
         CategoryBlock cb = testCategory.addCategoryBlock("test", may5, 10, 11 , testUser);
 
         //An Exception should be thrown here because of the duration
-        testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2, may5, cb);
+        testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2, may5, cb, "#FEFEFE");
     }
 
     @Test(expected = TaskDeadlineException.class)
@@ -71,7 +71,7 @@ public class CategoryTest {
         CategoryBlock cb = testCategory.addCategoryBlock("test", may1, 10, 15, testUser);
 
         //An Exception should be thrown here because of the deadline
-        testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2, may5, cb);
+        testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",2, may5, cb, "#FEFEFE");
     }
 
     @Test
@@ -94,7 +94,7 @@ public class CategoryTest {
         //Given
         testCategory.addCategoryBlock("test", may5, 10, 15, testUser );
         testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",
-                2, may5, testCategory.getCategoryBlockList().get(0));
+                2, may5, testCategory.getCategoryBlockList().get(0),"#FEFEFE");
 
         //Assert that the Category Block from the Task is the right one
         assertTrue(testCategory.getTaskList().get(0).getCategoryBlock() == testCategory.getCategoryBlockList().get(0));
@@ -111,7 +111,7 @@ public class CategoryTest {
         //Given
         testCategory.addCategoryBlock("test", may5, 10, 13, testUser );
         testCategory.createdFixedTaskAndAssignToCategoryBlock("Test-Task", "Description",
-                2, may5, testCategory.getCategoryBlockList().get(1));
+                2, may5, testCategory.getCategoryBlockList().get(1),"#FEFEFE");
 
         //By changing the duration of the Task an exception should be thrown
         testCategory.getTaskList().get(0).setDuration(5);
@@ -185,9 +185,9 @@ public class CategoryTest {
         assertTrue(testCategory.getCategoryBlockList().size() == 5);
 
         //Some Category Blocks have some fixed Tasks
-        Task fixedTask1 = testCategory.createdFixedTaskAndAssignToCategoryBlock("FixedTestTask1", "Descrip", 1, may1, cb1);
-        Task fixedTask2 = testCategory.createdFixedTaskAndAssignToCategoryBlock("FixedTestTask2", "Descrip", 2, may5, cb3);
-        Task fixedTask3 = testCategory.createdFixedTaskAndAssignToCategoryBlock("FixedTestTask3", "Descrip", 1, may5, cb4);
+        Task fixedTask1 = testCategory.createdFixedTaskAndAssignToCategoryBlock("FixedTestTask1", "Descrip", 1, may1, cb1, "#FEFEFE");
+        Task fixedTask2 = testCategory.createdFixedTaskAndAssignToCategoryBlock("FixedTestTask2", "Descrip", 2, may5, cb3, "#FEFEFE");
+        Task fixedTask3 = testCategory.createdFixedTaskAndAssignToCategoryBlock("FixedTestTask3", "Descrip", 1, may5, cb4, "#FEFEFE");
 
         //Just to be sure
         assertTrue(cb1.getAssignedTasks().size() == 1);
@@ -198,10 +198,10 @@ public class CategoryTest {
         assertTrue(fixedTask3.isTaskFixed());
 
         //We want a couple of none fixed tasks
-        Task testTask1 = testCategory.createAndAssignTaskToCategory("TestTask1", "Descrip", 2, may1);
-        Task testTask2 = testCategory.createAndAssignTaskToCategory("TestTask2", "Descrip", 2, may1);
-        Task testTask3 = testCategory.createAndAssignTaskToCategory("TestTask3", "Descrip", 1, may5);
-        Task taskGoingToDefaultBD = testCategory.createAndAssignTaskToCategory("taskGoingToDefaultBD", "Descrip", 5, may5);
+        Task testTask1 = testCategory.createAndAssignTaskToCategory("TestTask1", "Descrip", 2, may1, "#FEFEFE");
+        Task testTask2 = testCategory.createAndAssignTaskToCategory("TestTask2", "Descrip", 2, may1, "#FEFEFE");
+        Task testTask3 = testCategory.createAndAssignTaskToCategory("TestTask3", "Descrip", 1, may5, "#FEFEFE");
+        Task taskGoingToDefaultBD = testCategory.createAndAssignTaskToCategory("taskGoingToDefaultBD", "Descrip", 5, may5, "#FEFEFE");
 
         //Test Task should not be soft fixed (yet)
         assertTrue(!testTask1.isTaskSoftFixed());
