@@ -13,12 +13,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.pme.mpe.MainActivity;
 import com.pme.mpe.ui.block.BlockAdapter;
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.CategoryBlock;
@@ -62,11 +64,31 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         calendarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle dialogBundle = new Bundle();
+               /* Bundle dialogBundle = new Bundle();
                 dialogBundle.putInt("DialogID", 3);
                 DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
                 datePicker.setArguments(dialogBundle);
-                datePicker.show(getFragmentManager(), "Date Picker");
+                datePicker.show(getFragmentManager(), "Date Picker");*/
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+
+                        Calendar c = Calendar.getInstance();
+                        c.set(Calendar.YEAR, year);
+                        c.set(Calendar.MONTH, month);
+                        c.set(Calendar.DAY_OF_MONTH, day);
+                        String cDate1 = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+                        String[] spliteCDate = cDate1.split(",");
+                        calendarDay.setText(spliteCDate[0]);
+                        calendarMonth.setText(spliteCDate[1]);
+                        calendarYear.setText(spliteCDate[2]);
+
+                    }
+                }, year, month, day).show();
             }
         });
 
