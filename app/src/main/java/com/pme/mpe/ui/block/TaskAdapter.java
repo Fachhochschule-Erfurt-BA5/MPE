@@ -1,6 +1,9 @@
 package com.pme.mpe.ui.block;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Parcelable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
+import com.pme.mpe.activities.BlockCategoryActivity.EditBlockCategoryActivity;
+import com.pme.mpe.activities.TaskActivity.EditTaskActivity;
 import com.pme.mpe.model.tasks.Task;
 
 import java.util.List;
@@ -35,6 +40,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         taskViewHolder.taskName.setText(task.getName());
         taskViewHolder.taskDescription.setText(task.getDescription());
         taskViewHolder.taskCard.setCardBackgroundColor(Color.parseColor(task.getTaskColor()));
+
+        taskViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editTaskIntent = new Intent(v.getContext(), EditTaskActivity.class);
+                editTaskIntent.putExtra("TaskID", (int) task.getId());
+                editTaskIntent.putExtra("TaskName", task.getName());
+                editTaskIntent.putExtra("TaskDescription", task.getDescription());
+                editTaskIntent.putExtra("TaskDuration", task.getDuration());
+                editTaskIntent.putExtra("TaskDeadline", task.getDeadline());
+                editTaskIntent.putExtra("TaskColor", task.getTaskColor());
+                editTaskIntent.putExtra("TaskCategoryBlock", (Parcelable) task.getCategoryBlock());
+                editTaskIntent.putExtra("TaskCategory", (int) task.getT_categoryId());
+                v.getContext().startActivity(editTaskIntent);
+            }
+        });
     }
 
     @Override
