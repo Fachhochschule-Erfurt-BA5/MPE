@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FloatingActionButton calendarBtn;
@@ -102,15 +102,5 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         return homeViewModel.getTasks();
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        calendarYear.setText(String.valueOf(year));
-        calendarMonth.setText(String.valueOf(month));
-        calendarDay.setText(String.valueOf(dayOfMonth));
-        Log.d("MyLog",String.valueOf(year));
-        Log.d("MyLog",String.valueOf(month));
-        Log.d("MyLog",String.valueOf(dayOfMonth));
-
-    }
 
 }

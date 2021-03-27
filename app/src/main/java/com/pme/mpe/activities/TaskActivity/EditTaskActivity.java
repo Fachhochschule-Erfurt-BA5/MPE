@@ -1,56 +1,84 @@
 package com.pme.mpe.activities.TaskActivity;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistryOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.pme.mpe.MainActivity;
 import com.pme.mpe.R;
-import com.pme.mpe.activities.CategoryActivity.NewCategoryActivity;
-import com.pme.mpe.activities.CategoryActivity.NewCategoryActivityViewModel;
+import com.pme.mpe.activities.BlockCategoryActivity.NewBlockActivityViewModel;
+import com.pme.mpe.model.tasks.Category;
+import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.tasks.exceptions.TimeException;
 import com.pme.mpe.model.util.ColorSelector;
+import com.pme.mpe.model.util.NumberPickerDialog;
 import com.pme.mpe.storage.dao.ColorSelectorDialog;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 import com.pme.mpe.storage.repository.exceptions.ObjectNotFoundException;
 import com.pme.mpe.ui.block.BlockFragment;
-import com.pme.mpe.ui.category.CategoryFragment;
+import com.pme.mpe.ui.block.BlockViewModel;
 import com.pme.mpe.ui.category.CategoryViewModel;
 
+import java.security.acl.Owner;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 
-public class EditTaskActivity extends AppCompatActivity {
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+
+public class EditTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NumberPicker.OnValueChangeListener {
 
     private EditText taskName;
     private EditText taskDescription;
     private TextView taskDeadline; //Deadline
     private TextView taskTime; //only when fixed?
     private TextView taskDate;
+    private TextView blockTextOutput;
     private TextView taskDuration;
     private Button taskSave;
     private Spinner categorySpinner;
+    private Spinner blockSpinner;
     private NewTaskActivityViewModel newTaskActivityViewModel;
     private CategoryViewModel categoryViewModel;
+    private BlockViewModel blockViewModel;
     protected String categoryName;
+    protected String blockName;
     private ArrayList<String> categoryList;
     private TasksPackageRepository tasksPackageRepository;
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -58,95 +86,52 @@ public class EditTaskActivity extends AppCompatActivity {
     private LocalDate localDateTask;
     private int duration;
     int categoryID;
+    private LinearLayout blockSpinnerLayout;
+    private LinearLayout colorPickerTask;
+    private NewBlockActivityViewModel newBlockActivityViewModel;
 
-    private ArrayList<String> categoriesList;
+    private ArrayList<String> categoriesList = new ArrayList<String>();
+    private ArrayList<String> blocksList = new ArrayList<String>();
 
     private ImageButton predefinedColor;
     private SwitchCompat isFixed; //how to save it?
     private Button saveTaskBtn;
+    private Boolean isCheckedTask = true;
+   // private String taskColorPicker = "#F6402C";
 
     private TextView taskHex;
     private ColorSelector colorSelector;
     private ImageButton taskColor;
-    String letterColor ="#000000";
+    String letterColor = "#000000";
     String cardColor = "#54aadb";
+    private int flagTime = 0;
+    private int flagDate = 0;
 
-    private CollapsingToolbarLayout editTask;
-    private NewTaskActivity newTaskActivity;
-    private AlertDialog colorPickDialog;
-
-    int taskID;
-
-
-   /* private final View.OnClickListener saveTaskClickListener = v -> {
-
-        if (v.getId() == R.id.save_task) {
-            Intent taskBlockIntent = getIntent();
-            Bundle extras = taskBlockIntent.getExtras();
-            int taskID = extras.getInt("taskID");
-            categoryID = (int) tasksPackageRepository.getCategoryWithName(categoryName).getCategoryId();
-
-            Task newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(),  categoryID, taskDuration, localDateTask);
-            newTaskActivityViewModel.saveTasks(newTask);
-            Intent taskIntent = new Intent(getApplicationContext(), BlockFragment.class); //change to TaskFragment
-            startActivity(taskIntent);
-        }
-
-    };*/
-
-    private final View.OnClickListener taskColorClickListener = v -> {
-
-        ColorSelectorDialog colorSelectorDialog = new ColorSelectorDialog() {
-            @Override
-            public void colorPicked(int red, int green, int blue, int textColor) {
-                taskColor.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(red,green,blue)));
-                CharSequence hexColor_argb = Integer.toHexString(Color.rgb(red,green,blue));
-                cardColor = "#" + hexColor_argb.charAt(2) + hexColor_argb.charAt(3) + hexColor_argb.charAt(4) + hexColor_argb.charAt(5) + hexColor_argb.charAt(6) + hexColor_argb.charAt(7);
-                taskHex.setText(cardColor);
-                CharSequence hexColor_argb1 = Integer.toHexString(textColor);
-                letterColor = "#" + hexColor_argb1.charAt(2) + hexColor_argb1.charAt(3) + hexColor_argb1.charAt(4) + hexColor_argb1.charAt(5) + hexColor_argb1.charAt(6) + hexColor_argb1.charAt(7);
-            }
-        };
-        colorSelector = new ColorSelector();
-        colorSelector.showColorSelectorDialog(this,colorSelectorDialog);
-    };
-
-    private final View.OnClickListener timePickerDialog = v -> {
-        DialogFragment timePicker = new com.pme.mpe.model.util.TimePickerDialogBlock();
-        timePicker.show(getSupportFragmentManager(), "Time Picker");
-    };
-
-
-    private final View.OnClickListener datePickerDialog = v -> {
-        DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
-        datePicker.show(getSupportFragmentManager(), "Date Picker");
-    };
 
     private final View.OnClickListener saveTaskClickListener = v -> {
 
         if (v.getId() == R.id.save_task) {
-            Intent tasIntent = getIntent();
-            Bundle extras = tasIntent.getExtras();
-            taskID = extras.getInt("taskID");
-            try {
-                newTaskActivityViewModel.updateTask(taskID,taskName.getText().toString(),
-                        taskDescription.getText().toString(),taskDuration.getInputType(),
-                        LocalDate.parse((CharSequence) taskDeadline));
-            } catch (ObjectNotFoundException e) {
-                e.printStackTrace();
-            } catch (TaskFixException e) {
-                e.printStackTrace();
-            } catch (TimeException e) {
-                e.printStackTrace();
+            Intent taskIntent = getIntent();
+            Bundle extras = taskIntent.getExtras();
+            int taskID = extras.getInt("TaskID");
+            if (!isCheckedTask) {
+                try {
+                    newTaskActivityViewModel.updateTask(taskID, taskName.getText().toString(), taskDescription.getText().toString(), duration, localDateTask);
+                } catch (ObjectNotFoundException e) {
+                    e.printStackTrace();
+                } catch (TaskFixException e) {
+                    e.printStackTrace();
+                } catch (TimeException e) {
+                    e.printStackTrace();
+                }
             }
-            Intent taskIntent = new Intent(getApplicationContext(), BlockFragment.class); //TODO: change to TaskFragment?
-            startActivity(taskIntent);
+            //Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
+            //startActivity(taskIntent);
         }
 
     };
 
-
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
@@ -155,39 +140,163 @@ public class EditTaskActivity extends AppCompatActivity {
         taskDescription = findViewById(R.id.task_descrip_input);
         taskDate = findViewById(R.id.task_date_select);
         taskDuration = findViewById(R.id.task_duration_select);
-        categorySpinner = findViewById(R.id.task_category_spinner);
-        // Switch (fixed?)
+        isFixed = findViewById(R.id.switch_fixed);// Switch (fixed?)
         taskHex = findViewById(R.id.task_color_output);
         taskColor = findViewById(R.id.task_color_btn);
         taskSave = findViewById(R.id.save_task);
+        categorySpinner = findViewById(R.id.task_category_spinner);
+        blockSpinner = findViewById(R.id.task_block_category_spinner);
+        blockSpinnerLayout = findViewById(R.id.task_block_category_layout);
+        blockTextOutput = findViewById(R.id.task_block_category_output);
+        colorPickerTask = findViewById(R.id.task_color_picker_layout);
         Intent taskIntent = getIntent();
         Bundle extras = taskIntent.getExtras();
+        String taskColorIntent = extras.getString("TaskColor");
+        String taskNameIntent = extras.getString("TaskName");
+        String taskDescriptionIntent = extras.getString("TaskDescription");
+        int taskDurationIntent = extras.getInt("TaskDuration");
+        LocalDate taskDeadlineIntent = (LocalDate) extras.getSerializable("TaskDeadline");
 
 
-        String tasName = extras.getString("taskName");
-        String tasDescr = extras.getString("taskDescription");
-        int taskTimeExtra = extras.getInt("taskTime");
-        LocalDate LocalDateBlock = (LocalDate) extras.getSerializable("localDateTask");
-        int taskIDExtra = extras.getInt("taskID");
-        String colorText = extras.getString("taskColorText");
-        String colorBtn = extras.getString("taskColor");
 
-        taskName.setText(tasName);
-        taskDescription.setText(tasDescr);
-        localDateTask = LocalDateBlock;
-        taskColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(colorBtn)));
-        taskID = taskIDExtra;
-        letterColor = colorText;
-        cardColor = colorBtn;
-        taskHex.setText(colorBtn);
+        taskDescription.setText(taskDescriptionIntent);
+        taskName.setText(taskNameIntent);
+        duration = taskDurationIntent;
+        String durationChosen = duration + " h";
+        taskDuration.setText(durationChosen);
+        localDateTask = taskDeadlineIntent;
+        taskDate.setText(localDateTask.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        taskColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(taskColorIntent)));
 
-        editTask.setTitle("Edit Task");
 
+        ArrayAdapter<String> adapterSpinnerCategories = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, categoriesList);
+        adapterSpinnerCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(adapterSpinnerCategories);
+
+        ArrayAdapter<String> adapterSpinnerBlocks = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, blocksList);
+        adapterSpinnerCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        blockSpinner.setAdapter(adapterSpinnerBlocks);
+
+        blockViewModel = new ViewModelProvider(this).get(BlockViewModel.class);
+        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        categoryViewModel.getCategories().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(List<Category> categories) {
+                for (Category category : categories) {
+                    categoriesList.add(category.getCategoryName());
+                }
+                adapterSpinnerCategories.notifyDataSetChanged();
+            }
+        });
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                categoryName = parent.getItemAtPosition(position).toString();
+                int catBlockID = (int) newTaskActivityViewModel.nameToIDCategory(categoryName).getCategoryId();
+
+                blockViewModel.getBlocks().observeForever(new Observer<List<CategoryBlock>>() {
+                    @Override
+                    public void onChanged(List<CategoryBlock> blocks) {
+
+                        for (CategoryBlock block : blocks) {
+                            if (block.getCB_CategoryId() == catBlockID) {
+                                blocksList.add(block.getTitle());
+                            }
+
+                        }
+                        if (blocksList.size() == 0) {
+                            blockTextOutput.setText("no Block was found");
+                            blockSpinner.setEnabled(false);
+
+                        }
+                        if (blocksList.size() != 0) {
+                            blockTextOutput.setText(R.string.block_prompt);
+                            blockSpinner.setEnabled(true);
+
+                        }
+                        adapterSpinnerBlocks.notifyDataSetChanged();
+                    }
+                });
+
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        blockSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                blockName = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+        taskDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle dialogBundle = new Bundle();
+                dialogBundle.putInt("DialogID", 3);
+                DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
+                datePicker.setArguments(dialogBundle);
+                datePicker.show(getSupportFragmentManager(), "Date Picker");
+            }
+        });
+
+        taskDuration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NumberPickerDialog numberPicker = new com.pme.mpe.model.util.NumberPickerDialog();
+                numberPicker.setValueChangeListener(EditTaskActivity.this);
+                numberPicker.show(getSupportFragmentManager(), "Number Picker");
+            }
+        });
+
+        blockSpinner.setEnabled(false);
+        categorySpinner.setEnabled(false);
         taskSave.setOnClickListener(this.saveTaskClickListener);
-        taskColor.setOnClickListener(this.taskColorClickListener);
+
 
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        TimeZone tz = c.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        localDateTask = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
+        int stringMonth = month + 1;
+        String dateChosen = dayOfMonth + "/" + stringMonth + "/" + year;
+        taskDate.setText(dateChosen);
 
+    }
 
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+        duration = picker.getValue();
+        String durationChosen = duration + " h";
+        taskDuration.setText(durationChosen);
+    }
 }
+
+
+
+
+
+
+

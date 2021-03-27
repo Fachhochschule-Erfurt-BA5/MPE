@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.pme.mpe.activities.BlockCategoryActivity.EditBlockCategoryActivity;
 import com.pme.mpe.activities.BlockCategoryActivity.NewBlockCategoryActivity;
+import com.pme.mpe.activities.TaskActivity.EditTaskActivity;
 import com.pme.mpe.activities.TaskActivity.NewTaskActivity;
 import com.pme.mpe.ui.home.HomeFragment;
 
@@ -41,7 +42,7 @@ public class DatePickerDialogBlock extends DialogFragment {
                 datePickerDialog = new DatePickerDialog(getActivity(), (NewTaskActivity) getActivity(), year, month, day);
                 break;
             case 3:
-                datePickerDialog = new DatePickerDialog(getContext(), (DatePickerDialog.OnDateSetListener) getTargetFragment(), year, month, day);
+                datePickerDialog = new DatePickerDialog(getActivity(), (EditTaskActivity) getActivity(), year, month, day);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + dialogID);

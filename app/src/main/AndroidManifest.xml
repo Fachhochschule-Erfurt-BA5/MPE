@@ -43,6 +43,11 @@
             android:theme="@style/Theme.MPE.NoActionBar">
 
         </activity>
+        <activity
+            android:name=".activities.TaskActivity.EditTaskActivity"
+            android:theme="@style/Theme.MPE.NoActionBar">
+
+        </activity>
 
         <activity
             android:name=".activities.BlockCategoryActivity.NewBlockCategoryActivity"
