@@ -31,6 +31,7 @@ import androidx.lifecycle.LifecycleRegistryOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.pme.mpe.MainActivity;
 import com.pme.mpe.R;
 import com.pme.mpe.activities.BlockCategoryActivity.NewBlockActivityViewModel;
@@ -70,6 +71,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
     private TextView taskTime; //only when fixed?
     private TextView taskDate;
     private TextView blockTextOutput;
+    private CollapsingToolbarLayout toolbarLayoutText;
     private TextView taskDuration;
     private Button taskSave;
     private Spinner categorySpinner;
@@ -87,6 +89,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
     private int duration;
     int categoryID;
     private LinearLayout blockSpinnerLayout;
+    private LinearLayout taskSpinnerLayout;
     private LinearLayout colorPickerTask;
     private NewBlockActivityViewModel newBlockActivityViewModel;
 
@@ -140,6 +143,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
         taskDescription = findViewById(R.id.task_descrip_input);
         taskDate = findViewById(R.id.task_date_select);
         taskDuration = findViewById(R.id.task_duration_select);
+        toolbarLayoutText = findViewById(R.id.toolbar_layout_task);
         isFixed = findViewById(R.id.switch_fixed);// Switch (fixed?)
         taskHex = findViewById(R.id.task_color_output);
         taskColor = findViewById(R.id.task_color_btn);
@@ -147,6 +151,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
         categorySpinner = findViewById(R.id.task_category_spinner);
         blockSpinner = findViewById(R.id.task_block_category_spinner);
         blockSpinnerLayout = findViewById(R.id.task_block_category_layout);
+        taskSpinnerLayout = findViewById(R.id.task_category_layout);
         blockTextOutput = findViewById(R.id.task_block_category_output);
         colorPickerTask = findViewById(R.id.task_color_picker_layout);
         Intent taskIntent = getIntent();
@@ -266,6 +271,24 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
 
         blockSpinner.setEnabled(false);
         categorySpinner.setEnabled(false);
+        taskHex.setText("Selected Color");
+        toolbarLayoutText.setTitle("Your Task");
+        isFixed.setAlpha(0);
+        blockSpinnerLayout.setAlpha(0);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getApplication().getResources().getDisplayMetrics()));
+        layoutParams.setMargins(0, 0, 0, 0);
+        blockSpinnerLayout.setLayoutParams(layoutParams);
+        blockSpinnerLayout.requestLayout();
+
+        taskSpinnerLayout.setAlpha(0);
+        LinearLayout.LayoutParams layoutParams_1 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getApplication().getResources().getDisplayMetrics()));
+        layoutParams.setMargins(0, 0, 0, 0);
+
+        taskSpinnerLayout.setLayoutParams(layoutParams_1);
+        taskSpinnerLayout.requestLayout();
+
         taskSave.setOnClickListener(this.saveTaskClickListener);
 
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -56,6 +58,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 v.getContext().startActivity(editTaskIntent);
             }
         });
+        taskViewHolder.taskCard.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                taskViewHolder.updateLayout.setAlpha(1);
+                taskViewHolder.updateLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, v.getContext().getResources().getDisplayMetrics());
+                taskViewHolder.updateLayout.requestLayout();
+                taskViewHolder.contentLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 340, v.getContext().getResources().getDisplayMetrics());
+                taskViewHolder.contentLayout.requestLayout();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -65,12 +79,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         AppCompatTextView taskName;
         TextView taskDescription;
         MaterialCardView taskCard;
+        LinearLayout updateLayout;
+        LinearLayoutCompat contentLayout;
         TaskViewHolder(View itemView) {
             super(itemView);
             taskName = (AppCompatTextView) itemView.findViewById(R.id.task_item_name);
             taskDescription = (TextView) itemView.findViewById(R.id.task_item_descrip);
             taskCard = (MaterialCardView) itemView.findViewById(R.id.task_item_card);
-
+            updateLayout = (LinearLayout) itemView.findViewById(R.id.update_task_layout);
+            contentLayout = (LinearLayoutCompat) itemView.findViewById(R.id.task_item_layout);
         }
 
     }
