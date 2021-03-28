@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,16 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
-import com.pme.mpe.activities.BlockCategoryActivity.EditBlockCategoryActivity;
 import com.pme.mpe.activities.TaskActivity.EditTaskActivity;
 import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.storage.repository.TasksPackageRepository;
 
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private List<Task> taskList;
+    private final TasksPackageRepository tasksPackageRepository;
 
-    TaskAdapter(List<Task> taskList) { this.taskList = taskList; }
+    TaskAdapter(List<Task> taskList, TasksPackageRepository tasksPackageRepository) {
+        this.taskList = taskList;
+        this.tasksPackageRepository = tasksPackageRepository;
+    }
 
     @NonNull
     @Override
@@ -70,10 +74,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 return true;
             }
         });
+        taskViewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    tasksPackageRepository.deleteTask(task);
+            }
+        });
     }
 
     @Override
-    public int getItemCount() { return taskList.size(); }
+    public int getItemCount() {
+        return taskList.size();
+    }
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
         AppCompatTextView taskName;
@@ -81,6 +93,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         MaterialCardView taskCard;
         LinearLayout updateLayout;
         LinearLayoutCompat contentLayout;
+        ImageButton deleteBtn;
+
         TaskViewHolder(View itemView) {
             super(itemView);
             taskName = (AppCompatTextView) itemView.findViewById(R.id.task_item_name);
@@ -88,6 +102,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskCard = (MaterialCardView) itemView.findViewById(R.id.task_item_card);
             updateLayout = (LinearLayout) itemView.findViewById(R.id.update_task_layout);
             contentLayout = (LinearLayoutCompat) itemView.findViewById(R.id.task_item_layout);
+            deleteBtn = (ImageButton) itemView.findViewById(R.id.delete_task_btn);
         }
 
     }

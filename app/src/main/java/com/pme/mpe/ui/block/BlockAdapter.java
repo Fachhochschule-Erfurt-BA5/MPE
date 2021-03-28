@@ -1,7 +1,5 @@
 package com.pme.mpe.ui.block;
 
-import android.app.Application;
-import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
-import com.pme.mpe.activities.TaskActivity.NewTaskActivityViewModel;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
@@ -53,7 +48,7 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
         LinearLayoutManager layoutManager = new LinearLayoutManager(blockViewHolder.rvTaskItem.getContext(), LinearLayoutManager.VERTICAL, false);
 
         layoutManager.setInitialPrefetchItemCount(assignTasks(block,taskList).size());
-        TaskAdapter taskAdapter = new TaskAdapter(assignTasks(block,taskList));
+        TaskAdapter taskAdapter = new TaskAdapter(assignTasks(block,taskList), tasksPackageRepository);
 
         blockViewHolder.rvTaskItem.setLayoutManager(layoutManager);
         blockViewHolder.rvTaskItem.setAdapter(taskAdapter);
