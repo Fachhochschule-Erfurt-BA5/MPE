@@ -48,7 +48,7 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
         LinearLayoutManager layoutManager = new LinearLayoutManager(blockViewHolder.rvTaskItem.getContext(), LinearLayoutManager.VERTICAL, false);
 
         layoutManager.setInitialPrefetchItemCount(assignTasks(block,taskList).size());
-        TaskAdapter taskAdapter = new TaskAdapter(assignTasks(block,taskList), tasksPackageRepository);
+        TaskAdapter taskAdapter = new TaskAdapter(assignTasks(block,taskList), tasksPackageRepository, taskViewModel);
 
         blockViewHolder.rvTaskItem.setLayoutManager(layoutManager);
         blockViewHolder.rvTaskItem.setAdapter(taskAdapter);

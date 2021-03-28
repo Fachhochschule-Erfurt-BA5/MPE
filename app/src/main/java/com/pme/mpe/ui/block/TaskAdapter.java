@@ -27,10 +27,12 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private List<Task> taskList;
     private final TasksPackageRepository tasksPackageRepository;
+    private final TaskViewModel taskViewModel;
 
-    TaskAdapter(List<Task> taskList, TasksPackageRepository tasksPackageRepository) {
+    TaskAdapter(List<Task> taskList, TasksPackageRepository tasksPackageRepository, TaskViewModel taskViewModel) {
         this.taskList = taskList;
         this.tasksPackageRepository = tasksPackageRepository;
+        this.taskViewModel = taskViewModel;
     }
 
     @NonNull
@@ -77,7 +79,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         taskViewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    tasksPackageRepository.deleteTask(task);
+                    taskViewModel.deleteTask(task);
             }
         });
     }
