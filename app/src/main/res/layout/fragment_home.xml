@@ -73,16 +73,20 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_main"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="fill_parent"
             android:background="@color/white"
             android:clipToPadding="false"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/category_block_item" />
         <LinearLayout
+            android:id="@+id/no_block_home"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/no_BlockFound"/>
+            android:layout_height="0dp"
+            android:background="@drawable/noblockfound"
+            android:orientation="horizontal"
+            android:scaleType="centerCrop"
+            />
 
 
     </LinearLayout>

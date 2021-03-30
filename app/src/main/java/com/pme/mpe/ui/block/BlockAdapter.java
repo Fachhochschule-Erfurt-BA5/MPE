@@ -62,7 +62,11 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
         if (assignTasks(block, taskList).size() == 0) {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, blockViewHolder.itemView.getResources().getDisplayMetrics()));
-            layoutParams.setMargins(0, 30, 0, 0);
+            int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, blockViewHolder.itemView.getResources().getDisplayMetrics());
+            int top = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, blockViewHolder.itemView.getResources().getDisplayMetrics());
+            int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, blockViewHolder.itemView.getResources().getDisplayMetrics());
+            int bottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, blockViewHolder.itemView.getResources().getDisplayMetrics());
+            layoutParams.setMargins(left, top, right, bottom);
 
             blockViewHolder.blockNoTask.setLayoutParams(layoutParams);
             blockViewHolder.blockNoTask.requestLayout();

@@ -2,10 +2,12 @@ package com.pme.mpe.ui.home;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +43,7 @@ public class HomeFragment extends Fragment {
     private TextView calendarMonth;
     private TextView calendarYear;
     private TasksPackageRepository tasksPackageRepository;
+    private LinearLayout noBlockHome;
 private LocalDate blockDate;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -58,9 +61,19 @@ private LocalDate blockDate;
         calendarYear = root.findViewById(R.id.Year);
         calendarBtn = root.findViewById(R.id.calendar_selector);
         RecyclerView rvBlock = root.findViewById(R.id.recycler_main);
+        noBlockHome = root.findViewById(R.id.no_block_home);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
-        rvBlock.setAdapter(itemAdapter);
+        if(buildBlockList().size()!=0){
+            BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
+            rvBlock.setAdapter(itemAdapter);
+        }
+        if(buildBlockList().size()==0){
+            rvBlock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getContext().getResources().getDisplayMetrics());
+            rvBlock.requestLayout();
+            noBlockHome.getLayoutParams().height = LinearLayout.LayoutParams.FILL_PARENT;
+            noBlockHome.requestLayout();
+
+        }
         rvBlock.setLayoutManager(layoutManager);
         calendarDay.setText(spliteCDate[0]);
         calendarMonth.setText(spliteCDate[1]);
@@ -93,8 +106,18 @@ private LocalDate blockDate;
                         calendarDay.setText(spliteCDate[0]);
                         calendarMonth.setText(spliteCDate[1]);
                         calendarYear.setText(spliteCDate[2]);
-                        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
-                        rvBlock.setAdapter(itemAdapter);
+                        if(buildBlockList().size()!=0){
+                            BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
+                            rvBlock.setAdapter(itemAdapter);
+                        }
+                        if(buildBlockList().size()==0){
+                            rvBlock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, view.getContext().getResources().getDisplayMetrics());
+                            rvBlock.requestLayout();
+                            noBlockHome.getLayoutParams().height = LinearLayout.LayoutParams.FILL_PARENT;
+                            noBlockHome.requestLayout();
+
+                        }
+
                     }
                 }, year, month, day).show();
             }
