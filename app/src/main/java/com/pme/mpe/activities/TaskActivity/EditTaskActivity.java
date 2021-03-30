@@ -41,6 +41,7 @@ import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.tasks.exceptions.TimeException;
 import com.pme.mpe.model.util.ColorSelector;
+import com.pme.mpe.model.util.DatePickerDialogBlock;
 import com.pme.mpe.model.util.NumberPickerDialog;
 import com.pme.mpe.storage.dao.ColorSelectorDialog;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
@@ -117,7 +118,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
             Intent taskIntent = getIntent();
             Bundle extras = taskIntent.getExtras();
             int taskID = extras.getInt("TaskID");
-            if (!isCheckedTask) {
+            //if (!isCheckedTask) {
                 try {
                     newTaskActivityViewModel.updateTask(taskID, taskName.getText().toString(), taskDescription.getText().toString(), duration, localDateTask);
                 } catch (ObjectNotFoundException e) {
@@ -130,7 +131,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
             }
             //Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
             //startActivity(taskIntent);
-        }
+       // }
 
     };
 
@@ -172,6 +173,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
         localDateTask = taskDeadlineIntent;
         taskDate.setText(localDateTask.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         taskColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(taskColorIntent)));
+        taskSave.setText("Confirm");
 
 
         ArrayAdapter<String> adapterSpinnerCategories = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, categoriesList);
@@ -254,7 +256,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
             public void onClick(View v) {
                 Bundle dialogBundle = new Bundle();
                 dialogBundle.putInt("DialogID", 3);
-                DialogFragment datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
+                DatePickerDialogBlock datePicker = new com.pme.mpe.model.util.DatePickerDialogBlock();
                 datePicker.setArguments(dialogBundle);
                 datePicker.show(getSupportFragmentManager(), "Date Picker");
             }
@@ -272,7 +274,7 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
         blockSpinner.setEnabled(false);
         categorySpinner.setEnabled(false);
         taskHex.setText("Selected Color");
-        toolbarLayoutText.setTitle("Your Task");
+        toolbarLayoutText.setTitle("Edit Task");
         isFixed.setAlpha(0);
         blockSpinnerLayout.setAlpha(0);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(

@@ -66,6 +66,10 @@ private LocalDate blockDate;
         if(buildBlockList().size()!=0){
             BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
             rvBlock.setAdapter(itemAdapter);
+            noBlockHome.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getContext().getResources().getDisplayMetrics());
+            noBlockHome.requestLayout();
+            rvBlock.getLayoutParams().height = LinearLayout.LayoutParams.FILL_PARENT;
+            rvBlock.requestLayout();
         }
         if(buildBlockList().size()==0){
             rvBlock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getContext().getResources().getDisplayMetrics());
@@ -109,6 +113,10 @@ private LocalDate blockDate;
                         if(buildBlockList().size()!=0){
                             BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
                             rvBlock.setAdapter(itemAdapter);
+                            noBlockHome.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, view.getContext().getResources().getDisplayMetrics());
+                            noBlockHome.requestLayout();
+                            rvBlock.getLayoutParams().height = LinearLayout.LayoutParams.FILL_PARENT;
+                            rvBlock.requestLayout();
                         }
                         if(buildBlockList().size()==0){
                             rvBlock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, view.getContext().getResources().getDisplayMetrics());

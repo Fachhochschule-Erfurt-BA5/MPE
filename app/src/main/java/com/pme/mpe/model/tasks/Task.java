@@ -22,7 +22,7 @@ import java.time.LocalDate;
  * A task may be shared between users
  */
 @Entity
-public class Task implements Comparable<Task>{
+public class Task implements Comparable<Task> {
 
     /**
      * The constant LOG_TAG.
@@ -117,6 +117,7 @@ public class Task implements Comparable<Task>{
         this.name = name;
     }
 */
+
     /**
      * Instantiates a new Task which is fixed to a Category Block.
      *
@@ -243,8 +244,13 @@ public class Task implements Comparable<Task>{
         this.categoryBlock = categoryBlock;
     }
 
-    public void setTaskColor(String taskColor){this.taskColor = taskColor;}
-    public String getTaskColor(){return this.taskColor;}
+    public void setTaskColor(String taskColor) {
+        this.taskColor = taskColor;
+    }
+
+    public String getTaskColor() {
+        return this.taskColor;
+    }
 
     /* /////////////////////Methods///////////////////////// */
 
@@ -259,39 +265,27 @@ public class Task implements Comparable<Task>{
     public boolean fixTaskToCategoryBlock(@NotNull CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
         boolean result = false;
 
-        if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(this.deadline))
-        {
-            if(categoryBlock.isEnoughTimeForATaskAvailable(this))
-            {
-                if(this.isTaskFixed())
-                {
-                    if(this.categoryBlock == categoryBlock)
-                    {
+        if (categoryBlock.isTheDeadlineInBoundOfCategoryBlock(this.deadline)) {
+            if (categoryBlock.isEnoughTimeForATaskAvailable(this)) {
+                if (this.isTaskFixed()) {
+                    if (this.categoryBlock == categoryBlock) {
                         Log.w(LOG_TAG, "Task already fixed to the given Category Block");
                         throw new TaskFixException("Task already fixed to the given Category Block");
-                    }
-                    else
-                    {
+                    } else {
                         Log.w(LOG_TAG, "Task already fixed to another Category Block");
                         throw new TaskFixException("Task already fixed to another Category Block");
                     }
-                }
-                else
-                {
+                } else {
                     result = true;
                     this.isTaskFixed = true;
                     this.categoryBlock = categoryBlock;
                     categoryBlock.addTaskToFixedTasks(this);
                 }
-            }
-            else
-            {
+            } else {
                 Log.w(LOG_TAG, "Task already fixed to another Category Block");
                 throw new TaskFixException("Task already fixed to another Category Block");
             }
-        }
-        else
-        {
+        } else {
             Log.w(LOG_TAG, "Deadline is before the Category Block");
             throw new TaskDeadlineException("Deadline is before the Category Block");
         }
@@ -309,15 +303,12 @@ public class Task implements Comparable<Task>{
     public boolean unfixTaskFromCategoryBlock() throws TaskFixException {
         boolean result = false;
 
-        if(this.isTaskFixed)
-        {
+        if (this.isTaskFixed) {
             //this.isTaskFixed = false;
             //   this.categoryBlock.removeTaskFromFixedTasks(this);
             this.categoryBlock = null;
             result = true;
-        }
-        else
-        {
+        } else {
             Log.w(LOG_TAG, "Cannot unassign what is not assigned");
             throw new TaskFixException("Cannot unassign what is not assigned");
         }
@@ -331,10 +322,8 @@ public class Task implements Comparable<Task>{
      * @param duration the duration
      */
     public void setDuration(int duration) throws TaskFixException {
-        if(this.isTaskFixed && this.categoryBlock != null)
-        {
-            if(!this.categoryBlock.isEnoughTimeForAFixedTaskUpdateAvailable(this, duration))
-            {
+        if (this.isTaskFixed && this.categoryBlock != null) {
+            if (!this.categoryBlock.isEnoughTimeForAFixedTaskUpdateAvailable(this, duration)) {
                 this.isTaskFixed = false;
                 this.categoryBlock = null;
                 this.duration = duration;
@@ -353,10 +342,9 @@ public class Task implements Comparable<Task>{
      * @throws TimeException the time exception
      */
     public void setDeadline(LocalDate deadline) throws TimeException {
-        //It is only possible to set a deadline for today of the future
-        if(deadline.isAfter(LocalDate.now()) || deadline.isEqual(LocalDate.now()))
-        {
-            if(this.isTaskFixed())
+        //It is only possible to set a deadline for today or the future
+        if (deadline.isAfter(LocalDate.now()) || deadline.isEqual(LocalDate.now())) {
+            /*if(this.isTaskFixed())
             {
                 //Is the new deadline in bound of the category block ?
                 if(this.getCategoryBlock().isTheDeadlineInBoundOfCategoryBlock(deadline))
@@ -369,12 +357,11 @@ public class Task implements Comparable<Task>{
                 }
             }
             else
-            {
-                this.deadline = deadline;
-            }
+            {*/
+            this.deadline = deadline;
         }
-        else
-        {
+        //}
+        else {
             throw new TimeException("Not possible to change the Deadline to the past");
         }
     }

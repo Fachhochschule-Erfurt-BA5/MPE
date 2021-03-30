@@ -220,6 +220,7 @@ public class Category {
             if(categoryBlock.isEnoughTimeForATaskAvailable(createdTask))
             {
                 categoryBlock.addTaskToFixedTasks(createdTask);
+                createdTask.setCategoryBlock(categoryBlock);
             }
             else
             {

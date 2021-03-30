@@ -47,6 +47,7 @@ public class DatePickerDialogBlock extends DialogFragment {
             default:
                 throw new IllegalStateException("Unexpected value: " + dialogID);
         }
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         return datePickerDialog;
     }
 }
