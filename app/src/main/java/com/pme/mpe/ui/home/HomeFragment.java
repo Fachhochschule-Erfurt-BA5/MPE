@@ -2,42 +2,34 @@ package com.pme.mpe.ui.home;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.pme.mpe.MainActivity;
 import com.pme.mpe.ui.block.BlockAdapter;
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.ui.block.TaskViewModel;
 
 import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private TaskViewModel taskViewModel;
     private FloatingActionButton calendarBtn;
     private TextView calendarDay;
     private TextView calendarMonth;
@@ -45,6 +37,7 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         Date c = Calendar.getInstance().getTime();
         String cDate = DateFormat.getDateInstance(DateFormat.FULL).format(c);
@@ -55,7 +48,7 @@ public class HomeFragment extends Fragment {
         calendarBtn = root.findViewById(R.id.calendar_selector);
         RecyclerView rvBlock = root.findViewById(R.id.recycler_main);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList());
+        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel);
         rvBlock.setAdapter(itemAdapter);
         rvBlock.setLayoutManager(layoutManager);
         calendarDay.setText(spliteCDate[0]);

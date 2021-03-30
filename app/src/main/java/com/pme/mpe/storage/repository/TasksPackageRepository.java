@@ -12,6 +12,7 @@ import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.tasks.exceptions.TimeException;
 import com.pme.mpe.storage.dao.TasksPackageDao;
@@ -200,7 +201,7 @@ public class TasksPackageRepository {
      * @param task the task
      */
 
-    public void insertTask(Task task) {
+    public void insertTask(Task task)  {
         //The Foreign key from the Category Block should be saved as well if the Task is Fixed
         if (task.isTaskFixed()) {
             task.setT_categoryBlockId(task.getCategoryBlock().getCatBlockId());
@@ -389,11 +390,11 @@ public class TasksPackageRepository {
         List<Task> fixedTasks = tasksPackageDao.getFixedTasksFromCB(id);
 
         // Unfix all the fixed tasks (if any)
-        if (fixedTasks.size() > 0) {
+       if (fixedTasks.size() > 0) {
             for (int i = 0; i < fixedTasks.size(); i++) {
                 // Try to unfix the fixed Tasks in this Category Block
                 try {
-                    fixedTasks.get(i).unfixTaskFromCategoryBlock();
+                   fixedTasks.get(i).unfixTaskFromCategoryBlock();
 
                     unfixTask(fixedTasks.get(i));
 

@@ -71,7 +71,7 @@ public class MainApplication extends Application {
         Log.i(LOG_TAG, "Application created!");
 
         // test Database
-        tasksPackageRepository.getCategoryBlocks();
+        //tasksPackageRepository.getCategoryBlocks();
 
         isFirstUse();
     }

@@ -19,7 +19,7 @@ import java.util.List;
  * The type Category block.
  */
 @Entity
-public class CategoryBlock implements Comparable<CategoryBlock>{
+public class CategoryBlock implements Comparable<CategoryBlock> {
 
     @Ignore
     public static final String LOG_TAG = "CategoryBlock";
@@ -99,8 +99,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      *
      * @param category the category
      */
-    protected CategoryBlock(Category category)
-    {
+    protected CategoryBlock(Category category) {
         this.title = "Default CB";
         this.CB_CategoryId = category.getCategoryId();
         this.catBlockId = category.getCategoryId(); //TODO: how does it work ? (Hamza Harti)
@@ -223,10 +222,8 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      *
      * @param task the task
      */
-    public void addTaskToFixedTasks(Task task)
-    {
-        if(!this.isDefaultCB)
-        {
+    public void addTaskToFixedTasks(Task task) {
+        if (!this.isDefaultCB) {
             this.assignedTasks.add(task);
         }
     }
@@ -236,8 +233,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      *
      * @param task the task
      */
-    public void addTaskToSoftFixedTasks(Task task)
-    {
+    public void addTaskToSoftFixedTasks(Task task) {
         this.softFixedTasks.add(task);
     }
 
@@ -246,9 +242,8 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      *
      * @param task the task
      */
-    protected void removeTaskFromFixedTasks(Task task)
-    {
-        this.assignedTasks.remove(task);
+    public void removeTaskFromFixedTasks(Task task) {
+            this.assignedTasks.remove(task);
     }
 
     /**
@@ -256,10 +251,8 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      *
      * @return the int
      */
-    public int returnRemainingFreeTimeOnSlot()
-    {
-        if(!isDefaultCB)
-        {
+    public int returnRemainingFreeTimeOnSlot() {
+        if (!isDefaultCB) {
             int totalFreeTimeOnSlot = this.endTimeHour - this.startTimeHour;
 
             for (int i = 0; i < this.assignedTasks.size(); i++) {
@@ -267,9 +260,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
             }
 
             return totalFreeTimeOnSlot;
-        }
-        else
-        {
+        } else {
             return 100000;
         }
     }
@@ -280,10 +271,8 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      *
      * @return the int
      */
-    public int returnRemainingFreeTimeOnSlotTakingIntoAccountSoftFixedTasks()
-    {
-        if(!isDefaultCB)
-        {
+    public int returnRemainingFreeTimeOnSlotTakingIntoAccountSoftFixedTasks() {
+        if (!isDefaultCB) {
             int totalFreeTimeOnSlot = this.endTimeHour - this.startTimeHour;
 
             for (int i = 0; i < this.assignedTasks.size(); i++) {
@@ -295,9 +284,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
             }
 
             return totalFreeTimeOnSlot;
-        }
-        else
-        {
+        } else {
             return 100000;
         }
     }
@@ -308,8 +295,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      * @param task the task
      * @return the boolean
      */
-    public boolean isEnoughTimeForATaskAvailable(Task task)
-    {
+    public boolean isEnoughTimeForATaskAvailable(Task task) {
         return returnRemainingFreeTimeOnSlot() >= task.getDuration();
     }
 
@@ -320,8 +306,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      * @param task the task
      * @return the boolean
      */
-    public boolean isEnoughTimeForATaskAvailableTakingIntoAccountSoftFixedTasks(Task task)
-    {
+    public boolean isEnoughTimeForATaskAvailableTakingIntoAccountSoftFixedTasks(Task task) {
         return returnRemainingFreeTimeOnSlotTakingIntoAccountSoftFixedTasks() >= task.getDuration();
     }
 
@@ -337,19 +322,14 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
         boolean result = true;
 
         for (int i = 0; i < this.assignedTasks.size(); i++) {
-            if(this.assignedTasks.get(i) == task)
-            {
-                if(returnRemainingFreeTimeOnSlot() + this.assignedTasks.get(i).getDuration() < newDuration)
-                {
+            if (this.assignedTasks.get(i) == task) {
+                if (returnRemainingFreeTimeOnSlot() + this.assignedTasks.get(i).getDuration() < newDuration) {
                     Log.w(LOG_TAG, "Not enough time in time slot");
                     result = false;
-                }
-                else{
+                } else {
                     result = true;
                 }
-            }
-            else
-            {
+            } else {
                 result = false;
             }
         }
@@ -362,21 +342,14 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      * @param taskDate the task date
      * @return the boolean
      */
-    public boolean isTheDeadlineInBoundOfCategoryBlock(LocalDate taskDate)
-    {
-        if(!isDefaultCB)
-        {
-            if(this.date.isAfter(taskDate) || this.date == taskDate)
-            {
+    public boolean isTheDeadlineInBoundOfCategoryBlock(LocalDate taskDate) {
+        if (!isDefaultCB) {
+            if (this.date.isAfter(taskDate) || this.date == taskDate) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
@@ -385,7 +358,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
      * Prepare category block to be deleted.
      */
     public void prepareCategoryBlockToBeDeleted() throws TaskFixException {
-        for (int i = 0; i < this.assignedTasks.size() ; i++) {
+        for (int i = 0; i < this.assignedTasks.size(); i++) {
             this.assignedTasks.get(i).unfixTaskFromCategoryBlock();
         }
     }
@@ -394,7 +367,7 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
 
     @Override
     public int compareTo(CategoryBlock categoryBlock) {
-        int compareStartTime= categoryBlock.getStartTimeHour();
+        int compareStartTime = categoryBlock.getStartTimeHour();
 
         return this.startTimeHour - compareStartTime;
     }
@@ -407,9 +380,6 @@ public class CategoryBlock implements Comparable<CategoryBlock>{
                 ", endTimeHour=" + endTimeHour +
                 '}';
     }
-
-
-
 
 
 }

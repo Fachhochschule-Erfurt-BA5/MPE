@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
 import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.tasks.exceptions.TimeException;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
@@ -24,8 +25,7 @@ public class NewTaskActivityViewModel extends AndroidViewModel {
         this.tasksPackageRepository = TasksPackageRepository.getRepository(application);
     }
 
-    public void saveTasks (Task task)
-    {
+    public void saveTasks (Task task) {
         this.tasksPackageRepository.insertTask(task);
     }
 

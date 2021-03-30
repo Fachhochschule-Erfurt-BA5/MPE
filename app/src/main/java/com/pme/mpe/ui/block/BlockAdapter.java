@@ -28,9 +28,10 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
     private TaskViewModel taskViewModel;
     private TasksPackageRepository tasksPackageRepository;
 
-    public BlockAdapter(List<CategoryBlock> blockList,List<Task> taskList) {
+    public BlockAdapter(List<CategoryBlock> blockList, List<Task> taskList, TaskViewModel taskViewModel) {
         this.BlockList = blockList;
         this.taskList = taskList;
+        this.taskViewModel = taskViewModel;
     }
 
     @NonNull

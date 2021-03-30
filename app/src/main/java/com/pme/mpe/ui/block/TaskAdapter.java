@@ -14,13 +14,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.pme.mpe.R;
 import com.pme.mpe.activities.TaskActivity.EditTaskActivity;
 import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
+import com.pme.mpe.ui.home.HomeViewModel;
 
 import java.util.List;
 
@@ -79,7 +82,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         taskViewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    taskViewModel.deleteTask(task);
+
+                taskViewModel.deleteTask(task);
             }
         });
     }

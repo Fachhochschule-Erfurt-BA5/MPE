@@ -39,6 +39,8 @@ import com.pme.mpe.activities.BlockCategoryActivity.NewBlockActivityViewModel;
 import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
+import com.pme.mpe.model.tasks.exceptions.TaskDeadlineException;
+import com.pme.mpe.model.tasks.exceptions.TaskFixException;
 import com.pme.mpe.model.util.ColorSelector;
 import com.pme.mpe.model.util.NumberPickerDialog;
 import com.pme.mpe.storage.dao.ColorSelectorDialog;
@@ -140,12 +142,15 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
             Task newTask;
             if (!isCheckedTask) {
                 newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask,taskColorPicker);
-                newTaskActivityViewModel.saveTasks(newTask);
+
+                    newTaskActivityViewModel.saveTasks(newTask);
+
             }
             if (isCheckedTask) {
                 CategoryBlock catyBlock = newTaskActivityViewModel.getBlockWithCategoryIDAndName(categoryID, blockName);
                 newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask, catyBlock.getCatBlockId(), catyBlock,taskColorPicker);
-                newTaskActivityViewModel.saveTasks(newTask);
+                    newTaskActivityViewModel.saveTasks(newTask);
+
             }
 
 

@@ -256,7 +256,7 @@ public class Task implements Comparable<Task>{
      * @throws TaskFixException      the task fix exception
      * @throws TaskDeadlineException the task deadline exception
      */
-    protected boolean fixTaskToCategoryBlock(@NotNull CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
+    public boolean fixTaskToCategoryBlock(@NotNull CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
         boolean result = false;
 
         if(categoryBlock.isTheDeadlineInBoundOfCategoryBlock(this.deadline))
@@ -311,8 +311,8 @@ public class Task implements Comparable<Task>{
 
         if(this.isTaskFixed)
         {
-            this.isTaskFixed = false;
-            this.categoryBlock.removeTaskFromFixedTasks(this);
+            //this.isTaskFixed = false;
+            //   this.categoryBlock.removeTaskFromFixedTasks(this);
             this.categoryBlock = null;
             result = true;
         }
