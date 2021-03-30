@@ -97,7 +97,7 @@ public interface TasksPackageDao {
     CategoryBlock getCategoryBlockWithCategoryIDAndName(long categoryID, String blockName);
 
     //Get all the Category blocks
-    @Query("SELECT * FROM CategoryBlock")
+    @Query("SELECT * FROM CategoryBlock ")
     List<CategoryBlock> getCategoryBlocks();
 
     // Get CategoryBlocks by Date

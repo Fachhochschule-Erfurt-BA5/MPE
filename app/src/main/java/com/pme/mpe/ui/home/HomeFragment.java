@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.pme.mpe.storage.dao.TasksPackageDao;
+import com.pme.mpe.storage.repository.TasksPackageRepository;
 import com.pme.mpe.ui.block.BlockAdapter;
 import com.pme.mpe.R;
 import com.pme.mpe.model.tasks.CategoryBlock;
@@ -22,9 +24,13 @@ import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.ui.block.TaskViewModel;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class HomeFragment extends Fragment {
 
@@ -34,13 +40,18 @@ public class HomeFragment extends Fragment {
     private TextView calendarDay;
     private TextView calendarMonth;
     private TextView calendarYear;
-
+    private TasksPackageRepository tasksPackageRepository;
+private LocalDate blockDate;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        Date c = Calendar.getInstance().getTime();
-        String cDate = DateFormat.getDateInstance(DateFormat.FULL).format(c);
+        Calendar c = Calendar.getInstance();
+        TimeZone tz = c.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        blockDate = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
+        Date cD = c.getTime();
+        String cDate = DateFormat.getDateInstance(DateFormat.FULL).format(cD);
         String[] spliteCDate = cDate.split(",");
         calendarDay = root.findViewById(R.id.Day);
         calendarMonth = root.findViewById(R.id.Month);
@@ -48,7 +59,7 @@ public class HomeFragment extends Fragment {
         calendarBtn = root.findViewById(R.id.calendar_selector);
         RecyclerView rvBlock = root.findViewById(R.id.recycler_main);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel);
+        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
         rvBlock.setAdapter(itemAdapter);
         rvBlock.setLayoutManager(layoutManager);
         calendarDay.setText(spliteCDate[0]);
@@ -74,12 +85,16 @@ public class HomeFragment extends Fragment {
                         c.set(Calendar.YEAR, year);
                         c.set(Calendar.MONTH, month);
                         c.set(Calendar.DAY_OF_MONTH, day);
+                        TimeZone tz = c.getTimeZone();
+                        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+                        blockDate = LocalDateTime.ofInstant(c.toInstant(), zid).toLocalDate();
                         String cDate1 = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
                         String[] spliteCDate = cDate1.split(",");
                         calendarDay.setText(spliteCDate[0]);
                         calendarMonth.setText(spliteCDate[1]);
                         calendarYear.setText(spliteCDate[2]);
-
+                        BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
+                        rvBlock.setAdapter(itemAdapter);
                     }
                 }, year, month, day).show();
             }
@@ -88,7 +103,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
     private List<CategoryBlock> buildBlockList() {
-        return homeViewModel.getCategoryBlocks();
+        return homeViewModel.getCategoryBlocks(blockDate);
     }
 
     private List<Task> buildTaskList() {

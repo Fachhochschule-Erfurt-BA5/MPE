@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.pme.mpe.model.relations.CategoryWithCatBlocksAndTasksRelation;
+import com.pme.mpe.model.tasks.Category;
 import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
@@ -34,5 +35,9 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     public List<Task> getTasks(long blockID) { return this.tasksPackageRepository.getTasks(); }
+
+    public Category getCategoryWithID(Long ID){
+        return this.tasksPackageRepository.getCategoryWithID(ID);
+    }
 
 }

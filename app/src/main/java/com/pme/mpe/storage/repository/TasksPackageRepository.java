@@ -203,8 +203,9 @@ public class TasksPackageRepository {
 
     public void insertTask(Task task)  {
         //The Foreign key from the Category Block should be saved as well if the Task is Fixed
-        if (task.isTaskFixed()) {
+         if (task.isTaskFixed()) {
             task.setT_categoryBlockId(task.getCategoryBlock().getCatBlockId());
+
         }
 
         task.setCreated(LocalDate.now());
@@ -395,6 +396,8 @@ public class TasksPackageRepository {
                 // Try to unfix the fixed Tasks in this Category Block
                 try {
                    fixedTasks.get(i).unfixTaskFromCategoryBlock();
+
+
 
                     unfixTask(fixedTasks.get(i));
 

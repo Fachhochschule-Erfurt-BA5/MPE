@@ -344,7 +344,7 @@ public class CategoryBlock implements Comparable<CategoryBlock> {
      */
     public boolean isTheDeadlineInBoundOfCategoryBlock(LocalDate taskDate) {
         if (!isDefaultCB) {
-            if (this.date.isAfter(taskDate) || this.date == taskDate) {
+            if (this.date.isBefore(taskDate) || this.date == taskDate) {
                 return true;
             } else {
                 return false;

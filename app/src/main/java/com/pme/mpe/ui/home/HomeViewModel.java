@@ -10,6 +10,7 @@ import com.pme.mpe.model.tasks.CategoryBlock;
 import com.pme.mpe.model.tasks.Task;
 import com.pme.mpe.storage.repository.TasksPackageRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
@@ -22,8 +23,8 @@ public class HomeViewModel extends AndroidViewModel {
         this.tasksPackageRepository = TasksPackageRepository.getRepository(application);
     }
 
-    public List<CategoryBlock> getCategoryBlocks() {
-        return this.tasksPackageRepository.getCategoryBlocks();
+    public List<CategoryBlock> getCategoryBlocks(LocalDate date) {
+        return this.tasksPackageRepository.getCategoryBlocksByGivenDay(date);
     }
     public List<Task> getTasks(){
         return this.tasksPackageRepository.getTasks();

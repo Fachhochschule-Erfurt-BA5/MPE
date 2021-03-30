@@ -1,5 +1,6 @@
 package com.pme.mpe.ui.block;
 
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +29,11 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
     private TaskViewModel taskViewModel;
     private TasksPackageRepository tasksPackageRepository;
 
-    public BlockAdapter(List<CategoryBlock> blockList, List<Task> taskList, TaskViewModel taskViewModel) {
+    public BlockAdapter(List<CategoryBlock> blockList, List<Task> taskList, TaskViewModel taskViewModel, TasksPackageRepository tasksPackageRepository) {
         this.BlockList = blockList;
         this.taskList = taskList;
         this.taskViewModel = taskViewModel;
+        this.tasksPackageRepository = tasksPackageRepository;
     }
 
     @NonNull
@@ -46,10 +48,16 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
     public void onBindViewHolder(@NonNull BlockViewHolder blockViewHolder, int i) {
         CategoryBlock block = BlockList.get(i);
         blockViewHolder.blockTitle.setText(block.getTitle());
+        blockViewHolder.timeBlock.setText(block.getStartTimeHour()+"h - "+block.getEndTimeHour()+"h");
+        blockViewHolder.blockTitle.setTextColor(Color.parseColor(taskViewModel.getCategoryWithID(block.CB_CategoryId).getLetterColor()));
+        blockViewHolder.timeBlock.setTextColor(Color.parseColor(taskViewModel.getCategoryWithID(block.CB_CategoryId).getLetterColor()));
+        blockViewHolder.blockCard.setCardBackgroundColor(Color.parseColor(taskViewModel.getCategoryWithID(block.CB_CategoryId).getColor()));
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(blockViewHolder.rvTaskItem.getContext(), LinearLayoutManager.VERTICAL, false);
 
-        layoutManager.setInitialPrefetchItemCount(assignTasks(block,taskList).size());
-        TaskAdapter taskAdapter = new TaskAdapter(assignTasks(block,taskList), tasksPackageRepository, taskViewModel);
+       layoutManager.setInitialPrefetchItemCount(assignTasks(block,taskList).size());
+       TaskAdapter taskAdapter = new TaskAdapter(assignTasks(block,taskList), tasksPackageRepository, taskViewModel);
+
 
         blockViewHolder.rvTaskItem.setLayoutManager(layoutManager);
         blockViewHolder.rvTaskItem.setAdapter(taskAdapter);
@@ -82,7 +90,7 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
         private TextView blockTitle;
         private RecyclerView rvTaskItem;
         private LinearLayout blockItem;
-        private TextView timeTask;
+        private TextView timeBlock;
         private MaterialCardView blockCard;
 
         BlockViewHolder(View itemView) {
@@ -90,7 +98,7 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockViewHol
             blockTitle = itemView.findViewById(R.id.block_title_item);
             rvTaskItem = itemView.findViewById(R.id.rv_task_item);
             blockItem = itemView.findViewById(R.id.block_item_layout);
-            timeTask = itemView.findViewById(R.id.block_time_item);
+            timeBlock = itemView.findViewById(R.id.block_time_item);
             blockCard = itemView.findViewById(R.id.block_card);
         }
     }

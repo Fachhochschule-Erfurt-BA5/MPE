@@ -97,7 +97,7 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
     private SwitchCompat isFixed; //how to save it?
     private Button saveTaskBtn;
     private Boolean isCheckedTask = true;
-    private String taskColorPicker ="#F6402C";
+    private String taskColorPicker = "#F6402C";
 
     private TextView taskHex;
     private ColorSelector colorSelector;
@@ -118,10 +118,10 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Button btn=(Button) v;
+                    Button btn = (Button) v;
                     ColorDrawable viewColor = (ColorDrawable) btn.getBackground();
                     int colorId = viewColor.getColor();
-                    taskColorPicker= String.format("#%06X", (0xFFFFFF & colorId));
+                    taskColorPicker = String.format("#%06X", (0xFFFFFF & colorId));
                     taskColor.setBackgroundTintList(ColorStateList.valueOf(colorId));
                     colorPickerTask.setAlpha(0);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -141,15 +141,24 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
             int categoryID = (int) newTaskActivityViewModel.nameToIDCategory(categoryName).getCategoryId();
             Task newTask;
             if (!isCheckedTask) {
-                newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask,taskColorPicker);
-
-                    newTaskActivityViewModel.saveTasks(newTask);
+                //newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask, taskColorPicker);
+                newTaskActivityViewModel.saveTasks(newTaskActivityViewModel.nameToIDCategory(categoryName).createAndAssignTaskToCategory(taskName.getText().toString(), taskDescription.getText().toString(),duration, localDateTask, taskColorPicker));
 
             }
             if (isCheckedTask) {
                 CategoryBlock catyBlock = newTaskActivityViewModel.getBlockWithCategoryIDAndName(categoryID, blockName);
-                newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask, catyBlock.getCatBlockId(), catyBlock,taskColorPicker);
-                    newTaskActivityViewModel.saveTasks(newTask);
+                //newTask = new Task(taskName.getText().toString(), taskDescription.getText().toString(), categoryID, duration, localDateTask, catyBlock.getCatBlockId(), catyBlock, taskColorPicker);
+                //newTaskActivityViewModel.saveTasks(newTask);
+                //newTaskActivityViewModel.saveTasks(newTask);
+                try {
+                    newTaskActivityViewModel.saveTasks(newTaskActivityViewModel.nameToIDCategory(categoryName).createdFixedTaskAndAssignToCategoryBlock(taskName.getText().toString(), taskDescription.getText().toString(), duration, localDateTask,catyBlock, taskColorPicker));
+                } catch (TaskFixException e) {
+                    e.printStackTrace();
+                } catch (TaskDeadlineException e) {
+                    e.printStackTrace();
+                }
+
+
 
             }
 
