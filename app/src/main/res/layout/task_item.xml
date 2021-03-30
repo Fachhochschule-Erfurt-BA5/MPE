@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="80dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="2dp"
         android:layout_marginRight="5dp"
@@ -18,7 +18,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/task_item_card"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:focusable="true"
@@ -54,29 +54,61 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/task_item_name"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        tools:text="Task X" />
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/task_item_descrip"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:textColor="@color/black_semi"
-                        android:textSize="13sp"
-                        tools:text="Description" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/task_item_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            tools:text="Task X" />
 
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/task_item_descrip"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:textColor="@color/black_semi"
+                            android:textSize="13sp"
+                            tools:text="Description" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/task_item_deadline"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black_semi"
+                                android:textSize="13sp"
+                                tools:text="Deadline"
+                                android:textStyle="bold"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/task_item_duration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:textColor="@color/black_semi"
+                                android:textSize="13sp"
+                                tools:text="Duration"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
 

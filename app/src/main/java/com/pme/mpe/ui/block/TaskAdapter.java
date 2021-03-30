@@ -51,6 +51,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         taskViewHolder.taskName.setText(task.getName());
         taskViewHolder.taskDescription.setText(task.getDescription());
         taskViewHolder.taskCard.setCardBackgroundColor(Color.parseColor(task.getTaskColor()));
+        taskViewHolder.taskDeadline.setText("Deadline: "+task.getDeadline());
+        taskViewHolder.taskDuration.setText("Duration: "+task.getDuration()+"h");
+
 
         taskViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +99,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     static class TaskViewHolder extends RecyclerView.ViewHolder {
         AppCompatTextView taskName;
         TextView taskDescription;
+        AppCompatTextView taskDeadline;
+        AppCompatTextView taskDuration;
         MaterialCardView taskCard;
         LinearLayout updateLayout;
         LinearLayoutCompat contentLayout;
@@ -105,6 +110,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             super(itemView);
             taskName = (AppCompatTextView) itemView.findViewById(R.id.task_item_name);
             taskDescription = (TextView) itemView.findViewById(R.id.task_item_descrip);
+            taskDeadline = (AppCompatTextView) itemView.findViewById(R.id.task_item_deadline);
+            taskDuration = (AppCompatTextView) itemView.findViewById(R.id.task_item_duration);
             taskCard = (MaterialCardView) itemView.findViewById(R.id.task_item_card);
             updateLayout = (LinearLayout) itemView.findViewById(R.id.update_task_layout);
             contentLayout = (LinearLayoutCompat) itemView.findViewById(R.id.task_item_layout);
