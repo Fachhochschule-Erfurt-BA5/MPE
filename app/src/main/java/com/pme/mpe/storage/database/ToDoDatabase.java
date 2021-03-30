@@ -105,13 +105,8 @@ public abstract class ToDoDatabase extends RoomDatabase {
                 UserDao userDao = INSTANCE.userDao();
                 TasksPackageDao tasksPackageDao = INSTANCE.tasksPackageDao();
 
-                String[] names = {"Ahmad", "Benito", "Hamza", "Alejandro"};
-                String[] lastNames = {"AboLouha", "Grauel", "Harti", "R.Klinge"};
-
-                for (int i = 0; i < 4; i++)
-                {
-                    //Add some Users
-                    User user = new User(names[i], lastNames[i], names[i].toLowerCase() + '.' + lastNames[i].toLowerCase() + "@gmail.com","12345678", "URL");
+                    //Add root User
+                    User user = new User("Root", "User", "root.user@todo.de","12345678", "URL");
                     user.setCreated(LocalDate.now());
                     user.setUpdated(user.getCreated());
                     user.setVersion(1);
@@ -199,7 +194,7 @@ public abstract class ToDoDatabase extends RoomDatabase {
                             tasksPackageDao.insertTask(fixedTask);
                         }
                     }
-                }
+
                 Log.i(LOG_TAG_DB, "inserted needed elements");
             });
             }

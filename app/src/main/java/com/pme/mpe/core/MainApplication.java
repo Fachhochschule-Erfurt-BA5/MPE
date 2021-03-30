@@ -9,6 +9,7 @@ import com.pme.mpe.R;
 import com.pme.mpe.SplashActivity;
 import com.pme.mpe.model.user.User;
 import com.pme.mpe.storage.KeyValueStore;
+import com.pme.mpe.storage.repository.TasksPackageRepository;
 import com.pme.mpe.storage.repository.UserRepository;
 
 public class MainApplication extends Application {
@@ -19,6 +20,9 @@ public class MainApplication extends Application {
     boolean isFirstUse = true;
 
     private KeyValueStore store;
+
+    TasksPackageRepository tasksPackageRepository;
+
 
     // if our store is null, will create a new store to save the data
     public KeyValueStore getStore()
@@ -65,6 +69,9 @@ public class MainApplication extends Application {
         super.onCreate();
 
         Log.i(LOG_TAG, "Application created!");
+
+        // test Database
+        tasksPackageRepository.getCategoryBlocks();
 
         isFirstUse();
     }
