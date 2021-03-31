@@ -214,13 +214,14 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 - from the main screen navigate to Blocks : drawer -> Blocks (Menu) and Click on Add Block
 - in this Activity we can add a new Block by giving the following parameters : Date, Start, Finish and specify to which Category this Block belongs
 
-![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addblock.jpg)
-![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addblockdate.jpg)
-![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addblocktime.jpg)
-![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addblockfull.jpg)
+![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/1ff6a1b226de019a85dd168f7db88d12360d62c0/doku/Bilder_Readme/addblock.jpg)
+
+![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/1ff6a1b226de019a85dd168f7db88d12360d62c0/doku/Bilder_Readme/addblockdate.jpg)
+![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/1ff6a1b226de019a85dd168f7db88d12360d62c0/doku/Bilder_Readme/addblocktime.jpg)
+![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/1ff6a1b226de019a85dd168f7db88d12360d62c0/doku/Bilder_Readme/addblockfull.jpg)
 - here we can see the block has been successfully added
 
-![blockfragment](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/fragmentblock.jpg)
+![blockfragment](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/1ff6a1b226de019a85dd168f7db88d12360d62c0/doku/Bilder_Readme/fragmentblock.jpg)
 ### Fourth Step: Add a Task
 
 - now that we have a block we can see in the home page that block is already there but we still have no tasks. to do that we click on the blue plus button.
