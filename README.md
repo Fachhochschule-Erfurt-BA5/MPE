@@ -106,27 +106,6 @@ Meetings once or twice a week to discuss and explain finished tasks and to split
   - has methods to save, update and create a new TaskActivittyViewModel
   
 #### Setting
-### Core
-  MainApplication:
-    has logic for KeyValue and Login
-#### Main Application
-in the [Main Class](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/main/app/src/main/java/com/pme/mpe/core/MainApplication.java) The Key Value Store checks whether a user is already logged in or this is the first time the app has been used. Based on the result, the user is forwarded either to the login page or the main page of the app.
-### Model
-#### Tasks Package
-##### Category
-has the information about a category (name, ID, color ...) as well as a list of CategoryBlocks and a list of tasks and their functionality
-##### Category-Block
-has the information about a category block (name, ID, color ...) as well as a list of tasks and a reference to the associated category and its functionality
-##### Task
-hat die Information über ein Task (Name, description, duration, deadline) sowie ein Category_id, außerdem hat die infos, ob ein Task fixd oder nicht,
-#### User
-#### util
-#### Relation
-### Storage
-#### DAOs
-#### Database
-#### Repositories
-#### Key Value Store
 ### UI
 Login:
    - Username (Email):
@@ -146,6 +125,95 @@ Categories (with add Category):
    - add a Category with a name and a color
 
 ### Resources
+### Core
+  MainApplication:
+    has logic for KeyValue and Login
+#### Main Application
+in the [Main Class](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/main/app/src/main/java/com/pme/mpe/core/MainApplication.java) The Key Value Store checks whether a user is already logged in or this is the first time the app has been used. Based on the result, the user is forwarded either to the login page or the main page of the app.
+### Model
+#### Tasks Package
+contains the model classes for the application
+##### Category
+has the information about a category (name, ID, color ...) as well as a list of CategoryBlocks and a list of tasks and their functionality
+##### Category-Block
+has the information about a category block (name, ID, color ...) as well as a list of tasks and a reference to the associated category and its functionality
+##### Task
+has the information about a task (name, description, duration, deadline) as well as a Category_id, also has the information whether a task is fixed or not
+#### User Package
+#### User
+has the information about a User (name, first name, email ...) as well as a List of Categories
+#### Relation
+The relationship between the model components is defined in this package, e.g. CategoryBlockHaveTasks
+##### CategoryBlockHaveTasks
+This class contains a reference to the parent class "CategoryBlock" represented by ID and a list of tasks belonging to the ID. It is also checked whether the tasks in the list are fixed or soft fixed tasks, then the tasks are added to the associated attribute list, e.g. if the Task fix is: 
+```java
+this.categoryBlock.addTaskToFixedTasks (tasks.get (i));
+```
+##### CategoryWithCatBlockAndTasksRelation
+This class contains a reference to the parent class "Category" represented by ID, it has also a list of CategoryBlocks and a list of tasks belonging to the Category.
+```java
+public class CategoryWithCatBlocksAndTasksRelation {
+    @Embedded
+    public Category category;
+
+    @Relation(
+            parentColumn = "categoryId",
+            entityColumn = "CB_CategoryId"
+    )
+    public List<CategoryBlock> categoryBlocks;
+
+    @Relation(
+            parentColumn = "categoryId",
+            entityColumn = "T_categoryID"
+    )
+    public List<Task> tasks;
+
+    public Category merge()
+    {
+        this.category.setCategoryBlockList(this.categoryBlocks);
+        this.category.setTaskList(this.tasks);
+
+        return this.category;
+    }
+}
+```
+##### UserCategoryRelation
+This class contains a reference to the parent class "User" represented by userId, and a list of Category represented the child class belonging to the Category.
+
+#### util
+a helper classes like PasswordHashing, TimerPickerDialogBlock...
+
+### Storage
+#### DAOs
+Data Access Objects, which used to define the database interactions
+##### [TaskPackageDao](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/main/app/src/main/java/com/pme/mpe/storage/dao/TasksPackageDao.java)
+has the required query to enable access to the task, CategoryBlock and Category
+```java
+ @Insert
+    long insertCategory(Category category);
+ 
+ //Live Data Queries
+ @Transaction
+ @Query("SELECT * FROM Category")
+    LiveData<List<CategoryWithCatBlocksAndTasksRelation>> getCategoriesWithCategoryBlocks();
+```
+##### [UserDao](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/main/app/src/main/java/com/pme/mpe/storage/dao/UserDao.java)
+has the required query to enable access to the User's information
+
+```java
+ @Query("SELECT securePassword FROM User WHERE email LIKE :email")
+    String getSecuredPasswordWithEMail(String email);
+```
+
+#### [Database](https://github.com/Fachhochschule-Erfurt-BA5/PME/tree/main/app/src/main/java/com/pme/mpe/storage/database)
+defines the database configuration and serves as the app's main access point to the persisted data
+
+#### [Repository](https://github.com/Fachhochschule-Erfurt-BA5/PME/tree/main/app/src/main/java/com/pme/mpe/storage/repository)
+has the logic required to access data sources stored in Database
+
+#### [Key Value Store](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/main/app/src/main/java/com/pme/mpe/storage/KeyValueStore.java)
+it saves the information about the registered user, the class has methods for writing and reading the user data in / from KVS. When the app is opened, it is checked whether the user is using the app for the first time, and then a decision is made as to whether the user is redirected to the login page or to the home page.
+in the first case, the username and id are saved in KVS and he does not have to log in again
 
 #### 
 
