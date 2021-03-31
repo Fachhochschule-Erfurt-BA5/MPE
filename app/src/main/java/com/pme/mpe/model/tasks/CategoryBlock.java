@@ -25,11 +25,11 @@ public class CategoryBlock implements Comparable<CategoryBlock> {
     public static final String LOG_TAG = "CategoryBlock";
 
     /* /////////////////////Attributes///////////////////////// */
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public long catBlockId;
 
-    @NotNull
     @ColumnInfo(name = "version")
     private int version;
 
@@ -54,12 +54,10 @@ public class CategoryBlock implements Comparable<CategoryBlock> {
     @ColumnInfo(name = "endTimeHour")
     private int endTimeHour;
 
-    @NotNull
     @ColumnInfo(name = "isDefaultCB")
     private boolean isDefaultCB;
 
     //Represent the Category Id, where this block belong
-    @NotNull
     @ColumnInfo(name = "CB_CategoryId")
     public long CB_CategoryId;
 
@@ -82,7 +80,7 @@ public class CategoryBlock implements Comparable<CategoryBlock> {
      * @param startTimeHour the start time hour
      * @param endTimeHour   the end time hour
      */
-    public CategoryBlock(String title, long CB_CategoryId, LocalDate date, int startTimeHour, int endTimeHour) {
+    public CategoryBlock(@NotNull String title, long CB_CategoryId, LocalDate date, int startTimeHour, int endTimeHour) {
         this.title = title;
         this.CB_CategoryId = CB_CategoryId;
         this.date = date;
@@ -102,17 +100,10 @@ public class CategoryBlock implements Comparable<CategoryBlock> {
     protected CategoryBlock(Category category) {
         this.title = "Default CB";
         this.CB_CategoryId = category.getCategoryId();
-        this.catBlockId = category.getCategoryId(); //TODO: how does it work ? (Hamza Harti)
+        this.catBlockId = category.getCategoryId();
         this.isDefaultCB = true;
         this.softFixedTasks = new ArrayList<>();
     }
-
-    //TODO:Bitte das löschen sobald es möglich ist
-    /*Test for RecyclerView
-    public CategoryBlock(String title, List<Task> assignedTasks) {
-        this.title = title;
-        this.assignedTasks = assignedTasks;
-    }*/
 
     /* /////////////////////Getter/Setter///////////////////////// */
 
@@ -344,11 +335,7 @@ public class CategoryBlock implements Comparable<CategoryBlock> {
      */
     public boolean isTheDeadlineInBoundOfCategoryBlock(LocalDate taskDate) {
         if (!isDefaultCB) {
-            if (this.date.isBefore(taskDate) || this.date == taskDate) {
-                return true;
-            } else {
-                return false;
-            }
+            return this.date.isBefore(taskDate) || this.date == taskDate;
         } else {
             return true;
         }
@@ -372,6 +359,7 @@ public class CategoryBlock implements Comparable<CategoryBlock> {
         return this.startTimeHour - compareStartTime;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "CategoryBlock{" +

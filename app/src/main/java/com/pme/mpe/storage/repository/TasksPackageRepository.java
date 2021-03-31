@@ -79,7 +79,6 @@ public class TasksPackageRepository {
 
     /**
      * Fetch the categories live data and merge the needed objects.
-     * TODO: Filter just the Categories from a given User
      *
      * @return the categories live data
      */
@@ -98,7 +97,6 @@ public class TasksPackageRepository {
 
     /**
      * Fetch the category blocks live data and merge the needed objects.
-     * TODO: Filter just the Categories Blocks from a given User
      *
      * @return the category blocks live data
      */
@@ -264,14 +262,9 @@ public class TasksPackageRepository {
         if (categoryBlock != null) {
             categoryBlock.setStartTimeHour(newCategoryBlock.getStartTimeHour());
             categoryBlock.setEndTimeHour(newCategoryBlock.getEndTimeHour());
-            /**
-             * added by Hamza Harti
-             * to be reviewed by Backenders
-             */
             categoryBlock.setDate(newCategoryBlock.getDate());
             categoryBlock.setTitle(newCategoryBlock.getTitle());
             categoryBlock.setCB_CategoryId(newCategoryBlock.getCB_CategoryId());
-            /** end of note*/
 
             List<Task> tasks = tasksPackageDao.getFixedTasksFromCB(categoryBlockID);
 
@@ -439,11 +432,7 @@ public class TasksPackageRepository {
         // Fetch all fixed tasks from this category block
         List<Task> fixedTasks = tasksPackageDao.getFixedTasksFromCB(id);
 
-        if (fixedTasks.size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return fixedTasks.size() > 0;
     }
 
     //// WICHTIG!!
