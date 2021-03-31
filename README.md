@@ -74,6 +74,7 @@ We divided our team into two parts: Frontend and Backend.
 //TODO: HIER ERGÄNZEN (Wie funktioniert das ganze, Struktur, uzw...)
 ### Activity
 #### Block-Categotry
+###### EditBlockCategory
 #### Category
 #### Task
 #### Setting
