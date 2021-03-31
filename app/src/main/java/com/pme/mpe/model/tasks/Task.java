@@ -34,7 +34,6 @@ public class Task implements Comparable<Task> {
     @ColumnInfo(name = "id")
     private long id;
 
-    @NotNull
     @ColumnInfo(name = "version")
     private int version;
 
@@ -54,19 +53,16 @@ public class Task implements Comparable<Task> {
     @ColumnInfo(name = "description")
     private String description;
 
-    @NotNull
     @ColumnInfo(name = "duration")
-    private int duration = 1;
+    private int duration;
 
     @NotNull
     @ColumnInfo(name = "deadline")
     private LocalDate deadline;
 
-    @NotNull
     @ColumnInfo(name = "isTaskFixed")
     private boolean isTaskFixed;
 
-    @NotNull
     @ColumnInfo(name = "isTaskSoftFixed")
     private boolean isTaskSoftFixed;
 
@@ -75,13 +71,11 @@ public class Task implements Comparable<Task> {
     private String taskColor;
 
     //represent the Category ID , which this Task have
-    @NotNull
     @ColumnInfo(name = "T_categoryID")
     public long T_categoryId;
 
     //represent the CategoryBlock, where the task is being done
     //It may be fixed or changed dynamically
-    @NotNull
     @ColumnInfo(name = "T_categoryBlockID")
     public long T_categoryBlockId;
 
@@ -100,7 +94,7 @@ public class Task implements Comparable<Task> {
      * @param deadline     the deadline
      * @param taskColor    the Color
      */
-    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline, String taskColor) {
+    public Task(@NotNull String name, @NotNull String description, long T_categoryId, int duration, @NotNull LocalDate deadline, @NotNull String taskColor) {
         this.name = name;
         this.description = description;
         this.T_categoryId = T_categoryId;
@@ -109,14 +103,6 @@ public class Task implements Comparable<Task> {
         this.isTaskFixed = false;
         this.taskColor = taskColor;
     }
-
-    //TODO:Bitte das löschen sobald es möglich ist
-    /*Test for RecyclerView
-    @Ignore
-    public Task(String name) {
-        this.name = name;
-    }
-*/
 
     /**
      * Instantiates a new Task which is fixed to a Category Block.
@@ -129,7 +115,7 @@ public class Task implements Comparable<Task> {
      * @param T_categoryBlockId the category block id
      * @param taskColor         the Color
      */
-    public Task(String name, String description, long T_categoryId, int duration, LocalDate deadline, long T_categoryBlockId, CategoryBlock categoryBlock, String taskColor) {
+    public Task(@NotNull String name, @NotNull String description, long T_categoryId, int duration, @NotNull LocalDate deadline, long T_categoryBlockId, CategoryBlock categoryBlock, @NotNull String taskColor) {
         this.name = name;
         this.description = description;
         this.T_categoryId = T_categoryId;
@@ -244,10 +230,11 @@ public class Task implements Comparable<Task> {
         this.categoryBlock = categoryBlock;
     }
 
-    public void setTaskColor(String taskColor) {
+    public void setTaskColor(@NotNull String taskColor) {
         this.taskColor = taskColor;
     }
 
+    @NotNull
     public String getTaskColor() {
         return this.taskColor;
     }
@@ -263,7 +250,7 @@ public class Task implements Comparable<Task> {
      * @throws TaskDeadlineException the task deadline exception
      */
     public boolean fixTaskToCategoryBlock(@NotNull CategoryBlock categoryBlock) throws TaskFixException, TaskDeadlineException {
-        boolean result = false;
+        boolean result;
 
         if (categoryBlock.isTheDeadlineInBoundOfCategoryBlock(this.deadline)) {
             if (categoryBlock.isEnoughTimeForATaskAvailable(this)) {
@@ -301,7 +288,7 @@ public class Task implements Comparable<Task> {
      * @throws TaskFixException the task fix exception
      */
     public boolean unfixTaskFromCategoryBlock() throws TaskFixException {
-        boolean result = false;
+        boolean result;
 
         if (this.isTaskFixed) {
             //this.isTaskFixed = false;
