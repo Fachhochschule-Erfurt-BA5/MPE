@@ -129,8 +129,8 @@ public class EditTaskActivity extends AppCompatActivity implements DatePickerDia
                     e.printStackTrace();
                 }
             }
-            //Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
-            //startActivity(taskIntent);
+            Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(taskIntent);
        // }
 
     };

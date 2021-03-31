@@ -44,7 +44,8 @@ public class HomeFragment extends Fragment {
     private TextView calendarYear;
     private TasksPackageRepository tasksPackageRepository;
     private LinearLayout noBlockHome;
-private LocalDate blockDate;
+    private LocalDate blockDate;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
@@ -63,15 +64,15 @@ private LocalDate blockDate;
         RecyclerView rvBlock = root.findViewById(R.id.recycler_main);
         noBlockHome = root.findViewById(R.id.no_block_home);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        if(buildBlockList().size()!=0){
-            BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
+        if (buildBlockList().size() != 0) {
+            BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(), buildTaskList(), taskViewModel, tasksPackageRepository);
             rvBlock.setAdapter(itemAdapter);
             noBlockHome.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getContext().getResources().getDisplayMetrics());
             noBlockHome.requestLayout();
             rvBlock.getLayoutParams().height = LinearLayout.LayoutParams.FILL_PARENT;
             rvBlock.requestLayout();
         }
-        if(buildBlockList().size()==0){
+        if (buildBlockList().size() == 0) {
             rvBlock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getContext().getResources().getDisplayMetrics());
             rvBlock.requestLayout();
             noBlockHome.getLayoutParams().height = LinearLayout.LayoutParams.FILL_PARENT;
@@ -110,15 +111,15 @@ private LocalDate blockDate;
                         calendarDay.setText(spliteCDate[0]);
                         calendarMonth.setText(spliteCDate[1]);
                         calendarYear.setText(spliteCDate[2]);
-                        if(buildBlockList().size()!=0){
-                            BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(),buildTaskList(),taskViewModel, tasksPackageRepository);
+                        if (buildBlockList().size() != 0) {
+                            BlockAdapter itemAdapter = new BlockAdapter(buildBlockList(), buildTaskList(), taskViewModel, tasksPackageRepository);
                             rvBlock.setAdapter(itemAdapter);
                             noBlockHome.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, view.getContext().getResources().getDisplayMetrics());
                             noBlockHome.requestLayout();
                             rvBlock.getLayoutParams().height = LinearLayout.LayoutParams.FILL_PARENT;
                             rvBlock.requestLayout();
                         }
-                        if(buildBlockList().size()==0){
+                        if (buildBlockList().size() == 0) {
                             rvBlock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, view.getContext().getResources().getDisplayMetrics());
                             rvBlock.requestLayout();
                             noBlockHome.getLayoutParams().height = LinearLayout.LayoutParams.FILL_PARENT;
@@ -130,9 +131,9 @@ private LocalDate blockDate;
                 }, year, month, day).show();
             }
         });
-
         return root;
     }
+
     private List<CategoryBlock> buildBlockList() {
         return homeViewModel.getCategoryBlocks(blockDate);
     }

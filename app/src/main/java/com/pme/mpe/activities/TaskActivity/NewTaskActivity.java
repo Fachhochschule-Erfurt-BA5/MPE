@@ -163,8 +163,8 @@ public class NewTaskActivity extends AppCompatActivity implements DatePickerDial
             }
 
 
-            //Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
-            //startActivity(taskIntent);
+            Intent taskIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(taskIntent);
         }
 
     };

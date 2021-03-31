@@ -47,8 +47,8 @@ public class NewCategoryActivity extends AppCompatActivity {
         if (v.getId() == R.id.save_category) {
             Category newCategory = new Category(4, categoryName.getText().toString(), cardColor,letterColor);
             newCategoryActivityViewModel.saveCategory(newCategory);
-            Intent categoryIntent = new Intent(getApplicationContext(), CategoryFragment.class);
-            startActivity(categoryIntent);
+            Intent blockIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(blockIntent);
 
         }
 
