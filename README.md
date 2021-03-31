@@ -69,30 +69,41 @@ We divided our team into two parts: Frontend and Backend.
 
 //TODO: HIER ERGÄNZEN (wöchentliche meeting uzw.)
 
+Meetings once or twice a week to discuss and explain finished tasks and to split new tasks.
+
 ## Documentation
 
 //TODO: HIER ERGÄNZEN (Wie funktioniert das ganze, Struktur, uzw...)
 ### Activity
 #### Block-Categotry
    EditBlockCategory:
+   - Logic to edit a present Block-Category
    
    NewBlockCategory:
+   - Logic to create a new Block-Category
    
    ViewModel:
+   - has methods to save and update a Block-Category
    
 #### Category
    EditCategory:
+   - Logic to edit a present Category
    
    NewCategory:
+   - Logic to create a new Category
    
    ViewModel:
+   - has methods to save and update a Category
    
 #### Task
   EditTask:
+  - Logic to edit a present Task
   
   NewTask:
+  - Logic to create a new Task
   
   ViewModel:
+  - has methods to save, update and create a new TaskActivittyViewModel
   
 #### Setting
 ### Core
@@ -117,6 +128,13 @@ hat die Information über ein Task (Name, description, duration, deadline) sowie
 #### Repositories
 #### Key Value Store
 ### UI
+Home:
+-display the users Category-Blocks and the associated tasks
+
+Blocks (with add Block):
+
+Categories (with add Category)
+
 ### Resources
 
 #### 
