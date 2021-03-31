@@ -128,9 +128,14 @@ hat die Information über ein Task (Name, description, duration, deadline) sowie
 #### Repositories
 #### Key Value Store
 ### UI
+Login:
+   - Username (Email):
+   - Password        :
+
 Home:
    - display the users Category-Blocks and the associated tasks with the day, month and year
    - select a date
+   - add Task with
 
 Blocks (with add Block):
    - show your Category-Blocks
