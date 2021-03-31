@@ -199,27 +199,32 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 
 ### Second Step: Add a Category
 - from the main screen, where we don't have any event yet, navigate to Categories : drawer -> Categories (Menu)
-
 ![HomeScreenEmoty](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/144a33e373f4d77b0213bed9b633bbd0c52f7e39/doku/Bilder_Readme/homescreenempty.jpg)
 - in this Activity you can add a Category by giving it a name and selecting a color.
-
 ![addcat](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addcat.jpg)
 ![catcolor](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/coloraddcat.jpg)
 ![fullcat](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addcatfullname.jpg)
 
 - you can finally see that in this screen that the Category has been successfully added.
-
 ![catfragment](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/fragmentcat.jpg)
 ### Third Step: Add a Block
 - from the main screen navigate to Blocks : drawer -> Blocks (Menu) and Click on Add Block
 - in this Activity we can add a new Block by giving the following parameters : Date, Start, Finish and specify to which Category this Block belongs
+![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addblock.jpg)
+![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addblockdate.jpg)
+![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addblocktime.jpg)
+![blockadd](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addblockfull.jpg)
 - here we can see the block has been successfully added
+![blockfragment](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/fragmentblock.jpg)
 ### Fourth Step: Add a Task
 - now that we have a block we can see in the home page that block is already there but we still have no tasks. to do that we click on the blue plus button.
+![task](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/blocknotask.jpg)
 - in this Activity you can add a task by giving various parameters about it
+![task](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addtask.jpg)![task](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addtaskfull.jpg)
 - as you can see the task is already present in our block
-
+![task](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/taskhome.jpg)
 > If you have more than one Task, a long click on the block will show the rest. another click will hide them again
+![task](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/taskplus.jpg)
 
 ### Other Functions
 
@@ -228,10 +233,14 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 - *Delete a Category* : long click on the Category and the red X will appear click on it and the Category will be deleted
 - *Delete a Block* : long click on the Block and the red X will appear click on it and the Block will be deleted
 
+![deletetask](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/7a05215d2e0700c1584b71442daac477e134b082/doku/Bilder_Readme/deletetask.jpg)![deletecategory](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/7a05215d2e0700c1584b71442daac477e134b082/doku/Bilder_Readme/deletecategory.jpg)![enter image description here](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/7a05215d2e0700c1584b71442daac477e134b082/doku/Bilder_Readme/deleteblock.jpg)
+
  2. **Update Functions**
 - *Update a Task* : simple click on the task and the activity to update the task will appear, make the changes and save.
 - *Update a Category* : long click on the Category and the edit button will appear click on it and the activity to update the Category will appear, make the changes and save.
 - *Update a Block* : long click on the Block and the edit button will appear click on it and the activity to update the Block will appear, make the changes and save.
+
+![updatetask](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/7a05215d2e0700c1584b71442daac477e134b082/doku/Bilder_Readme/updatetask.jpg)![updatecategory](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/7a05215d2e0700c1584b71442daac477e134b082/doku/Bilder_Readme/updatecategory.jpg)![updateblock](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/7a05215d2e0700c1584b71442daac477e134b082/doku/Bilder_Readme/updateblock.jpg)
 ## Back End Documentation
 
 ### Main Application
