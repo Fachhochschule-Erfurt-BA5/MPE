@@ -199,6 +199,8 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 
 ### Second Step: Add a Category
 - from the main screen, where we don't have any event yet, navigate to Categories : drawer -> Categories (Menu)
+
+![HomeScreenEmoty](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/144a33e373f4d77b0213bed9b633bbd0c52f7e39/doku/Bilder_Readme/homescreenempty.jpg)
 - in this Activity you can add a Category by giving it a name and selecting a color.
 - you can finally see that in this screen that the Category has been successfully added.
 ### Third Step: Add a Block
@@ -214,15 +216,15 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 
 ### Other Functions
 
- 1. Delete Functions
-- Delete a Task : long click on the task and the red X will appear click on it and the task will be deleted
-- Delete a Category : long click on the Category and the red X will appear click on it and the Category will be deleted
-- Delete a Block : long click on the Block and the red X will appear click on it and the Block will be deleted
+ 1. **Delete Functions**
+- *Delete a Task* : long click on the task and the red X will appear click on it and the task will be deleted
+- *Delete a Category* : long click on the Category and the red X will appear click on it and the Category will be deleted
+- *Delete a Block* : long click on the Block and the red X will appear click on it and the Block will be deleted
 
- 2. Update Functions
-- Update a Task : simple click on the task and the activity to update the task will appear, make the changes and save.
-- Update a Category : long click on the Category and the edit button will appear click on it and the activity to update the Category will appear, make the changes and save.
-- Update a Block : long click on the Block and the edit button will appear click on it and the activity to update the Block will appear, make the changes and save.
+ 2. **Update Functions**
+- *Update a Task* : simple click on the task and the activity to update the task will appear, make the changes and save.
+- *Update a Category* : long click on the Category and the edit button will appear click on it and the activity to update the Category will appear, make the changes and save.
+- *Update a Block* : long click on the Block and the edit button will appear click on it and the activity to update the Block will appear, make the changes and save.
 
 ## Back End Documentation
 
