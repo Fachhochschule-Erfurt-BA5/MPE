@@ -193,7 +193,7 @@ The UI has four important Fragements : **Block, Category, Home, Settings**
 
 
 ## Part-Three : Ressources
-all the Drawables , Layouts, ... are avaibles in the resources and in order to have a clear vision a better highlight the connection between the various Layouts, and how each resource is used in the App we present the following Simple Use-Case.
+all the Drawables , Layouts, ... are availables in the resources and in order to have a clear vision a better highlight the connection between the various Layouts, and how each resource is used in the App we present the following Simple Use-Case.
 ### First Step: Login
 ![login](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/638a3fc4a09bd8fb4558007cd5c8c8b52fdb045b/doku/Bilder_Readme/LoginScreen.JPG)
 
