@@ -199,6 +199,30 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 
 ### Second Step: Add a Category
 - from the main screen, where we don't have any event yet, navigate to Categories : drawer -> Categories (Menu)
+- in this Activity you can add a Category by giving it a name and selecting a color.
+- you can finally see that in this screen that the Category has been successfully added.
+### Third Step: Add a Block
+- from the main screen navigate to Blocks : drawer -> Blocks (Menu) and Click on Add Block
+- in this Activity we can add a new Block by giving the following parameters : Date, Start, Finish and specify to which Category this Block belongs
+- here we can see the block has been successfully added
+### Fourth Step: Add a Task
+- now that we have a block we can see in the home page that block is already there but we still have no tasks. to do that we click on the blue plus button.
+- in this Activity you can add a task by giving various parameters about it
+- as you can see the task is already present in our block
+
+> If you have more than one Task, a long click on the block will show the rest. another click will hide them again
+
+### Other Functions
+
+ 1. Delete Functions
+- Delete a Task : long click on the task and the red X will appear click on it and the task will be deleted
+- Delete a Category : long click on the Category and the red X will appear click on it and the Category will be deleted
+- Delete a Block : long click on the Block and the red X will appear click on it and the Block will be deleted
+
+ 2. Update Functions
+- Update a Task : simple click on the task and the activity to update the task will appear, make the changes and save.
+- Update a Category : long click on the Category and the edit button will appear click on it and the activity to update the Category will appear, make the changes and save.
+- Update a Block : long click on the Block and the edit button will appear click on it and the activity to update the Block will appear, make the changes and save.
 
 ## Back End Documentation
 
