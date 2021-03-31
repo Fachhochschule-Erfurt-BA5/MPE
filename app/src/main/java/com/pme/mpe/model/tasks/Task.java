@@ -305,7 +305,7 @@ public class Task implements Comparable<Task> {
 
         if (this.isTaskFixed) {
             //this.isTaskFixed = false;
-            //   this.categoryBlock.removeTaskFromFixedTasks(this);
+            //this.categoryBlock.removeTaskFromFixedTasks(this);
             this.categoryBlock = null;
             result = true;
         } else {
