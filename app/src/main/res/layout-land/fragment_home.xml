@@ -6,21 +6,88 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.HomeFragment">
 
-   <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_main"
+
+   <RelativeLayout
+       android:id="@+id/home_date_view"
+       android:layout_width="match_parent"
+       android:layout_height="100dp"
+       android:background="@drawable/blue"
        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:clipToPadding="false"
-        android:paddingBottom="60dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/category_block_item" />
+       android:scaleType="centerCrop"
+       tools:ignore="MissingConstraints">
+
+      <TextView
+          android:id="@+id/Day"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentBottom="true"
+          android:layout_marginStart="236dp"
+          android:layout_marginBottom="17dp"
+          android:text="TextView"
+          android:textColor="@color/white"
+          android:textSize="32sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:id="@+id/Year"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_marginStart="89dp"
+          android:layout_marginBottom="19dp"
+          android:layout_toEndOf="@+id/Day"
+          android:text="TextView"
+          android:textColor="@color/colorGrey50"
+          android:textSize="18sp" />
+
+      <TextView
+          android:id="@+id/Month"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentBottom="true"
+          android:layout_marginStart="374dp"
+          android:layout_marginTop="0dp"
+          android:layout_marginBottom="19dp"
+          android:text="TextView"
+          android:textColor="@color/grey"
+          android:textSize="18sp" />
+
+      <com.google.android.material.floatingactionbutton.FloatingActionButton
+          android:id="@+id/calendar_selector"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentBottom="true"
+          android:layout_marginEnd="6dp"
+          android:layout_marginBottom="16dp"
+          android:src="@android:drawable/ic_menu_my_calendar"
+          app:backgroundTint="@color/color6"
+          app:rippleColor="#000000">
+
+      </com.google.android.material.floatingactionbutton.FloatingActionButton>
+   </RelativeLayout>
+
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/recycler_main"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="100dp"
+          android:background="@color/white"
+          android:clipToPadding="false"
+          android:orientation="horizontal"
+          android:paddingBottom="60dp"
+          app:layout_behavior="@string/appbar_scrolling_view_behavior"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.0"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="1.0"
+          tools:listitem="@layout/category_block_item" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
