@@ -199,13 +199,16 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 
 ### Second Step: Add a Category
 - from the main screen, where we don't have any event yet, navigate to Categories : drawer -> Categories (Menu)
+
 ![HomeScreenEmoty](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/144a33e373f4d77b0213bed9b633bbd0c52f7e39/doku/Bilder_Readme/homescreenempty.jpg)
 - in this Activity you can add a Category by giving it a name and selecting a color.
+
 ![addcat](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addcat.jpg)
 ![catcolor](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/coloraddcat.jpg)
 ![fullcat](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addcatfullname.jpg)
 
 - you can finally see that in this screen that the Category has been successfully added.
+
 ![catfragment](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/fragmentcat.jpg)
 ### Third Step: Add a Block
 - from the main screen navigate to Blocks : drawer -> Blocks (Menu) and Click on Add Block
