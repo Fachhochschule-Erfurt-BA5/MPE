@@ -129,11 +129,16 @@ hat die Information über ein Task (Name, description, duration, deadline) sowie
 #### Key Value Store
 ### UI
 Home:
--display the users Category-Blocks and the associated tasks
+   - display the users Category-Blocks and the associated tasks with the day, month and year
+   - select a date
 
 Blocks (with add Block):
+   - show your Category-Blocks
+   - add a Block from your given Categories with a name, date, start and finish time
 
-Categories (with add Category)
+Categories (with add Category):
+   - show your Categories
+   - add a Category with a name and a color
 
 ### Resources
 
