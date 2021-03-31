@@ -202,7 +202,14 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 
 ![HomeScreenEmoty](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/144a33e373f4d77b0213bed9b633bbd0c52f7e39/doku/Bilder_Readme/homescreenempty.jpg)
 - in this Activity you can add a Category by giving it a name and selecting a color.
+
+![addcat](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addcat.jpg)
+![catcolor](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/coloraddcat.jpg)
+![fullcat](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/addcatfullname.jpg)
+
 - you can finally see that in this screen that the Category has been successfully added.
+
+![catfragment](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/d1bc39895bf9000e2e60040fba94a5eeb3a03071/doku/Bilder_Readme/fragmentcat.jpg)
 ### Third Step: Add a Block
 - from the main screen navigate to Blocks : drawer -> Blocks (Menu) and Click on Add Block
 - in this Activity we can add a new Block by giving the following parameters : Date, Start, Finish and specify to which Category this Block belongs
@@ -225,7 +232,6 @@ all the Drawables , Layouts, ... are avaibles in the resources and in order to h
 - *Update a Task* : simple click on the task and the activity to update the task will appear, make the changes and save.
 - *Update a Category* : long click on the Category and the edit button will appear click on it and the activity to update the Category will appear, make the changes and save.
 - *Update a Block* : long click on the Block and the edit button will appear click on it and the activity to update the Block will appear, make the changes and save.
-
 ## Back End Documentation
 
 ### Main Application
