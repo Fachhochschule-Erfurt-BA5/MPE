@@ -74,11 +74,30 @@ We divided our team into two parts: Frontend and Backend.
 //TODO: HIER ERGÄNZEN (Wie funktioniert das ganze, Struktur, uzw...)
 ### Activity
 #### Block-Categotry
-###### EditBlockCategory
+   EditBlockCategory:
+   
+   NewBlockCategory:
+   
+   ViewModel:
+   
 #### Category
+   EditCategory:
+   
+   NewCategory:
+   
+   ViewModel:
+   
 #### Task
+  EditTask:
+  
+  NewTask:
+  
+  ViewModel:
+  
 #### Setting
 ### Core
+  MainApplication:
+    has logic for KeyValue and Login
 #### Main Application
 in the [Main Class](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/main/app/src/main/java/com/pme/mpe/core/MainApplication.java) The Key Value Store checks whether a user is already logged in or this is the first time the app has been used. Based on the result, the user is forwarded either to the login page or the main page of the app.
 ### Model
