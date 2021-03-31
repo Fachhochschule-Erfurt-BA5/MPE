@@ -71,7 +71,7 @@ We divided our team into two parts: Frontend and Backend.
 Meetings once or twice a week to discuss and explain finished tasks and
 to split new tasks.
 
-# Front-Documentation
+# Front-End Documentation
 the Front-End is divided into three majors parts, in the one hand the first one contains all the activities needed to perform the differents requirements of our App, in the other hand the second part represent the UI. The third part takes care of all the ressources from Layouts to Drawables and more. 
 
 
