@@ -15,7 +15,7 @@
             android:id="@+id/home_date_view"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@drawable/blue12"
+            android:background="@drawable/blue"
             android:orientation="horizontal"
             android:scaleType="centerCrop">
 
