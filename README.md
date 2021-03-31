@@ -71,67 +71,134 @@ We divided our team into two parts: Frontend and Backend.
 Meetings once or twice a week to discuss and explain finished tasks and
 to split new tasks.
 
-## Front End Documentation
+# Front-Documentation
+the Front-End is divided into three majors parts, in the one hand the first one contains all the activities needed to perform the differents requirements of our App, in the other hand the second part represent the UI. The third part takes care of all the ressources from Layouts to Drawables and more. 
 
-### Activity
 
-#### Block-Categotry
+## Part-One: Activities
+our activities can subdivised into 3 different division, each division treats a major requirement. For instance the BlockCategoryActivity is responsible for everything concerning a Block of a Category.
 
-EditBlockCategory:
-- Logic to edit a present Block-Category
 
-NewBlockCategory:
-- Logic to create a new Block-Category
+![Activities](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/638a3fc4a09bd8fb4558007cd5c8c8b52fdb045b/doku/Bilder_Readme/Activities.JPG)
+### BlockCategoryActivity
+the activities in this sub-category allows the user to create and edit category blocks.
 
-ViewModel:
-- has methods to save and update a Block-Category
+ - Activity to add a new Category Block, which calls the layout activity_new_block_category
 
-#### Category
+```java
+protected void onCreate(Bundle savedInstanceState) {  
+    super.onCreate(savedInstanceState);  
+  setContentView(R.layout.activity_new_block_category);  
+  newBlockActivityViewModel = new ViewModelProvider(this).get(NewBlockActivityViewModel.class);
+```
+- Activity to edit a Category Block, which calls for the same layout but change it parameters to suit our needs 
+```java
+protected void onCreate(Bundle savedInstanceState) {  
+    super.onCreate(savedInstanceState);  
+  setContentView(R.layout.activity_new_block_category);  
+  newBlockActivityViewModel = new ViewModelProvider(this).get(NewBlockActivityViewModel.class);
+```
+- the view model for this Activity contains all the functions used to either update or save a category Block
+```java
+public void saveBlock(CategoryBlock categoryBlock) {  
+    this.tasksPackageRepository.insertCategoryBlock(categoryBlock);  
+}
+```
+```java
+public void updateBlock(long categoryBlockID, CategoryBlock newCategoryBlock) throws FixedTaskException, ObjectNotFoundException {  
+    this.tasksPackageRepository.updateCategoryBlock(categoryBlockID, newCategoryBlock);  
+}
+```
+### CategoryActivity
+the activities in this sub-category allows the user to create and edit categories.
 
-EditCategory:
-- Logic to edit a present Category
+ - Activity to add a new Category, which calls the layout activity_new_category
 
-NewCategory:
-- Logic to create a new Category
+```java
+protected void onCreate(Bundle savedInstanceState) {  
+    super.onCreate(savedInstanceState);  
+  setContentView(R.layout.activity_new_category);  
+  newCategoryActivityViewModel = new ViewModelProvider(this).get(NewCategoryActivityViewModel.class);
+```
+- Activity to edit a Category, which calls for the same layout but change it parameters to suit our needs 
+```java
+protected void onCreate(Bundle savedInstanceState) {  
+    super.onCreate(savedInstanceState);  
+  setContentView(R.layout.activity_new_category);  
+  newCategoryActivityViewModel = new ViewModelProvider(this).get(NewCategoryActivityViewModel.class);
+```
+- the view model for this Activity contains all the functions used to either update or save a category
+```java
+public void saveCategory (Category category)  
+{  
+   this.tasksPackageRepository.insertCategory(category);  
+}
+```
+```java
+public void updateCategory (long categoryID, String newCatName, String newCatColor, String newCatLetterColor) throws ObjectNotFoundException {  
+    this.tasksPackageRepository.updateCategory(categoryID, newCatName, newCatColor, newCatLetterColor);  
+}
+```
+### TaskActivity
+the activities in this sub-category allows the user to create and edit tasks.
 
-ViewModel:
-- has methods to save and update a Category
+ - Activity to add a new Task, which calls the layout activity_new_task
 
-#### Task
+```java
+protected void onCreate(Bundle savedInstanceState) {  
+    super.onCreate(savedInstanceState);  
+  setContentView(R.layout.activity_new_category);  
+  newCategoryActivityViewModel = new ViewModelProvider(this).get(NewCategoryActivityViewModel.class);
+```
+- Activity to edit a Task, which calls for the same layout but change it parameters to suit our needs 
+```java
+protected void onCreate(Bundle savedInstanceState) {  
+    super.onCreate(savedInstanceState);  
+  setContentView(R.layout.activity_new_task);  
+  newTaskActivityViewModel = new ViewModelProvider(this).get(NewTaskActivityViewModel.class);
+```
+- the view model for this Activity contains all the functions used to either update or save a task
+```java
+public void saveTasks (Task task) {  
+    this.tasksPackageRepository.insertTask(task);  
+}
+```
+```java
+ public void updateTask (long taskID, String newName, String newDescription, int newDuration, LocalDate deadline) throws ObjectNotFoundException, TaskFixException, TimeException {  
+    this.tasksPackageRepository.updateTask(taskID, newName, newDescription, newDuration, deadline);  
+}
+```
+### Other Activities
+we have other activities that are as important, for instance the **loginActivity** that allows the user to connect to the App. Moreover we have the **MainActivity** which starts right after the **SplashActivity** 
 
-EditTask:
-- Logic to edit a present Task
+## Part-Two : UI
+The UI has four important Fragements : **Block, Category, Home, Settings**
 
-NewTask:
-- Logic to create a new Task
+![UI](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/638a3fc4a09bd8fb4558007cd5c8c8b52fdb045b/doku/Bilder_Readme/UI.JPG)
 
-ViewModel:
-- has methods to save, update and create a new TaskActivittyViewModel
+### Home:
+- Display the users Category-Blocks and the associated tasks with the day, month and year
+- Select any Given Date
+- Option to add a Task
 
-#### Setting
+### Blocks:
+- Display the users Category-Blocks.
+- Add a Block from your given Categories with a name, date, start and finish time
+- with a long click show the options to either delete or update a Block
 
-### UI
+### Categories :
+- Display the users Categories.
+- Add a Category
+- With a long click show the options to either delete or update a Category
 
-Login:
-- Username (Email):
-- Password :
 
-Home:
-- display the users Category-Blocks and the associated tasks with the
-  day, month and year
-- select a date
-- add Task with
+## Part-Three : Ressources
+all the Drawables , Layouts, ... are avaibles in the resources and in order to have a clear vision a better highlight the connection between the various Layouts, and how each resource is used in the App we present the following Simple Use-Case.
+### First Step: Login
+![login](https://github.com/Fachhochschule-Erfurt-BA5/PME/blob/638a3fc4a09bd8fb4558007cd5c8c8b52fdb045b/doku/Bilder_Readme/LoginScreen.JPG)
 
-Blocks (with add Block):
-- show your Category-Blocks
-- add a Block from your given Categories with a name, date, start and
-  finish time
-
-Categories (with add Category):
-- show your Categories
-- add a Category with a name and a color
-
-### Resources
+### Second Step: Add a Category
+- from the main screen, where we don't have any event yet, navigate to Categories : drawer -> Categories (Menu)
 
 ## Back End Documentation
 
